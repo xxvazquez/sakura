@@ -26,6 +26,11 @@
     --content: 860px;
 
     --font: "Noto Sans JP", system-ui, sans-serif;
+
+    /* Minimal inline SVG magnifier, reused by every search input so the
+       affordance reads as one deliberate pattern rather than a plugin
+       default. Colour matches --muted. */
+    --icon-search: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
 }
 
 /*-----------------------------------------------*/
@@ -88,6 +93,54 @@ body {
     border-right: 1px solid var(--border);
 }
 
+/*-----------------------------------------------*/
+/* SIDEBAR SEARCH */
+/*-----------------------------------------------*/
+
+.sidebar-search {
+    margin-bottom: 18px;
+}
+
+.sidebar-search input {
+    width: 100%;
+
+    padding: 8px 12px 8px 34px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    background-color: #fff;
+    background-image: var(--icon-search);
+    background-repeat: no-repeat;
+    background-position: 11px center;
+    background-size: 14px;
+
+    color: var(--text);
+    font: inherit;
+    font-size: 0.85rem;
+
+    transition: 0.15s;
+}
+
+.sidebar-search input::placeholder {
+    color: var(--muted);
+}
+
+.sidebar-search input:focus {
+    outline: none;
+
+    border-color: #d1d5db;
+    box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.05);
+}
+
+.sidebar-empty {
+    margin-top: 4px;
+    padding-left: 14px;
+
+    color: var(--muted);
+    font-size: 0.8rem;
+}
+
 .menu-group {
     margin: 22px 0 8px;
 
@@ -97,6 +150,10 @@ body {
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
+}
+
+.menu-group:first-of-type {
+    margin-top: 0;
 }
 
 .menu {
@@ -253,7 +310,8 @@ tr.irregular td:last-child {
     align-items: center;
 }
 
-.jp rb {
+.jp .kanji {
+    order: 2;
     display: block;
 
     font-size: 2rem;
@@ -262,6 +320,7 @@ tr.irregular td:last-child {
 }
 
 .jp rt {
+    order: 1;
     display: block;
 
     margin-bottom: 4px;
@@ -333,12 +392,16 @@ tr.irregular td:last-child {
 .dt-search input {
     width: 280px;
 
-    padding: 10px 14px;
+    padding: 10px 14px 10px 38px;
 
     border: 1px solid var(--border);
     border-radius: 10px;
 
-    background: #fff;
+    background-color: #fff;
+    background-image: var(--icon-search);
+    background-repeat: no-repeat;
+    background-position: 14px center;
+    background-size: 15px;
 
     font: inherit;
 
@@ -372,7 +435,59 @@ table.dataTable tbody tr:hover {
 
 table.dataTable thead th.dt-orderable-asc,
 table.dataTable thead th.dt-orderable-desc {
+    padding-right: 24px;
     cursor: pointer;
+}
+
+/* Sort indicators: DataTables 2.x wraps these in span.dt-column-order,
+   but ships no visible glyph by default. A hairline chevron, quiet at
+   rest and dark once a column is the active sort, reads closer to
+   Notion/Linear than an arrow icon font would. */
+
+table.dataTable thead th.dt-orderable-asc,
+table.dataTable thead th.dt-orderable-desc {
+    position: relative;
+}
+
+table.dataTable thead span.dt-column-order {
+    position: absolute;
+    top: 50%;
+    right: 4px;
+
+    width: 8px;
+    height: 8px;
+}
+
+table.dataTable thead span.dt-column-order::before,
+table.dataTable thead span.dt-column-order::after {
+    content: "";
+    position: absolute;
+    right: 0;
+
+    border-left: 3.5px solid transparent;
+    border-right: 3.5px solid transparent;
+
+    opacity: 0.25;
+}
+
+table.dataTable thead span.dt-column-order::before {
+    top: -6px;
+    border-bottom: 4px solid var(--muted);
+}
+
+table.dataTable thead span.dt-column-order::after {
+    top: 2px;
+    border-top: 4px solid var(--muted);
+}
+
+table.dataTable thead th.dt-ordering-asc span.dt-column-order::before {
+    opacity: 1;
+    border-bottom-color: var(--text);
+}
+
+table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
+    opacity: 1;
+    border-top-color: var(--text);
 }
 
 /*-----------------------------------------------*/

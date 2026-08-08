@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Japanese</title>
+    <title>Sakura Study — Numbers</title>
+    <meta name="description" content="A personal Japanese reference notebook. Numbers (JLPT N5): kanji, readings, and irregular forms." />
 
     <!-- ------------------------------------- -->
     <!-- FONT -->
@@ -14,15 +15,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
 
-<!-- ------------------------------------- -->
-<!-- STYLES -->
-<!-- ------------------------------------- -->
+    <!-- ------------------------------------- -->
+    <!-- STYLES -->
+    <!-- ------------------------------------- -->
 
-<link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css" />
 
-<!-- ------------------------------------- -->
-<!-- DATA TABLES -->
-<!-- ------------------------------------- -->
+    <!-- ------------------------------------- -->
+    <!-- DATA TABLES -->
+    <!-- ------------------------------------- -->
+    <!-- dataTables.min.js (this build) requires jQuery to already be
+         defined, so jQuery has to load first. Both are loaded once
+         here; do not also load either again before </body>. -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
 
   </head>
@@ -34,10 +39,36 @@
   <body>
     <div class="layout">
       <aside class="sidebar">
-        <div class="menu-group">N</div>
-        <nav class="menu">
-          <a class="active" href="#">Numbers</a>
+
+        <!-- ------------------------------------- -->
+        <!-- SIDEBAR SEARCH -->
+        <!-- ------------------------------------- -->
+        <div class="sidebar-search">
+          <input
+            type="text"
+            id="sidebarSearch"
+            placeholder="Search pages…"
+            autocomplete="off"
+          />
+        </div>
+
+        <!-- ------------------------------------- -->
+        <!-- SIDEBAR NAVIGATION -->
+        <!-- ------------------------------------- -->
+        <!-- Pages are grouped under a single-letter heading (alphabetical
+             index, like a dictionary). To add a page, drop a new
+             .menu-group + <a> pair in alphabetical order — the search
+             script and layout both work off this flat sibling structure,
+             no other markup changes needed.
+
+             Example, once particles.html exists:
+             <div class="menu-group">P</div>
+             <a href="particles.html">Particles</a> -->
+        <nav class="menu" id="sidebarMenu">
+          <div class="menu-group">N</div>
+          <a class="active" href="index.html">Numbers</a>
         </nav>
+        <p class="sidebar-empty" id="sidebarEmpty" hidden>No pages match.</p>
       </aside>
 
       <main class="content">
@@ -63,7 +94,7 @@
               <tr>
                 <td class="type"></td>
                 <td class="jp">
-                  <ruby>一<rt>いち</rt></ruby>
+                  <ruby><span class="kanji">一</span><rt>いち</rt></ruby>
                 </td>
                 <td class="romaji">ichi</td>
                 <td>1</td>
@@ -71,7 +102,7 @@
               <tr>
                 <td class="type"></td>
                 <td class="jp">
-                  <ruby>二<rt>に</rt></ruby>
+                  <ruby><span class="kanji">二</span><rt>に</rt></ruby>
                 </td>
                 <td class="romaji">ni</td>
                 <td>2</td>
@@ -79,7 +110,7 @@
               <tr>
                 <td class="type"></td>
                 <td class="jp">
-                  <ruby>三<rt>さん</rt></ruby>
+                  <ruby><span class="kanji">三</span><rt>さん</rt></ruby>
                 </td>
                 <td class="romaji">san</td>
                 <td>3</td>
@@ -87,7 +118,7 @@
               <tr class="irregular">
                 <td class="type">*</td>
                 <td class="jp">
-                  <ruby>四<rt>よん・し</rt></ruby>
+                  <ruby><span class="kanji">四</span><rt>よん・し</rt></ruby>
                 </td>
                 <td class="romaji">yon / shi</td>
                 <td>4</td>
@@ -95,7 +126,7 @@
               <tr>
                 <td class="type"></td>
                 <td class="jp">
-                  <ruby>五<rt>ご</rt></ruby>
+                  <ruby><span class="kanji">五</span><rt>ご</rt></ruby>
                 </td>
                 <td class="romaji">go</td>
                 <td>5</td>
@@ -103,7 +134,7 @@
               <tr>
                 <td class="type"></td>
                 <td class="jp">
-                  <ruby>六<rt>ろく</rt></ruby>
+                  <ruby><span class="kanji">六</span><rt>ろく</rt></ruby>
                 </td>
                 <td class="romaji">roku</td>
                 <td>6</td>
@@ -111,7 +142,7 @@
               <tr class="irregular">
                 <td class="type">*</td>
                 <td class="jp">
-                  <ruby>七<rt>なな・しち</rt></ruby>
+                  <ruby><span class="kanji">七</span><rt>なな・しち</rt></ruby>
                 </td>
                 <td class="romaji">nana / shichi</td>
                 <td>7</td>
@@ -119,7 +150,7 @@
               <tr>
                 <td class="type"></td>
                 <td class="jp">
-                  <ruby>八<rt>はち</rt></ruby>
+                  <ruby><span class="kanji">八</span><rt>はち</rt></ruby>
                 </td>
                 <td class="romaji">hachi</td>
                 <td>8</td>
@@ -127,7 +158,7 @@
               <tr class="irregular">
                 <td class="type">*</td>
                 <td class="jp">
-                  <ruby>九<rt>きゅう・く</rt></ruby>
+                  <ruby><span class="kanji">九</span><rt>きゅう・く</rt></ruby>
                 </td>
                 <td class="romaji">kyū / ku</td>
                 <td>9</td>
@@ -135,7 +166,7 @@
               <tr>
                 <td class="type"></td>
                 <td class="jp">
-                  <ruby>十<rt>じゅう</rt></ruby>
+                  <ruby><span class="kanji">十</span><rt>じゅう</rt></ruby>
                 </td>
                 <td class="romaji">jū</td>
                 <td>10</td>
@@ -143,7 +174,7 @@
               <tr>
                 <td class="type"></td>
                 <td class="jp">
-                  <ruby>十一<rt>じゅういち</rt></ruby>
+                  <ruby><span class="kanji">十一</span><rt>じゅういち</rt></ruby>
                 </td>
                 <td class="romaji">jūichi</td>
                 <td>11</td>
@@ -151,7 +182,7 @@
               <tr>
                 <td class="type"></td>
                 <td class="jp">
-                  <ruby>二十<rt>にじゅう</rt></ruby>
+                  <ruby><span class="kanji">二十</span><rt>にじゅう</rt></ruby>
                 </td>
                 <td class="romaji">nijū</td>
                 <td>20</td>
@@ -159,7 +190,7 @@
               <tr>
                 <td class="type"></td>
                 <td class="jp">
-                  <ruby>二十一<rt>にじゅういち</rt></ruby>
+                  <ruby><span class="kanji">二十一</span><rt>にじゅういち</rt></ruby>
                 </td>
                 <td class="romaji">nijūichi</td>
                 <td>21</td>
@@ -167,7 +198,7 @@
               <tr>
                 <td class="type"></td>
                 <td class="jp">
-                  <ruby>百<rt>ひゃく</rt></ruby>
+                  <ruby><span class="kanji">百</span><rt>ひゃく</rt></ruby>
                 </td>
                 <td class="romaji">hyaku</td>
                 <td>100</td>
@@ -175,7 +206,7 @@
               <tr>
                 <td class="type"></td>
                 <td class="jp">
-                  <ruby>百一<rt>ひゃくいち</rt></ruby>
+                  <ruby><span class="kanji">百一</span><rt>ひゃくいち</rt></ruby>
                 </td>
                 <td class="romaji">hyaku ichi</td>
                 <td>101</td>
@@ -183,7 +214,7 @@
               <tr>
                 <td class="type"></td>
                 <td class="jp">
-                  <ruby>百十一<rt>ひゃくじゅういち</rt></ruby>
+                  <ruby><span class="kanji">百十一</span><rt>ひゃくじゅういち</rt></ruby>
                 </td>
                 <td class="romaji">hyaku jūichi</td>
                 <td>111</td>
@@ -191,7 +222,7 @@
               <tr class="irregular">
                 <td class="type">*</td>
                 <td class="jp">
-                  <ruby>三百<rt>さんびゃく</rt></ruby>
+                  <ruby><span class="kanji">三百</span><rt>さんびゃく</rt></ruby>
                 </td>
                 <td class="romaji">sanbyaku</td>
                 <td>300</td>
@@ -199,7 +230,7 @@
               <tr class="irregular">
                 <td class="type">*</td>
                 <td class="jp">
-                  <ruby>六百<rt>ろっぴゃく</rt></ruby>
+                  <ruby><span class="kanji">六百</span><rt>ろっぴゃく</rt></ruby>
                 </td>
                 <td class="romaji">roppyaku</td>
                 <td>600</td>
@@ -207,7 +238,7 @@
               <tr class="irregular">
                 <td class="type">*</td>
                 <td class="jp">
-                  <ruby>八百<rt>はっぴゃく</rt></ruby>
+                  <ruby><span class="kanji">八百</span><rt>はっぴゃく</rt></ruby>
                 </td>
                 <td class="romaji">happyaku</td>
                 <td>800</td>
@@ -215,7 +246,7 @@
               <tr>
                 <td class="type"></td>
                 <td class="jp">
-                  <ruby>千<rt>せん</rt></ruby>
+                  <ruby><span class="kanji">千</span><rt>せん</rt></ruby>
                 </td>
                 <td class="romaji">sen</td>
                 <td>1,000</td>
@@ -223,7 +254,7 @@
               <tr class="irregular">
                 <td class="type">*</td>
                 <td class="jp">
-                  <ruby>三千<rt>さんぜん</rt></ruby>
+                  <ruby><span class="kanji">三千</span><rt>さんぜん</rt></ruby>
                 </td>
                 <td class="romaji">sanzen</td>
                 <td>3,000</td>
@@ -231,7 +262,7 @@
               <tr class="irregular">
                 <td class="type">*</td>
                 <td class="jp">
-                  <ruby>八千<rt>はっせん</rt></ruby>
+                  <ruby><span class="kanji">八千</span><rt>はっせん</rt></ruby>
                 </td>
                 <td class="romaji">hassen</td>
                 <td>8,000</td>
@@ -239,7 +270,7 @@
               <tr>
                 <td class="type"></td>
                 <td class="jp">
-                  <ruby>一万<rt>いちまん</rt></ruby>
+                  <ruby><span class="kanji">一万</span><rt>いちまん</rt></ruby>
                 </td>
                 <td class="romaji">ichiman</td>
                 <td>10,000</td>
@@ -247,7 +278,7 @@
               <tr>
                 <td class="type"></td>
                 <td class="jp">
-                  <ruby>十万<rt>じゅうまん</rt></ruby>
+                  <ruby><span class="kanji">十万</span><rt>じゅうまん</rt></ruby>
                 </td>
                 <td class="romaji">jūman</td>
                 <td>100,000</td>
@@ -255,7 +286,7 @@
               <tr>
                 <td class="type"></td>
                 <td class="jp">
-                  <ruby>百万<rt>ひゃくまん</rt></ruby>
+                  <ruby><span class="kanji">百万</span><rt>ひゃくまん</rt></ruby>
                 </td>
                 <td class="romaji">hyakuman</td>
                 <td>1,000,000</td>
@@ -273,7 +304,6 @@
 <!-- SCRIPTS -->
 <!-- ------------------------------------- -->
 
-<script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
 <script src="script.js"></script>
 
   </body>

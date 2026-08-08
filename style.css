@@ -1,7 +1,7 @@
 /* ==========================================================
    Sakura Study
    Minimal Design System
-   Inspired by Apple • Notion • Linear
+   Inspired by Apple â€¢ Notion â€¢ Linear
 ========================================================== */
 
 /*-----------------------------------------------*/
@@ -251,12 +251,10 @@ thead th {
     border-bottom: 1px solid var(--border);
 }
 
-tbody td {
-    padding: 16px 18px;
-
-    vertical-align: middle;
-
-    border-bottom: 1px solid var(--border);
+tbody td{
+    padding:8px 18px;
+    border-bottom:1px solid var(--border);
+    vertical-align:middle;
 }
 
 tbody tr:last-child td {
@@ -275,23 +273,28 @@ tbody tr:hover {
 /* TYPE */
 /*-----------------------------------------------*/
 
-.type {
-    width: 70px;
-    text-align: center;
+.type{
+    width:32px;
+    min-width:32px;
+    max-width:32px;
 
-    color: var(--muted);
-
-    font-size: 0.9rem;
-    font-weight: 700;
+    text-align:center;
+    color:var(--muted);
+    font-size:.9rem;
+    font-weight:700;
 }
 
 /* Entire irregular row */
 
 tr.irregular .type,
-tr.irregular .romaji,
-tr.irregular td:last-child {
-    color: var(--red);
-    font-weight: 600;
+tr.irregular .romaji{
+    color:#b85c5c;
+    font-weight:400;
+}
+
+tr.irregular td:last-child{
+    color:#b85c5c;
+    font-weight:400;
 }
 
 /*-----------------------------------------------*/
@@ -314,7 +317,7 @@ tr.irregular td:last-child {
     order: 2;
     display: block;
 
-    font-size: 2rem;
+    font-size: 1.4rem;
     font-weight: 600;
     line-height: 1;
 }
@@ -327,7 +330,7 @@ tr.irregular td:last-child {
 
     color: #9ca3af;
 
-    font-size: 0.65rem;
+    font-size: 0.7rem;
     font-weight: 500;
     line-height: 1;
 }
@@ -338,7 +341,7 @@ tr.irregular td:last-child {
 
 .romaji {
     color: var(--muted);
-    font-style: italic;
+    font-size: 1rem;
 }
 
 /*-----------------------------------------------*/

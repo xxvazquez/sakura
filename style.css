@@ -55,6 +55,51 @@ body {
     text-rendering: optimizeLegibility;
 }
 
+/* Respect the OS-level reduced-motion preference: drop smooth scrolling
+   and shrink every transition to effectively instant, rather than
+   turning animation off selectively per component. */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    * {
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/*-----------------------------------------------*/
+/* SELECTION */
+/*-----------------------------------------------*/
+
+/* Swap the browser's default blue text-selection highlight for the
+   site's own monochrome palette â€” a small detail, but a blue highlight
+   is the fastest way to make an otherwise disciplined page look
+   unfinished. */
+
+::selection {
+    background: var(--text);
+    color: #fff;
+}
+
+/*-----------------------------------------------*/
+/* FOCUS */
+/*-----------------------------------------------*/
+
+/* One focus treatment, used everywhere something is keyboard-focusable:
+   sidebar links and sortable table headers included. Search inputs get
+   their own softer focus ring below since they already have a border
+   to work with; this covers everything else. */
+
+.menu a:focus-visible,
+table.dataTable thead th.dt-orderable-asc:focus-visible,
+table.dataTable thead th.dt-orderable-desc:focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
 /*-----------------------------------------------*/
 /* LAYOUT */
 /*-----------------------------------------------*/
@@ -91,6 +136,28 @@ body {
 
     background: #fff;
     border-right: 1px solid var(--border);
+
+    /* Thin, quiet scrollbar for the sidebar's own scroll region â€” visible
+       when needed once there are many pages, unobtrusive otherwise. */
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 999px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background-color: #d1d5db;
 }
 
 /*-----------------------------------------------*/
@@ -251,10 +318,16 @@ thead th {
     border-bottom: 1px solid var(--border);
 }
 
-tbody td{
-    padding:8px 18px;
-    border-bottom:1px solid var(--border);
-    vertical-align:middle;
+tbody td {
+    padding: 10px 18px;
+
+    vertical-align: middle;
+
+    border-bottom: 1px solid var(--border);
+}
+
+tbody tr {
+    transition: background-color 0.12s;
 }
 
 tbody tr:last-child td {
@@ -273,28 +346,33 @@ tbody tr:hover {
 /* TYPE */
 /*-----------------------------------------------*/
 
-.type{
-    width:32px;
-    min-width:32px;
-    max-width:32px;
+.type {
+    width: 70px;
+    text-align: center;
 
-    text-align:center;
-    color:var(--muted);
-    font-size:.9rem;
-    font-weight:700;
+    color: var(--muted);
+
+    font-size: 0.9rem;
+    font-weight: 700;
 }
 
 /* Entire irregular row */
 
 tr.irregular .type,
-tr.irregular .romaji{
-    color:#b85c5c;
-    font-weight:400;
+tr.irregular td:last-child {
+    color: var(--red);
+    font-weight: 600;
 }
 
-tr.irregular td:last-child{
-    color:#b85c5c;
-    font-weight:400;
+tr.irregular .romaji {
+    color: var(--red);
+}
+
+/* The irregular marker itself is CSS-generated rather than typed into
+   every row's HTML â€” one place to change the glyph later, and no risk
+   of a new irregular entry quietly missing its marker. */
+tr.irregular .type::before {
+    content: "*";
 }
 
 /*-----------------------------------------------*/
@@ -317,7 +395,7 @@ tr.irregular td:last-child{
     order: 2;
     display: block;
 
-    font-size: 1.4rem;
+    font-size: 2rem;
     font-weight: 600;
     line-height: 1;
 }
@@ -341,7 +419,6 @@ tr.irregular td:last-child{
 
 .romaji {
     color: var(--muted);
-    font-size: 1rem;
 }
 
 /*-----------------------------------------------*/
@@ -438,6 +515,8 @@ table.dataTable tbody tr:hover {
 
 table.dataTable thead th.dt-orderable-asc,
 table.dataTable thead th.dt-orderable-desc {
+    position: relative;
+
     padding-right: 24px;
     cursor: pointer;
 }
@@ -446,11 +525,6 @@ table.dataTable thead th.dt-orderable-desc {
    but ships no visible glyph by default. A hairline chevron, quiet at
    rest and dark once a column is the active sort, reads closer to
    Notion/Linear than an arrow icon font would. */
-
-table.dataTable thead th.dt-orderable-asc,
-table.dataTable thead th.dt-orderable-desc {
-    position: relative;
-}
 
 table.dataTable thead span.dt-column-order {
     position: absolute;
@@ -471,6 +545,7 @@ table.dataTable thead span.dt-column-order::after {
     border-right: 3.5px solid transparent;
 
     opacity: 0.25;
+    transition: opacity 0.15s;
 }
 
 table.dataTable thead span.dt-column-order::before {
@@ -481,6 +556,13 @@ table.dataTable thead span.dt-column-order::before {
 table.dataTable thead span.dt-column-order::after {
     top: 2px;
     border-top: 4px solid var(--muted);
+}
+
+/* Discoverability: nudge both chevrons on hover so an unsorted column
+   still signals it's sortable, without introducing a new color. */
+table.dataTable thead th.dt-orderable-asc:hover span.dt-column-order::before,
+table.dataTable thead th.dt-orderable-desc:hover span.dt-column-order::after {
+    opacity: 0.5;
 }
 
 table.dataTable thead th.dt-ordering-asc span.dt-column-order::before {
@@ -528,5 +610,60 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
 
     .dt-search input {
         width: 100%;
+    }
+}
+
+/*-----------------------------------------------*/
+/* PRINT */
+/*-----------------------------------------------*/
+
+/* Study pages are reference tables, and this material is used in print
+   elsewhere too â€” so printing should hand over a clean, ink-efficient
+   table: no sidebar, no search chrome, no sort affordances (they're
+   inert on paper), no hover/zebra shading to burn ink. */
+
+@media print {
+    .sidebar,
+    .sidebar-search,
+    .sidebar-empty,
+    .dt-search,
+    .dt-layout-row:first-child {
+        display: none !important;
+    }
+
+    .content {
+        padding: 0;
+    }
+
+    .page {
+        max-width: 100%;
+    }
+
+    body {
+        color: #000;
+    }
+
+    table {
+        border: 1px solid #ccc;
+    }
+
+    thead th {
+        color: #000;
+        background: #fff !important;
+    }
+
+    tbody tr:nth-child(even) {
+        background: #fff !important;
+    }
+
+    tr.irregular .type,
+    tr.irregular .romaji,
+    tr.irregular td:last-child {
+        color: #000;
+        font-weight: 700;
+    }
+
+    .jp rt {
+        color: #555;
     }
 }

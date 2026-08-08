@@ -6,6 +6,9 @@ $(document).ready(function () {
         info:false,
         ordering:true,
         searching:true,
+      
+        // Default sort by the 3rd column asc
+        order: [[3, "asc"]],
 
         language:{
             search:"",
@@ -15,3 +18,5 @@ $(document).ready(function () {
     });
 
 });
+
+

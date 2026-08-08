@@ -1,7 +1,7 @@
 /* ==========================================================
    Sakura Study
    Minimal Design System
-   Inspired by Apple â€¢ Notion â€¢ Linear
+   Inspired by Apple • Notion • Linear
 ========================================================== */
 
 /*-----------------------------------------------*/
@@ -74,7 +74,7 @@ body {
 /*-----------------------------------------------*/
 
 /* Swap the browser's default blue text-selection highlight for the
-   site's own monochrome palette â€” a small detail, but a blue highlight
+   site's own monochrome palette — a small detail, but a blue highlight
    is the fastest way to make an otherwise disciplined page look
    unfinished. */
 
@@ -137,7 +137,7 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
     background: #fff;
     border-right: 1px solid var(--border);
 
-    /* Thin, quiet scrollbar for the sidebar's own scroll region â€” visible
+    /* Thin, quiet scrollbar for the sidebar's own scroll region — visible
        when needed once there are many pages, unobtrusive otherwise. */
     scrollbar-width: thin;
     scrollbar-color: var(--border) transparent;
@@ -319,7 +319,7 @@ thead th {
 }
 
 tbody td {
-    padding: 10px 18px;
+    padding: 7px 18px;
 
     vertical-align: middle;
 
@@ -346,9 +346,13 @@ tbody tr:hover {
 /* TYPE */
 /*-----------------------------------------------*/
 
+th.type-col {
+    width: 1%;
+    white-space: nowrap;
+}
+
 .type {
-    width: 70px;
-    text-align: center;
+    text-align: left;
 
     color: var(--muted);
 
@@ -358,10 +362,13 @@ tbody tr:hover {
 
 /* Entire irregular row */
 
-tr.irregular .type,
-tr.irregular td:last-child {
+tr.irregular .type {
     color: var(--red);
     font-weight: 600;
+}
+
+tr.irregular td:last-child {
+    color: var(--red);
 }
 
 tr.irregular .romaji {
@@ -369,7 +376,7 @@ tr.irregular .romaji {
 }
 
 /* The irregular marker itself is CSS-generated rather than typed into
-   every row's HTML â€” one place to change the glyph later, and no risk
+   every row's HTML — one place to change the glyph later, and no risk
    of a new irregular entry quietly missing its marker. */
 tr.irregular .type::before {
     content: "*";
@@ -381,13 +388,13 @@ tr.irregular .type::before {
 
 .jp {
     width: 170px;
-    text-align: center;
+    text-align: left;
 }
 
 .jp ruby {
     display: inline-grid;
     grid-template-rows: auto auto;
-    justify-items: center;
+    justify-items: start;
     align-items: center;
 }
 
@@ -395,8 +402,10 @@ tr.irregular .type::before {
     order: 2;
     display: block;
 
-    font-size: 2rem;
-    font-weight: 600;
+    color: #374151;
+
+    font-size: 1.6rem;
+    font-weight: 500;
     line-height: 1;
 }
 
@@ -618,7 +627,7 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
 /*-----------------------------------------------*/
 
 /* Study pages are reference tables, and this material is used in print
-   elsewhere too â€” so printing should hand over a clean, ink-efficient
+   elsewhere too — so printing should hand over a clean, ink-efficient
    table: no sidebar, no search chrome, no sort affordances (they're
    inert on paper), no hover/zebra shading to burn ink. */
 

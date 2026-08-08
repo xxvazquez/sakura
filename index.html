@@ -61,6 +61,10 @@
              script and layout both work off this flat sibling structure,
              no other markup changes needed.
 
+             This search matches page titles only. Searching inside a
+             page's own content is the in-page table search box, not
+             this one.
+
              Example, once particles.html exists:
              <div class="menu-group">P</div>
              <a href="particles.html">Particles</a> -->
@@ -83,7 +87,7 @@
           <table id="numbersTable">
             <thead>
               <tr>
-                <th>Tag</th>
+                <th class="type-col">Tag</th>
                 <th>Japanese</th>
                 <th>Romaji</th>
                 <th>English</th>

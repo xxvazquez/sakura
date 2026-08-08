@@ -10,7 +10,10 @@ $(document).ready(function () {
 // --------------------------------------------------
 // NUMBERS TABLE
 // --------------------------------------------------
-// DataTables handles per-column sort and instant search.
+// DataTables handles per-column sort and instant search *within this
+// page's table*. The sidebar search box is separate and only matches
+// page titles — see initSidebarSearch below.
+//
 // Pagination/info/length are switched off in style.css (this
 // page's whole point is seeing every entry on one screen) —
 // if a future page runs long, re-enable paging there rather

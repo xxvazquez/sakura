@@ -428,6 +428,7 @@ tr.irregular .type::before {
 
 .romaji {
     color: var(--muted);
+    font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
 }
 
 /*-----------------------------------------------*/

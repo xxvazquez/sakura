@@ -66,7 +66,7 @@
         <!-- SIDEBAR NAVIGATION -->
         <!-- ------------------------------------- -->
         <!-- Two heading levels: .menu-category groups by folder
-             (Vocabulary → /vocabulary/, Grammar → /grammar/, etc.), and
+             (Vocabulary → /pages/, Grammar → /grammar/, etc.), and
              within each, .menu-letter alphabetizes by page title (like
              a dictionary). To add a page: drop the file in its category
              folder, then add a matching .menu-letter + <a> pair here in
@@ -80,8 +80,8 @@
              survive that. The cost: every link's ../ count depends on
              the linking page's own folder depth. From root (index.html)
              assets are assets/style.css and pages are
-             vocabulary/numbers.html. From one folder deep
-             (vocabulary/*.html) it's ../assets/style.css, a same-folder
+             pages/numbers.html. From one folder deep
+             (pages/*.html) it's ../assets/style.css, a same-folder
              page is just numbers.html, and a different category is
              ../grammar/particles.html. One more ../ per extra level of
              nesting — get the depth right when copying this nav to a
@@ -98,9 +98,9 @@
         <nav class="menu" id="sidebarMenu">
           <div class="menu-category">Vocabulary</div>
           <div class="menu-letter">N</div>
-          <a href="vocabulary/numbers.html">Numbers</a>
+          <a href="pages/numbers.html">Numbers</a>
           <div class="menu-letter">T</div>
-          <a href="vocabulary/time.html">Time</a>
+          <a href="pages/time.html">Time</a>
         </nav>
         <p class="sidebar-empty" id="sidebarEmpty" hidden>No pages match.</p>
       </aside>
@@ -119,9 +119,9 @@
                sync with the sidebar's <a> entries whenever a page is
                added: same links, different organization. -->
           <div class="page-index-letter">N</div>
-          <a class="page-index-link" href="vocabulary/numbers.html">Numbers</a>
+          <a class="page-index-link" href="pages/numbers.html">Numbers</a>
           <div class="page-index-letter">T</div>
-          <a class="page-index-link" href="vocabulary/time.html">Time</a>
+          <a class="page-index-link" href="pages/time.html">Time</a>
         </div>
       </main>
     </div>

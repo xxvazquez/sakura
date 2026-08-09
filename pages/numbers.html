@@ -64,7 +64,7 @@
         <!-- SIDEBAR NAVIGATION -->
         <!-- ------------------------------------- -->
         <!-- Two heading levels: .menu-category groups by folder
-             (Vocabulary → /vocabulary/, Grammar → /grammar/, etc.), and
+             (Vocabulary → /pages/, Grammar → /grammar/, etc.), and
              within each, .menu-letter alphabetizes by page title (like
              a dictionary). To add a page: drop the file in its category
              folder, then add a matching .menu-letter + <a> pair here in
@@ -78,8 +78,8 @@
              survive that. The cost: every link's ../ count depends on
              the linking page's own folder depth. From root (index.html)
              assets are assets/style.css and pages are
-             vocabulary/numbers.html. From one folder deep
-             (vocabulary/*.html) it's ../assets/style.css, a same-folder
+             pages/numbers.html. From one folder deep
+             (pages/*.html) it's ../assets/style.css, a same-folder
              page is just numbers.html, and a different category is
              ../grammar/particles.html. One more ../ per extra level of
              nesting — get the depth right when copying this nav to a
@@ -134,7 +134,7 @@
                one — so the page structure stays identical across
                every vocabulary page. -->
 
-          <details class="toggle-section" id="numbers" open>
+          <details class="toggle-section" id="numbers">
             <summary><h2>Numbers</h2></summary>
 
             <div class="toggle-body">

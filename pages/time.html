@@ -64,7 +64,7 @@
         <!-- SIDEBAR NAVIGATION -->
         <!-- ------------------------------------- -->
         <!-- Two heading levels: .menu-category groups by folder
-             (Vocabulary → /vocabulary/, Grammar → /grammar/, etc.), and
+             (Vocabulary → /pages/, Grammar → /grammar/, etc.), and
              within each, .menu-letter alphabetizes by page title (like
              a dictionary). To add a page: drop the file in its category
              folder, then add a matching .menu-letter + <a> pair here in
@@ -78,8 +78,8 @@
              survive that. The cost: every link's ../ count depends on
              the linking page's own folder depth. From root (index.html)
              assets are assets/style.css and pages are
-             vocabulary/numbers.html. From one folder deep
-             (vocabulary/*.html) it's ../assets/style.css, a same-folder
+             pages/numbers.html. From one folder deep
+             (pages/*.html) it's ../assets/style.css, a same-folder
              page is just numbers.html, and a different category is
              ../grammar/particles.html. One more ../ per extra level of
              nesting — get the depth right when copying this nav to a
@@ -123,14 +123,34 @@
           </div>
 
           <!-- ------------------------------------- -->
+          <!-- TABLE NAV -->
+          <!-- ------------------------------------- -->
+          <!-- Sticky quick-jump bar for pages with more than one table.
+               Stays pinned to the viewport top while scrolling (same
+               position: sticky trick as .sidebar) so switching tables
+               never requires scrolling back up. Clicking a link opens
+               that table's toggle (they're collapsed by default) and
+               scrolls to it — see initTableNav in assets/script.js.
+               Keep this in sync with the toggle-section ids below
+               whenever a table is added, renamed, or reordered. -->
+
+          <nav class="table-nav" id="tableNav">
+            <a href="#hours">Hours</a>
+            <a href="#minutes">Minutes</a>
+            <a href="#time-vocabulary">Time Vocabulary</a>
+            <a href="#duration">Duration</a>
+            <a href="#practice-qa">Practice Q&amp;A</a>
+          </nav>
+
+          <!-- ------------------------------------- -->
           <!-- HOURS TABLE -->
           <!-- ------------------------------------- -->
 
-          <details class="toggle-section" id="hours" open>
+          <details class="toggle-section" id="hours">
             <summary><h2>Hours</h2></summary>
 
             <div class="toggle-body">
-              <table id="hoursTable" class="ref-table">
+              <table id="hoursTable" class="ref-table" data-default-order="3,asc">
                 <thead>
                   <tr>
                     <th class="type-col">Tag</th>
@@ -246,11 +266,11 @@
           <!-- MINUTES TABLE -->
           <!-- ------------------------------------- -->
 
-          <details class="toggle-section" id="minutes" open>
+          <details class="toggle-section" id="minutes">
             <summary><h2>Minutes</h2></summary>
 
             <div class="toggle-body">
-              <table id="minutesTable" class="ref-table">
+              <table id="minutesTable" class="ref-table" data-default-order="3,asc">
                 <thead>
                   <tr>
                     <th class="type-col">Tag</th>
@@ -422,11 +442,11 @@
           <!-- TIME VOCABULARY TABLE -->
           <!-- ------------------------------------- -->
 
-          <details class="toggle-section" id="time-vocabulary" open>
+          <details class="toggle-section" id="time-vocabulary">
             <summary><h2>Time Vocabulary</h2></summary>
 
             <div class="toggle-body">
-              <table id="timeVocabTable" class="ref-table">
+              <table id="timeVocabTable" class="ref-table" data-default-order="3,asc">
                 <thead>
                   <tr>
                     <th class="type-col">Tag</th>
@@ -707,8 +727,8 @@
                     <td class="english">after</td>
                     <td class="notes">
                       Goes after the amount of time.<br>
-                      <span class="example">Jugyō wa hachiji juppun <strong>ato</strong> ni hajimarimasu.</span><br>
-                      <span class="example-en">The class starts 10 minutes after 8:00.</span>
+                      <span class="example">Watashi wa ima kara juppun <strong>ato</strong> ni shuppatsu shimasu.</span><br>
+                      <span class="example-en">I will leave 10 minutes from now.</span>
                     </td>
                   </tr>
                   <tr>
@@ -722,6 +742,376 @@
                       Goes after the time.<br>
                       <span class="example">Watashi wa shichiji <strong>goro</strong> ni kaerimasu.</span><br>
                       <span class="example-en">I go home around 7:00.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">～から</span><rt>&nbsp;</rt></ruby>
+                    </td>
+                    <td class="romaji">~kara</td>
+                    <td class="english">from</td>
+                    <td class="notes">
+                      Marks the starting time.<br>
+                      <span class="example">Gakkō wa hachiji <strong>kara</strong> desu.</span><br>
+                      <span class="example-en">School starts at 8:00.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">～まで</span><rt>&nbsp;</rt></ruby>
+                    </td>
+                    <td class="romaji">~made</td>
+                    <td class="english">until</td>
+                    <td class="notes">
+                      Marks the ending time.<br>
+                      <span class="example">Gakkō wa sanji <strong>made</strong> desu.</span><br>
+                      <span class="example-en">School is until 3:00.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">～から～まで</span><rt>&nbsp;</rt></ruby>
+                    </td>
+                    <td class="romaji">~kara ~made</td>
+                    <td class="english">from … to …</td>
+                    <td class="notes">
+                      Used to express a time range.<br>
+                      <span class="example">Gakkō wa hachiji <strong>kara</strong> sanji <strong>made</strong> desu.</span><br>
+                      <span class="example-en">School is from 8:00 to 3:00.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">～時間</span><rt>～じかん</rt></ruby>
+                    </td>
+                    <td class="romaji">~jikan</td>
+                    <td class="english">hour(s) (duration)</td>
+                    <td class="notes">
+                      Used to express a duration.<br>
+                      <span class="example">Nihongo o <strong>nijikan</strong> benkyō shimasu.</span><br>
+                      <span class="example-en">I study Japanese for two hours.</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+
+          <!-- ------------------------------------- -->
+          <!-- DURATION TABLE -->
+          <!-- ------------------------------------- -->
+
+          <details class="toggle-section" id="duration">
+            <summary><h2>Duration</h2></summary>
+
+            <div class="toggle-body">
+              <table id="durationTable" class="ref-table" data-default-order="3,asc">
+                <thead>
+                  <tr>
+                    <th class="type-col">Tag</th>
+                    <th>Japanese</th>
+                    <th>Romaji</th>
+                    <th>English</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">一時間</span><rt>いちじかん</rt></ruby>
+                    </td>
+                    <td class="romaji">ichijikan</td>
+                    <td class="english">1 hour</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">二時間</span><rt>にじかん</rt></ruby>
+                    </td>
+                    <td class="romaji">nijikan</td>
+                    <td class="english">2 hours</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">三時間</span><rt>さんじかん</rt></ruby>
+                    </td>
+                    <td class="romaji">sanjikan</td>
+                    <td class="english">3 hours</td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">四時間</span><rt>よじかん</rt></ruby>
+                    </td>
+                    <td class="romaji">yojikan</td>
+                    <td class="english">4 hours</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">五時間</span><rt>ごじかん</rt></ruby>
+                    </td>
+                    <td class="romaji">gojikan</td>
+                    <td class="english">5 hours</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">六時間</span><rt>ろくじかん</rt></ruby>
+                    </td>
+                    <td class="romaji">rokujikan</td>
+                    <td class="english">6 hours</td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">七時間</span><rt>しちじかん</rt></ruby>
+                    </td>
+                    <td class="romaji">shichijikan</td>
+                    <td class="english">7 hours</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">八時間</span><rt>はちじかん</rt></ruby>
+                    </td>
+                    <td class="romaji">hachijikan</td>
+                    <td class="english">8 hours</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">九時間</span><rt>くじかん</rt></ruby>
+                    </td>
+                    <td class="romaji">kujikan</td>
+                    <td class="english">9 hours</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">十時間</span><rt>じゅうじかん</rt></ruby>
+                    </td>
+                    <td class="romaji">jūjikan</td>
+                    <td class="english">10 hours</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">十一時間</span><rt>じゅういちじかん</rt></ruby>
+                    </td>
+                    <td class="romaji">jūichijikan</td>
+                    <td class="english">11 hours</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">十二時間</span><rt>じゅうにじかん</rt></ruby>
+                    </td>
+                    <td class="romaji">jūnijikan</td>
+                    <td class="english">12 hours</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">二十四時間</span><rt>にじゅうよじかん</rt></ruby>
+                    </td>
+                    <td class="romaji">nijūyojikan</td>
+                    <td class="english">24 hours</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">四十八時間</span><rt>よんじゅうはちじかん</rt></ruby>
+                    </td>
+                    <td class="romaji">yonjūhachijikan</td>
+                    <td class="english">48 hours</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+
+          <!-- ------------------------------------- -->
+          <!-- PRACTICE Q&A TABLE -->
+          <!-- ------------------------------------- -->
+          <!-- No Tag column — these are full Q&A exchanges, not single
+               vocab entries, so there's no irregular-reading concept to
+               flag. Each Japanese/Romaji/English cell stacks its
+               question and answer as two lines (.qa-q / .qa-a) instead
+               of a single value. -->
+
+          <details class="toggle-section" id="practice-qa">
+            <summary><h2>Practice Q&amp;A</h2></summary>
+
+            <div class="toggle-body">
+              <table id="practiceQaTable" class="ref-table" data-default-order="2,asc">
+                <thead>
+                  <tr>
+                    <th>Japanese</th>
+                    <th>Romaji</th>
+                    <th>English</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td class="qa qa-jp">
+                      <span class="qa-q">Q: 今何時ですか。</span>
+                      <span class="qa-a">A: 午後一時四十六分です。</span>
+                    </td>
+                    <td class="qa qa-latin">
+                      <span class="qa-q">Q: Ima nanji desu ka?</span>
+                      <span class="qa-a">A: Gogo ichiji yonjūroppun desu.</span>
+                    </td>
+                    <td class="qa qa-latin english">
+                      <span class="qa-q">Q: What time is it?</span>
+                      <span class="qa-a">A: It is 1:46 PM.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="qa qa-jp">
+                      <span class="qa-q">Q: 何時ですか。</span>
+                      <span class="qa-a">A: 三時です。</span>
+                    </td>
+                    <td class="qa qa-latin">
+                      <span class="qa-q">Q: Nanji desu ka?</span>
+                      <span class="qa-a">A: Sanji desu.</span>
+                    </td>
+                    <td class="qa qa-latin english">
+                      <span class="qa-q">Q: What time is it?</span>
+                      <span class="qa-a">A: It is 3 o'clock.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="qa qa-jp">
+                      <span class="qa-q">Q: 今日、お店は何時から何時までですか。</span>
+                      <span class="qa-a">A: 午前八時から午後二時までです。</span>
+                    </td>
+                    <td class="qa qa-latin">
+                      <span class="qa-q">Q: Kyō, omise wa nanji kara nanji made desu ka?</span>
+                      <span class="qa-a">A: Gozen hachiji kara gogo niji made desu.</span>
+                    </td>
+                    <td class="qa qa-latin english">
+                      <span class="qa-q">Q: What time is the shop open today?</span>
+                      <span class="qa-a">A: It is open from 8:00 AM to 2:00 PM.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="qa qa-jp">
+                      <span class="qa-q">Q: 何時間勉強しましたか。</span>
+                      <span class="qa-a">A: 一時間勉強しました。</span>
+                    </td>
+                    <td class="qa qa-latin">
+                      <span class="qa-q">Q: Nanjikan benkyō shimashita ka?</span>
+                      <span class="qa-a">A: Ichijikan benkyō shimashita.</span>
+                    </td>
+                    <td class="qa qa-latin english">
+                      <span class="qa-q">Q: How long did you study?</span>
+                      <span class="qa-a">A: I studied for one hour.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="qa qa-jp">
+                      <span class="qa-q">Q: 何時間本を読みましたか。</span>
+                      <span class="qa-a">A: 二時間本を読みました。</span>
+                    </td>
+                    <td class="qa qa-latin">
+                      <span class="qa-q">Q: Nanjikan hon o yomimashita ka?</span>
+                      <span class="qa-a">A: Nijikan hon o yomimashita.</span>
+                    </td>
+                    <td class="qa qa-latin english">
+                      <span class="qa-q">Q: How long did you read?</span>
+                      <span class="qa-a">A: I read for two hours.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="qa qa-jp">
+                      <span class="qa-q">Q: 何時間歩きましたか。</span>
+                      <span class="qa-a">A: 一時間半歩きました。</span>
+                    </td>
+                    <td class="qa qa-latin">
+                      <span class="qa-q">Q: Nanjikan arukimashita ka?</span>
+                      <span class="qa-a">A: Ichijikan han arukimashita.</span>
+                    </td>
+                    <td class="qa qa-latin english">
+                      <span class="qa-q">Q: How long did you walk?</span>
+                      <span class="qa-a">A: I walked for one and a half hours.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="qa qa-jp">
+                      <span class="qa-q">Q: お店はいつ開きますか。</span>
+                      <span class="qa-a">A: 月曜日と土曜日は午前八時に開きます。</span>
+                    </td>
+                    <td class="qa qa-latin">
+                      <span class="qa-q">Q: Omise wa itsu akimasu ka?</span>
+                      <span class="qa-a">A: Getsuyōbi to doyōbi wa gozen hachiji ni akimasu.</span>
+                    </td>
+                    <td class="qa qa-latin english">
+                      <span class="qa-q">Q: When does the shop open?</span>
+                      <span class="qa-a">A: It opens at 8:00 AM on Mondays and Saturdays.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="qa qa-jp">
+                      <span class="qa-q">Q: 何時に朝ご飯を食べますか。</span>
+                      <span class="qa-a">A: 午前九時に食べます。</span>
+                    </td>
+                    <td class="qa qa-latin">
+                      <span class="qa-q">Q: Nanji ni asagohan o tabemasu ka?</span>
+                      <span class="qa-a">A: Gozen kuji ni tabemasu.</span>
+                    </td>
+                    <td class="qa qa-latin english">
+                      <span class="qa-q">Q: What time do you eat breakfast?</span>
+                      <span class="qa-a">A: I eat breakfast at 9:00 AM.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="qa qa-jp">
+                      <span class="qa-q">Q: いつシャワーを浴びますか。</span>
+                      <span class="qa-a">A: 朝、よくシャワーを浴びます。</span>
+                    </td>
+                    <td class="qa qa-latin">
+                      <span class="qa-q">Q: Itsu shawā o abimasu ka?</span>
+                      <span class="qa-a">A: Asa, yoku shawā o abimasu.</span>
+                    </td>
+                    <td class="qa qa-latin english">
+                      <span class="qa-q">Q: When do you take a shower?</span>
+                      <span class="qa-a">A: I often take a shower in the morning.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="qa qa-jp">
+                      <span class="qa-q">Q: いつ運動しますか。</span>
+                      <span class="qa-a">A: 月曜日の午後七時に運動します。</span>
+                    </td>
+                    <td class="qa qa-latin">
+                      <span class="qa-q">Q: Itsu undō shimasu ka?</span>
+                      <span class="qa-a">A: Getsuyōbi no gogo shichiji ni undō shimasu.</span>
+                    </td>
+                    <td class="qa qa-latin english">
+                      <span class="qa-q">Q: When do you exercise?</span>
+                      <span class="qa-a">A: I exercise on Mondays at 7:00 PM.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="qa qa-jp">
+                      <span class="qa-q">Q: 何時ごろ晩ご飯を食べますか。</span>
+                      <span class="qa-a">A: 午後十時ごろ食べます。</span>
+                    </td>
+                    <td class="qa qa-latin">
+                      <span class="qa-q">Q: Nanji goro bangohan o tabemasu ka?</span>
+                      <span class="qa-a">A: Gogo jūji goro tabemasu.</span>
+                    </td>
+                    <td class="qa qa-latin english">
+                      <span class="qa-q">Q: Around what time do you eat dinner?</span>
+                      <span class="qa-a">A: I eat dinner around 10:00 PM.</span>
                     </td>
                   </tr>
                 </tbody>

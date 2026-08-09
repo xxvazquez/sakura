@@ -391,6 +391,51 @@ h1 {
 }
 
 /*-----------------------------------------------*/
+/* TABLE NAV (multi-table pages) */
+/*-----------------------------------------------*/
+/* Quick-jump bar for a page with more than one table (e.g. Time).
+   position: sticky top: 0 is the same trick .sidebar uses to stay
+   pinned to the viewport — this stays visible the whole time you
+   scroll, since every table below starts collapsed and this is the
+   fastest way back to one of them. Own opaque background so content
+   scrolling underneath doesn't show through once it's stuck. */
+
+.table-nav {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin: 0 0 28px;
+    padding: 14px 0;
+
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+}
+
+.table-nav a {
+    padding: 6px 14px;
+
+    border: 1px solid var(--border);
+    border-radius: 999px;
+
+    color: var(--text);
+    text-decoration: none;
+
+    font-size: 0.82rem;
+    font-weight: 600;
+
+    transition: 0.15s;
+}
+
+.table-nav a:hover {
+    background: var(--hover);
+}
+
+/*-----------------------------------------------*/
 /* TOGGLE SECTIONS (multi-table pages) */
 /*-----------------------------------------------*/
 /* Wraps one heading + table pair on a page that has more than one (e.g.
@@ -654,6 +699,34 @@ tr.irregular .type::before {
 }
 
 /*-----------------------------------------------*/
+/* Q&A (Practice Q&A table) */
+/*-----------------------------------------------*/
+/* A question/answer pair stacked in one cell instead of a single
+   value — the Q line muted (the prompt), the A line full text color
+   (the payload), same muted-then-emphasized hierarchy as .notes above. */
+
+.qa {
+    max-width: 300px;
+    line-height: 1.55;
+}
+
+.qa-latin {
+    font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+
+.qa-q {
+    display: block;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.qa-a {
+    display: block;
+    margin-top: 4px;
+    color: var(--text);
+}
+
+/*-----------------------------------------------*/
 /* DATATABLES */
 /*-----------------------------------------------*/
 
@@ -837,7 +910,8 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
     .sidebar-empty,
     .dt-search,
     .dt-layout-row:first-child,
-    .page-search {
+    .page-search,
+    .table-nav {
         display: none !important;
     }
 

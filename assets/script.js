@@ -9,6 +9,7 @@
 $(document).ready(function () {
     initReferenceTables();
     initPageSearch();
+    initTableNav();
     initSidebarSearch();
 });
 
@@ -24,10 +25,11 @@ $(document).ready(function () {
 // searching stays true so the API (table.search()) still works with
 // the UI removed.
 //
-// Sort order defaults to authored order (order: []) — click any header
-// to sort. A table can opt into a different default via
-// data-default-order="colIndex,dir" (e.g. Numbers uses "3,asc" since
-// its English column holds the actual numeric value).
+// Every table defaults to sorting by its English column ascending via
+// data-default-order="colIndex,dir" on the <table> — the index shifts
+// per table (e.g. "3,asc" with a Tag column, "2,asc" without one, as
+// in Time's Practice Q&A table). Falls back to authored order (order:
+// []) if the attribute is missing. Click any header to sort otherwise.
 
 function initReferenceTables() {
     $("table.ref-table").each(function () {
@@ -89,6 +91,49 @@ function initPageSearch() {
                 el.open = true;
             });
         }
+    });
+}
+
+// --------------------------------------------------
+// TABLE NAV
+// --------------------------------------------------
+// Sticky quick-jump bar (#tableNav) for pages with more than one
+// table — see .table-nav in style.css for the position: sticky. Since
+// every table.toggle-section is collapsed by default, clicking a link
+// here does two things instead of just the browser's default anchor
+// jump: opens that section's <details> and scrolls to it, offset by
+// the nav's own height so the sticky bar doesn't cover the heading.
+
+function initTableNav() {
+    const nav = document.getElementById("tableNav");
+    if (!nav) return;
+
+    const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    nav.querySelectorAll("a[href^='#']").forEach((link) => {
+        link.addEventListener("click", (e) => {
+            const target = document.getElementById(
+                link.getAttribute("href").slice(1)
+            );
+            if (!target) return;
+
+            e.preventDefault();
+
+            if (target.tagName === "DETAILS") {
+                target.open = true;
+            }
+
+            const navBottom = nav.getBoundingClientRect().bottom;
+            const targetTop = target.getBoundingClientRect().top;
+            const scrollBy = targetTop - navBottom - 16;
+
+            window.scrollBy({
+                top: scrollBy,
+                behavior: reduceMotion ? "auto" : "smooth",
+            });
+        });
     });
 }
 

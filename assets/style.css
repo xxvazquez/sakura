@@ -845,6 +845,43 @@ tr.irregular .type::before {
 }
 
 /*-----------------------------------------------*/
+/* GRAMMAR NOTE */
+/*-----------------------------------------------*/
+/* A short bullet list of usage rules attached below a table, inside
+   the same toggle (e.g. Frequency's "いつも goes before the verb").
+   Separated from the table by a hairline rule instead of its own
+   bordered box — supplementary reading, not another primary block. */
+
+.grammar-note {
+    margin-top: 24px;
+    padding-top: 20px;
+
+    border-top: 1px solid var(--border);
+}
+
+.grammar-note h3 {
+    margin: 0 0 12px;
+
+    color: var(--muted);
+
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.grammar-note ul {
+    padding-left: 18px;
+
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+
+.grammar-note li + li {
+    margin-top: 6px;
+}
+
+/*-----------------------------------------------*/
 /* DATATABLES */
 /*-----------------------------------------------*/
 

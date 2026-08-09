@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Sakura Study — Frequency</title>
+    <meta name="description" content="A personal Japanese reference notebook. Frequency (JLPT N5): adverbs, grammar notes, and irregular forms." />
+
+    <!-- ------------------------------------- -->
+    <!-- FONT -->
+    <!-- ------------------------------------- -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <!-- ------------------------------------- -->
+    <!-- STYLES -->
+    <!-- ------------------------------------- -->
+
+    <link rel="stylesheet" href="../assets/style.css" />
+
+    <!-- ------------------------------------- -->
+    <!-- DATA TABLES -->
+    <!-- ------------------------------------- -->
+    <!-- dataTables.min.js (this build) requires jQuery to already be
+         defined, so jQuery has to load first. Both are loaded once
+         here; do not also load either again before </body>. -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+
+  </head>
+
+  <!-- ------------------------------------- -->
+  <!-- BODY STARTS -->
+  <!-- ------------------------------------- -->
+
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+
+        <!-- ------------------------------------- -->
+        <!-- SIDEBAR BRAND -->
+        <!-- ------------------------------------- -->
+        <!-- The only way back to the landing page — it's deliberately
+             not one of the alphabetical entries below, since it isn't
+             study content itself. -->
+        <a class="sidebar-brand" href="../index.html">Sakura Study</a>
+
+        <!-- ------------------------------------- -->
+        <!-- SIDEBAR SEARCH -->
+        <!-- ------------------------------------- -->
+        <div class="sidebar-search">
+          <input
+            type="text"
+            id="sidebarSearch"
+            placeholder="Search pages…"
+            autocomplete="off"
+          />
+        </div>
+
+        <!-- ------------------------------------- -->
+        <!-- SIDEBAR NAVIGATION -->
+        <!-- ------------------------------------- -->
+        <!-- Flat and alphabetical, no category heading — every page on
+             the site (regardless of folder) sorted by title into one
+             .menu-group per starting letter, the same organizing idea
+             as the home page's own .page-index. To add a page: drop
+             the file in its folder, then add its <a> to the matching
+             (or a new) .menu-group here in alphabetical order — the
+             search script and layout both work off this flat
+             structure, no other markup changes needed.
+
+             Links are relative, not root-absolute — this site has to keep
+             working wherever it's hosted (root domain, a subpath, a
+             local file), and only relative paths are guaranteed to
+             survive that. The cost: every link's ../ count depends on
+             the linking page's own folder depth. From root (index.html)
+             assets are assets/style.css and pages are
+             pages/numbers.html. From one folder deep
+             (pages/*.html) it's ../assets/style.css, a same-folder
+             page is just numbers.html, and a different category is
+             ../grammar/particles.html. One more ../ per extra level of
+             nesting — get the depth right when copying this nav to a
+             new page.
+
+             This search matches page titles only. Searching inside a
+             page's own content is the in-page search box, not this one. -->
+        <nav class="menu" id="sidebarMenu">
+          <div class="menu-group">
+            <span class="menu-letter">F</span>
+            <a class="active" href="frequency.html">Frequency</a>
+          </div>
+          <div class="menu-group">
+            <span class="menu-letter">N</span>
+            <a href="numbers.html">Numbers</a>
+          </div>
+          <div class="menu-group">
+            <span class="menu-letter">T</span>
+            <a href="time.html">Time</a>
+          </div>
+        </nav>
+        <p class="sidebar-empty" id="sidebarEmpty" hidden>No pages match.</p>
+      </aside>
+
+      <main class="content">
+        <div class="page">
+          <h1>Frequency</h1>
+
+          <!-- ------------------------------------- -->
+          <!-- PAGE SEARCH -->
+          <!-- ------------------------------------- -->
+          <!-- One search box for the whole page, filtering every
+               table.ref-table and every .dialogue-card on it at once
+               (each table keeps its own DataTables instance for
+               sorting, but search is always driven from here instead
+               of a per-table box). Typing a non-empty query
+               force-opens every toggle below so matches in a collapsed
+               section are still visible. -->
+
+          <div class="page-search">
+            <input
+              type="text"
+              id="pageSearch"
+              placeholder="Search…"
+              autocomplete="off"
+              aria-label="Search all frequency tables and dialogues"
+            />
+          </div>
+
+          <!-- ------------------------------------- -->
+          <!-- TABLE NAV -->
+          <!-- ------------------------------------- -->
+          <!-- Sticky quick-jump bar for pages with more than one table.
+               Stays pinned to the viewport top while scrolling (same
+               position: sticky trick as .sidebar) so switching sections
+               never requires scrolling back up. Clicking a link opens
+               that section's toggle (they're collapsed by default) and
+               scrolls to it — see initTableNav in assets/script.js.
+               Keep this in sync with the toggle-section ids below
+               whenever a section is added, renamed, or reordered. -->
+
+          <nav class="table-nav" id="tableNav">
+            <a href="#frequency">Frequency</a>
+            <a href="#questions-answers">Questions &amp; Answers</a>
+            <a href="#dialogue">Dialogue</a>
+          </nav>
+
+          <!-- ------------------------------------- -->
+          <!-- FREQUENCY TABLE -->
+          <!-- ------------------------------------- -->
+
+          <details class="toggle-section" id="frequency">
+            <summary><h2>Frequency</h2></summary>
+
+            <div class="toggle-body">
+              <table id="frequencyTable" class="ref-table" data-default-order="3,asc">
+                <thead>
+                  <tr>
+                    <th class="type-col">Tag</th>
+                    <th>Japanese</th>
+                    <th>Romaji</th>
+                    <th>English</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji kana-only">いつも</span><rt>&nbsp;</rt></ruby>
+                    </td>
+                    <td class="romaji">itsumo</td>
+                    <td class="english">always</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji kana-only">よく</span><rt>&nbsp;</rt></ruby>
+                    </td>
+                    <td class="romaji">yoku</td>
+                    <td class="english">often</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji kana-only">ときどき</span><rt>&nbsp;</rt></ruby>
+                    </td>
+                    <td class="romaji">tokidoki</td>
+                    <td class="english">sometimes</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji kana-only">あまり～ません</span><rt>&nbsp;</rt></ruby>
+                    </td>
+                    <td class="romaji">amari ~masen</td>
+                    <td class="english">not often</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji kana-only">ぜんぜん～ません</span><rt>&nbsp;</rt></ruby>
+                    </td>
+                    <td class="romaji">zenzen ~masen</td>
+                    <td class="english">never / not at all</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">毎日</span><rt>まいにち</rt></ruby>
+                    </td>
+                    <td class="romaji">mainichi</td>
+                    <td class="english">every day</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">毎朝</span><rt>まいあさ</rt></ruby>
+                    </td>
+                    <td class="romaji">maiasa</td>
+                    <td class="english">every morning</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">毎晩</span><rt>まいばん</rt></ruby>
+                    </td>
+                    <td class="romaji">maiban</td>
+                    <td class="english">every evening</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">毎週</span><rt>まいしゅう</rt></ruby>
+                    </td>
+                    <td class="romaji">maishū</td>
+                    <td class="english">every week</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">毎月</span><rt>まいつき</rt></ruby>
+                    </td>
+                    <td class="romaji">maitsuki</td>
+                    <td class="english">every month</td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">毎年</span><rt>まいとし</rt></ruby>
+                    </td>
+                    <td class="romaji">maitoshi</td>
+                    <td class="english">every year</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- ------------------------------------- -->
+              <!-- GRAMMAR NOTE -->
+              <!-- ------------------------------------- -->
+
+              <div class="grammar-note">
+                <h3>Grammar Note</h3>
+                <ul>
+                  <li>いつも・よく・ときどき usually go before the verb.</li>
+                  <li>あまり is used with a negative verb.</li>
+                  <li>ぜんぜん is used with a negative verb.</li>
+                  <li>毎～ goes before a period of time (毎日, 毎週, 毎月, etc.).</li>
+                </ul>
+              </div>
+            </div>
+          </details>
+
+          <!-- ------------------------------------- -->
+          <!-- QUESTIONS & ANSWERS (DIALOGUE CARDS) -->
+          <!-- ------------------------------------- -->
+
+          <details class="toggle-section" id="questions-answers">
+            <summary><h2>Questions &amp; Answers</h2></summary>
+
+            <div class="toggle-body">
+              <div class="dialogue-grid">
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">📅 Daily Habit</h3>
+                  <div class="dialogue-messages">
+                    <div class="message message-a">
+                      <span class="message-speaker">A</span>
+                      <div class="message-bubble">
+                        <p class="message-jp">どのくらい<ruby>日本語<rt>にほんご</rt></ruby>を<ruby>勉強<rt>べんきょう</rt></ruby>しますか。</p>
+                        <p class="message-romaji">Dono kurai Nihongo o benkyō shimasu ka?</p>
+                        <p class="message-en">How often do you study Japanese?</p>
+                      </div>
+                    </div>
+                    <div class="message message-b">
+                      <span class="message-speaker">B</span>
+                      <div class="message-bubble">
+                        <p class="message-jp"><ruby>毎日<rt>まいにち</rt></ruby><ruby>勉強<rt>べんきょう</rt></ruby>します。</p>
+                        <p class="message-romaji">Mainichi benkyō shimasu.</p>
+                        <p class="message-en">I study every day.</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">📚 Often</h3>
+                  <div class="dialogue-messages">
+                    <div class="message message-a">
+                      <span class="message-speaker">A</span>
+                      <div class="message-bubble">
+                        <p class="message-jp">よく<ruby>本<rt>ほん</rt></ruby>を<ruby>読<rt>よ</rt></ruby>みますか。</p>
+                        <p class="message-romaji">Yoku hon o yomimasu ka?</p>
+                        <p class="message-en">Do you often read books?</p>
+                      </div>
+                    </div>
+                    <div class="message message-b">
+                      <span class="message-speaker">B</span>
+                      <div class="message-bubble">
+                        <p class="message-jp">はい、よく<ruby>読<rt>よ</rt></ruby>みます。</p>
+                        <p class="message-romaji">Hai, yoku yomimasu.</p>
+                        <p class="message-en">Yes, I often do.</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">🎬 Sometimes</h3>
+                  <div class="dialogue-messages">
+                    <div class="message message-a">
+                      <span class="message-speaker">A</span>
+                      <div class="message-bubble">
+                        <p class="message-jp">ときどき<ruby>映画<rt>えいが</rt></ruby>を<ruby>見<rt>み</rt></ruby>ますか。</p>
+                        <p class="message-romaji">Tokidoki eiga o mimasu ka?</p>
+                        <p class="message-en">Do you sometimes watch movies?</p>
+                      </div>
+                    </div>
+                    <div class="message message-b">
+                      <span class="message-speaker">B</span>
+                      <div class="message-bubble">
+                        <p class="message-jp">はい、ときどき<ruby>見<rt>み</rt></ruby>ます。</p>
+                        <p class="message-romaji">Hai, tokidoki mimasu.</p>
+                        <p class="message-en">Yes, sometimes.</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">📺 Not Often</h3>
+                  <div class="dialogue-messages">
+                    <div class="message message-a">
+                      <span class="message-speaker">A</span>
+                      <div class="message-bubble">
+                        <p class="message-jp">テレビを<ruby>見<rt>み</rt></ruby>ますか。</p>
+                        <p class="message-romaji">Terebi o mimasu ka?</p>
+                        <p class="message-en">Do you watch TV?</p>
+                      </div>
+                    </div>
+                    <div class="message message-b">
+                      <span class="message-speaker">B</span>
+                      <div class="message-bubble">
+                        <p class="message-jp">いいえ、あまり<ruby>見<rt>み</rt></ruby>ません。</p>
+                        <p class="message-romaji">Iie, amari mimasen.</p>
+                        <p class="message-en">No, I don't watch it very often.</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">🚭 Never</h3>
+                  <div class="dialogue-messages">
+                    <div class="message message-a">
+                      <span class="message-speaker">A</span>
+                      <div class="message-bubble">
+                        <p class="message-jp">お<ruby>酒<rt>さけ</rt></ruby>を<ruby>飲<rt>の</rt></ruby>みますか。</p>
+                        <p class="message-romaji">Osake o nomimasu ka?</p>
+                        <p class="message-en">Do you drink alcohol?</p>
+                      </div>
+                    </div>
+                    <div class="message message-b">
+                      <span class="message-speaker">B</span>
+                      <div class="message-bubble">
+                        <p class="message-jp">いいえ、ぜんぜん<ruby>飲<rt>の</rt></ruby>みません。</p>
+                        <p class="message-romaji">Iie, zenzen nomimasen.</p>
+                        <p class="message-en">No, I never do.</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+              </div>
+            </div>
+          </details>
+
+          <!-- ------------------------------------- -->
+          <!-- DIALOGUE -->
+          <!-- ------------------------------------- -->
+          <!-- One continuous back-and-forth, unlike the short single-
+               exchange cards above — so it's one full-width
+               .dialogue-card holding every turn, not a grid of cards. -->
+
+          <details class="toggle-section" id="dialogue">
+            <summary><h2>Dialogue</h2></summary>
+
+            <div class="toggle-body">
+              <article class="dialogue-card">
+                <h3 class="dialogue-title">📖 Daily Routine</h3>
+                <div class="dialogue-messages">
+                  <div class="message message-a">
+                    <span class="message-speaker">A</span>
+                    <div class="message-bubble">
+                      <p class="message-jp">こんにちは。</p>
+                      <p class="message-romaji">Konnichiwa.</p>
+                      <p class="message-en">Hello.</p>
+                    </div>
+                  </div>
+                  <div class="message message-b">
+                    <span class="message-speaker">B</span>
+                    <div class="message-bubble">
+                      <p class="message-jp">こんにちは。</p>
+                      <p class="message-romaji">Konnichiwa.</p>
+                      <p class="message-en">Hello.</p>
+                    </div>
+                  </div>
+                  <div class="message message-a">
+                    <span class="message-speaker">A</span>
+                    <div class="message-bubble">
+                      <p class="message-jp"><ruby>毎日<rt>まいにち</rt></ruby><ruby>日本語<rt>にほんご</rt></ruby>を<ruby>勉強<rt>べんきょう</rt></ruby>しますか。</p>
+                      <p class="message-romaji">Mainichi Nihongo o benkyō shimasu ka?</p>
+                      <p class="message-en">Do you study Japanese every day?</p>
+                    </div>
+                  </div>
+                  <div class="message message-b">
+                    <span class="message-speaker">B</span>
+                    <div class="message-bubble">
+                      <p class="message-jp">はい、<ruby>毎日<rt>まいにち</rt></ruby><ruby>勉強<rt>べんきょう</rt></ruby>します。</p>
+                      <p class="message-romaji">Hai, mainichi benkyō shimasu.</p>
+                      <p class="message-en">Yes, I study every day.</p>
+                    </div>
+                  </div>
+                  <div class="message message-a">
+                    <span class="message-speaker">A</span>
+                    <div class="message-bubble">
+                      <p class="message-jp">よく<ruby>本<rt>ほん</rt></ruby>を<ruby>読<rt>よ</rt></ruby>みますか。</p>
+                      <p class="message-romaji">Yoku hon o yomimasu ka?</p>
+                      <p class="message-en">Do you often read books?</p>
+                    </div>
+                  </div>
+                  <div class="message message-b">
+                    <span class="message-speaker">B</span>
+                    <div class="message-bubble">
+                      <p class="message-jp">はい、よく<ruby>読<rt>よ</rt></ruby>みます。でも、ときどき<ruby>漫画<rt>まんが</rt></ruby>も<ruby>読<rt>よ</rt></ruby>みます。</p>
+                      <p class="message-romaji">Hai, yoku yomimasu. Demo, tokidoki manga mo yomimasu.</p>
+                      <p class="message-en">Yes, I often read books. But I also sometimes read manga.</p>
+                    </div>
+                  </div>
+                  <div class="message message-a">
+                    <span class="message-speaker">A</span>
+                    <div class="message-bubble">
+                      <p class="message-jp">テレビを<ruby>見<rt>み</rt></ruby>ますか。</p>
+                      <p class="message-romaji">Terebi o mimasu ka?</p>
+                      <p class="message-en">Do you watch TV?</p>
+                    </div>
+                  </div>
+                  <div class="message message-b">
+                    <span class="message-speaker">B</span>
+                    <div class="message-bubble">
+                      <p class="message-jp">いいえ、あまり<ruby>見<rt>み</rt></ruby>ません。</p>
+                      <p class="message-romaji">Iie, amari mimasen.</p>
+                      <p class="message-en">No, I don't watch it very often.</p>
+                    </div>
+                  </div>
+                  <div class="message message-a">
+                    <span class="message-speaker">A</span>
+                    <div class="message-bubble">
+                      <p class="message-jp">お<ruby>酒<rt>さけ</rt></ruby>を<ruby>飲<rt>の</rt></ruby>みますか。</p>
+                      <p class="message-romaji">Osake o nomimasu ka?</p>
+                      <p class="message-en">Do you drink alcohol?</p>
+                    </div>
+                  </div>
+                  <div class="message message-b">
+                    <span class="message-speaker">B</span>
+                    <div class="message-bubble">
+                      <p class="message-jp">いいえ、ぜんぜん<ruby>飲<rt>の</rt></ruby>みません。</p>
+                      <p class="message-romaji">Iie, zenzen nomimasen.</p>
+                      <p class="message-en">No, I never do.</p>
+                    </div>
+                  </div>
+                  <div class="message message-a">
+                    <span class="message-speaker">A</span>
+                    <div class="message-bubble">
+                      <p class="message-jp">そうですか。ありがとうございます。</p>
+                      <p class="message-romaji">Sō desu ka. Arigatō gozaimasu.</p>
+                      <p class="message-en">I see. Thank you.</p>
+                    </div>
+                  </div>
+                  <div class="message message-b">
+                    <span class="message-speaker">B</span>
+                    <div class="message-bubble">
+                      <p class="message-jp">どういたしまして。では、また。</p>
+                      <p class="message-romaji">Dōitashimashite. Dewa, mata.</p>
+                      <p class="message-en">You're welcome. See you later.</p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </details>
+        </div>
+      </main>
+    </div>
+
+<!-- ------------------------------------- -->
+<!-- SCRIPTS -->
+<!-- ------------------------------------- -->
+
+<script src="../assets/script.js"></script>
+
+  </body>
+  <!-- ------------------------------------- -->
+  <!-- BODY ENDED -->
+  <!-- ------------------------------------- -->
+</html>

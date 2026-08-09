@@ -92,6 +92,7 @@ body {
    their own softer focus ring below since they already have a border
    to work with; this covers everything else. */
 
+.sidebar-brand:focus-visible,
 .menu a:focus-visible,
 table.dataTable thead th.dt-orderable-asc:focus-visible,
 table.dataTable thead th.dt-orderable-desc:focus-visible {
@@ -158,6 +159,23 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 
 .sidebar::-webkit-scrollbar-thumb:hover {
     background-color: #d1d5db;
+}
+
+.sidebar-brand {
+    display: block;
+
+    margin-bottom: 24px;
+
+    color: var(--text);
+    text-decoration: none;
+
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.sidebar-brand:hover {
+    color: #000;
 }
 
 /*-----------------------------------------------*/
@@ -265,6 +283,18 @@ h1 {
 .subtitle {
     margin-bottom: 36px;
     color: var(--muted);
+}
+
+.page h2 {
+    margin: 40px 0 16px;
+
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.page h2:first-of-type {
+    margin-top: 0;
 }
 
 /*-----------------------------------------------*/
@@ -443,6 +473,7 @@ tr.irregular .type::before {
 }
 
 .note h2 {
+    margin-top: 0;
     margin-bottom: 12px;
     font-size: 1rem;
 }

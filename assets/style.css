@@ -554,7 +554,7 @@ tr.irregular .type {
     font-weight: 600;
 }
 
-tr.irregular td:last-child {
+tr.irregular td.english {
     color: var(--red);
 }
 
@@ -616,6 +616,41 @@ tr.irregular .type::before {
 .romaji {
     color: var(--muted);
     font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+
+/*-----------------------------------------------*/
+/* NOTES (per-row usage note + example sentence) */
+/*-----------------------------------------------*/
+/* An explanation line plus a romaji example (target word bolded) and
+   its translation, stacked in one cell. Monochrome like the rest of
+   the table: hierarchy comes from weight/style/color-within-palette,
+   not new color. */
+
+.notes {
+    max-width: 320px;
+
+    color: var(--muted);
+    font-size: 0.85rem;
+    line-height: 1.55;
+}
+
+.notes .example {
+    display: inline-block;
+    margin-top: 4px;
+
+    color: var(--text);
+    font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    font-style: italic;
+}
+
+.notes .example strong {
+    font-weight: 700;
+    font-style: normal;
+}
+
+.notes .example-en {
+    display: inline-block;
+    margin-top: 2px;
 }
 
 /*-----------------------------------------------*/
@@ -844,7 +879,7 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
 
     tr.irregular .type,
     tr.irregular .romaji,
-    tr.irregular td:last-child {
+    tr.irregular td.english {
         color: #000;
         font-weight: 700;
     }

@@ -7,62 +7,38 @@
 // without per-page includes.
 
 $(document).ready(function () {
-    initNumbersTable();
-    initTimeTables();
-    initTimeSearch();
+    initReferenceTables();
+    initPageSearch();
     initSidebarSearch();
 });
 
 // --------------------------------------------------
-// NUMBERS TABLE
+// REFERENCE TABLES
 // --------------------------------------------------
-// DataTables handles per-column sort and instant search *within this
-// page's table*. The sidebar search box is separate and only matches
-// page titles — see initSidebarSearch below.
+// Every study table on every page — Numbers' single table, Time's
+// Hours/Minutes/Time Vocabulary — shares this init: table.ref-table,
+// each living inside its own <details class="toggle-section"> so it
+// can be collapsed instead of scrolled past. No per-table search box
+// (layout strips topStart/topEnd/bottomStart/bottomEnd chrome); search
+// is always driven by the single page-level box — see initPageSearch.
+// searching stays true so the API (table.search()) still works with
+// the UI removed.
 //
-// Column order is Tag(0) / Japanese(1) / Romaji(2) / English(3).
-// Default sort is English ascending, since English here holds the
-// actual numeric value (1, 2, 3…) — adjust the index if columns are
-// ever reordered.
+// Sort order defaults to authored order (order: []) — click any header
+// to sort. A table can opt into a different default via
+// data-default-order="colIndex,dir" (e.g. Numbers uses "3,asc" since
+// its English column holds the actual numeric value).
 
-function initNumbersTable() {
-    const $table = $("#numbersTable");
-    if ($table.length === 0) return;
+function initReferenceTables() {
+    $("table.ref-table").each(function () {
+        const $table = $(this);
 
-    $table.DataTable({
-        paging: false,
-        info: false,
-        ordering: true,
-        searching: true,
-
-        order: [[3, "asc"]],
-
-        language: {
-            search: "",
-            searchPlaceholder: "Search…",
-        },
-    });
-}
-
-// --------------------------------------------------
-// TIME TABLES (Hours / Minutes)
-// --------------------------------------------------
-// Same Tag/Japanese/Romaji/English shape as the Numbers table, but
-// English here is a clock value ("1:00", "45"), not naturally sortable
-// as text — so order: [] keeps each table in its authored (chronological)
-// order on load instead of DataTables' own default of sorting column 0.
-// Columns stay fully sortable by click either way.
-//
-// No per-table search box: layout is stripped down to just the table
-// (no topStart/topEnd/bottomStart/bottomEnd chrome) because search for
-// this page is driven from the single #timeSearch box above both
-// tables — see initTimeSearch below. searching stays true so the API
-// (table.search()) still works even with the UI removed.
-
-function initTimeTables() {
-    ["#hoursTable", "#minutesTable"].forEach((selector) => {
-        const $table = $(selector);
-        if ($table.length === 0) return;
+        const defaultOrder = $table.attr("data-default-order");
+        let order = [];
+        if (defaultOrder) {
+            const [colIndex, dir] = defaultOrder.split(",");
+            order = [[parseInt(colIndex, 10), dir]];
+        }
 
         $table.DataTable({
             paging: false,
@@ -70,7 +46,7 @@ function initTimeTables() {
             ordering: true,
             searching: true,
 
-            order: [],
+            order: order,
 
             layout: {
                 topStart: null,
@@ -83,29 +59,29 @@ function initTimeTables() {
 }
 
 // --------------------------------------------------
-// TIME PAGE SEARCH
+// PAGE SEARCH
 // --------------------------------------------------
-// One search box (#timeSearch) filters both the Hours and Minutes
-// DataTables at once, instead of each table having its own isolated
-// search. A non-empty query also force-opens both <details> toggles so
-// a match inside a collapsed section is still visible; an emptied query
-// leaves the toggles as the user last left them rather than forcing
-// them shut.
+// One search box (#pageSearch) filters every table.ref-table on the
+// page at once — never an individual table's own box. A non-empty
+// query also force-opens every <details class="toggle-section"> so a
+// match inside a collapsed section is still visible; an emptied query
+// leaves toggles as the user last left them rather than forcing them
+// shut.
 
-function initTimeSearch() {
-    const input = document.getElementById("timeSearch");
+function initPageSearch() {
+    const input = document.getElementById("pageSearch");
     if (!input) return;
 
-    const selectors = ["#hoursTable", "#minutesTable"].filter(
-        (selector) => $.fn.DataTable.isDataTable(selector)
-    );
-    if (selectors.length === 0) return;
+    const tables = $("table.ref-table").filter(function () {
+        return $.fn.DataTable.isDataTable(this);
+    });
+    if (tables.length === 0) return;
 
     input.addEventListener("input", () => {
         const value = input.value;
 
-        selectors.forEach((selector) => {
-            $(selector).DataTable().search(value).draw();
+        tables.each(function () {
+            $(this).DataTable().search(value).draw();
         });
 
         if (value.trim() !== "") {

@@ -109,27 +109,53 @@
           <p class="subtitle">JLPT N5</p>
 
           <!-- ------------------------------------- -->
+          <!-- PAGE SEARCH -->
+          <!-- ------------------------------------- -->
+          <!-- Always searches every table on the page (just the one
+               here), never an individual table's own box — same
+               pattern as the Time page. See assets/script.js
+               initPageSearch. -->
+
+          <div class="page-search">
+            <input
+              type="text"
+              id="pageSearch"
+              placeholder="Search…"
+              autocomplete="off"
+              aria-label="Search numbers"
+            />
+          </div>
+
+          <!-- ------------------------------------- -->
           <!-- TABLE STARTS -->
           <!-- ------------------------------------- -->
+          <!-- Every reference table lives inside a collapsible
+               <details> toggle, even when (like here) there's only
+               one — so the page structure stays identical across
+               every vocabulary page. -->
 
-          <table id="numbersTable">
-            <thead>
-              <tr>
-                <th class="type-col">Tag</th>
-                <th>Japanese</th>
-                <th>Romaji</th>
-                <th>English</th>
-              </tr>
-            </thead>
+          <details class="toggle-section" id="numbers" open>
+            <summary><h2>Numbers</h2></summary>
 
-            <tbody>
+            <div class="toggle-body">
+              <table id="numbersTable" class="ref-table" data-default-order="3,asc">
+                <thead>
+                  <tr>
+                    <th class="type-col">Tag</th>
+                    <th>Japanese</th>
+                    <th>Romaji</th>
+                    <th>English</th>
+                  </tr>
+                </thead>
+
+                <tbody>
               <tr>
                 <td class="type" data-order="0"></td>
                 <td class="jp">
                   <ruby><span class="kanji">一</span><rt>いち</rt></ruby>
                 </td>
                 <td class="romaji">ichi</td>
-                <td>1</td>
+                <td class="english">1</td>
               </tr>
               <tr>
                 <td class="type" data-order="0"></td>
@@ -137,7 +163,7 @@
                   <ruby><span class="kanji">二</span><rt>に</rt></ruby>
                 </td>
                 <td class="romaji">ni</td>
-                <td>2</td>
+                <td class="english">2</td>
               </tr>
               <tr>
                 <td class="type" data-order="0"></td>
@@ -145,7 +171,7 @@
                   <ruby><span class="kanji">三</span><rt>さん</rt></ruby>
                 </td>
                 <td class="romaji">san</td>
-                <td>3</td>
+                <td class="english">3</td>
               </tr>
               <tr class="irregular">
                 <td class="type" data-order="1"></td>
@@ -153,7 +179,7 @@
                   <ruby><span class="kanji">四</span><rt>よん・し</rt></ruby>
                 </td>
                 <td class="romaji">yon / shi</td>
-                <td>4</td>
+                <td class="english">4</td>
               </tr>
               <tr>
                 <td class="type" data-order="0"></td>
@@ -161,7 +187,7 @@
                   <ruby><span class="kanji">五</span><rt>ご</rt></ruby>
                 </td>
                 <td class="romaji">go</td>
-                <td>5</td>
+                <td class="english">5</td>
               </tr>
               <tr>
                 <td class="type" data-order="0"></td>
@@ -169,7 +195,7 @@
                   <ruby><span class="kanji">六</span><rt>ろく</rt></ruby>
                 </td>
                 <td class="romaji">roku</td>
-                <td>6</td>
+                <td class="english">6</td>
               </tr>
               <tr class="irregular">
                 <td class="type" data-order="1"></td>
@@ -177,7 +203,7 @@
                   <ruby><span class="kanji">七</span><rt>なな・しち</rt></ruby>
                 </td>
                 <td class="romaji">nana / shichi</td>
-                <td>7</td>
+                <td class="english">7</td>
               </tr>
               <tr>
                 <td class="type" data-order="0"></td>
@@ -185,7 +211,7 @@
                   <ruby><span class="kanji">八</span><rt>はち</rt></ruby>
                 </td>
                 <td class="romaji">hachi</td>
-                <td>8</td>
+                <td class="english">8</td>
               </tr>
               <tr class="irregular">
                 <td class="type" data-order="1"></td>
@@ -193,7 +219,7 @@
                   <ruby><span class="kanji">九</span><rt>きゅう・く</rt></ruby>
                 </td>
                 <td class="romaji">kyū / ku</td>
-                <td>9</td>
+                <td class="english">9</td>
               </tr>
               <tr>
                 <td class="type" data-order="0"></td>
@@ -201,7 +227,7 @@
                   <ruby><span class="kanji">十</span><rt>じゅう</rt></ruby>
                 </td>
                 <td class="romaji">jū</td>
-                <td>10</td>
+                <td class="english">10</td>
               </tr>
               <tr>
                 <td class="type" data-order="0"></td>
@@ -209,7 +235,7 @@
                   <ruby><span class="kanji">十一</span><rt>じゅういち</rt></ruby>
                 </td>
                 <td class="romaji">jūichi</td>
-                <td>11</td>
+                <td class="english">11</td>
               </tr>
               <tr>
                 <td class="type" data-order="0"></td>
@@ -217,7 +243,7 @@
                   <ruby><span class="kanji">二十</span><rt>にじゅう</rt></ruby>
                 </td>
                 <td class="romaji">nijū</td>
-                <td>20</td>
+                <td class="english">20</td>
               </tr>
               <tr>
                 <td class="type" data-order="0"></td>
@@ -225,7 +251,7 @@
                   <ruby><span class="kanji">二十一</span><rt>にじゅういち</rt></ruby>
                 </td>
                 <td class="romaji">nijūichi</td>
-                <td>21</td>
+                <td class="english">21</td>
               </tr>
               <tr>
                 <td class="type" data-order="0"></td>
@@ -233,7 +259,7 @@
                   <ruby><span class="kanji">百</span><rt>ひゃく</rt></ruby>
                 </td>
                 <td class="romaji">hyaku</td>
-                <td>100</td>
+                <td class="english">100</td>
               </tr>
               <tr>
                 <td class="type" data-order="0"></td>
@@ -241,7 +267,7 @@
                   <ruby><span class="kanji">百一</span><rt>ひゃくいち</rt></ruby>
                 </td>
                 <td class="romaji">hyaku ichi</td>
-                <td>101</td>
+                <td class="english">101</td>
               </tr>
               <tr>
                 <td class="type" data-order="0"></td>
@@ -249,7 +275,7 @@
                   <ruby><span class="kanji">百十一</span><rt>ひゃくじゅういち</rt></ruby>
                 </td>
                 <td class="romaji">hyaku jūichi</td>
-                <td>111</td>
+                <td class="english">111</td>
               </tr>
               <tr class="irregular">
                 <td class="type" data-order="1"></td>
@@ -257,7 +283,7 @@
                   <ruby><span class="kanji">三百</span><rt>さんびゃく</rt></ruby>
                 </td>
                 <td class="romaji">sanbyaku</td>
-                <td>300</td>
+                <td class="english">300</td>
               </tr>
               <tr class="irregular">
                 <td class="type" data-order="1"></td>
@@ -265,7 +291,7 @@
                   <ruby><span class="kanji">六百</span><rt>ろっぴゃく</rt></ruby>
                 </td>
                 <td class="romaji">roppyaku</td>
-                <td>600</td>
+                <td class="english">600</td>
               </tr>
               <tr class="irregular">
                 <td class="type" data-order="1"></td>
@@ -273,7 +299,7 @@
                   <ruby><span class="kanji">八百</span><rt>はっぴゃく</rt></ruby>
                 </td>
                 <td class="romaji">happyaku</td>
-                <td>800</td>
+                <td class="english">800</td>
               </tr>
               <tr>
                 <td class="type" data-order="0"></td>
@@ -281,7 +307,7 @@
                   <ruby><span class="kanji">千</span><rt>せん</rt></ruby>
                 </td>
                 <td class="romaji">sen</td>
-                <td>1,000</td>
+                <td class="english">1,000</td>
               </tr>
               <tr class="irregular">
                 <td class="type" data-order="1"></td>
@@ -289,7 +315,7 @@
                   <ruby><span class="kanji">三千</span><rt>さんぜん</rt></ruby>
                 </td>
                 <td class="romaji">sanzen</td>
-                <td>3,000</td>
+                <td class="english">3,000</td>
               </tr>
               <tr class="irregular">
                 <td class="type" data-order="1"></td>
@@ -297,7 +323,7 @@
                   <ruby><span class="kanji">八千</span><rt>はっせん</rt></ruby>
                 </td>
                 <td class="romaji">hassen</td>
-                <td>8,000</td>
+                <td class="english">8,000</td>
               </tr>
               <tr>
                 <td class="type" data-order="0"></td>
@@ -305,7 +331,7 @@
                   <ruby><span class="kanji">一万</span><rt>いちまん</rt></ruby>
                 </td>
                 <td class="romaji">ichiman</td>
-                <td>10,000</td>
+                <td class="english">10,000</td>
               </tr>
               <tr>
                 <td class="type" data-order="0"></td>
@@ -313,7 +339,7 @@
                   <ruby><span class="kanji">十万</span><rt>じゅうまん</rt></ruby>
                 </td>
                 <td class="romaji">jūman</td>
-                <td>100,000</td>
+                <td class="english">100,000</td>
               </tr>
               <tr>
                 <td class="type" data-order="0"></td>
@@ -321,10 +347,12 @@
                   <ruby><span class="kanji">百万</span><rt>ひゃくまん</rt></ruby>
                 </td>
                 <td class="romaji">hyakuman</td>
-                <td>1,000,000</td>
+                <td class="english">1,000,000</td>
               </tr>
-            </tbody>
-          </table>
+                </tbody>
+              </table>
+            </div>
+          </details>
           <!-- ------------------------------------- -->
           <!-- TABLE ENDED -->
           <!-- ------------------------------------- -->

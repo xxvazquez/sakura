@@ -10,7 +10,6 @@
 
 :root {
     --bg: #ffffff;
-    --surface: #ffffff;
     --text: #111827;
     --muted: #6b7280;
     --border: #ececec;
@@ -30,6 +29,13 @@
     --dialogue-a-bg: #f2f4fb;
     --dialogue-b-text: #4f9271;
     --dialogue-b-bg: #f0f8f3;
+
+    /* Reserved exclusively for grammatical particles (は/が/を/に/で/と/
+       も/の/から/まで/か…) wherever Japanese appears — tables, notes,
+       dialogues. An amber/ochre distinct from every other color already
+       in use (red = irregular, blue/green = dialogue speakers) so it
+       never gets confused with an unrelated grammar point. */
+    --particle: #8a5e14;
 
     --radius: 12px;
     --sidebar: 220px;
@@ -685,6 +691,21 @@ tr.irregular .type::before {
 }
 
 /*-----------------------------------------------*/
+/* PARTICLES */
+/*-----------------------------------------------*/
+/* One color, reserved only for grammatical particles, applied
+   everywhere Japanese text appears — kana/kanji script and its romaji
+   both — so a particle is recognizable at a glance in every table,
+   note, and dialogue on the site. Weight bumped slightly (not just
+   color) so it still reads clearly against the smaller romaji/rt text,
+   which is already --muted gray. */
+
+.particle {
+    color: var(--particle);
+    font-weight: 600;
+}
+
+/*-----------------------------------------------*/
 /* NOTES (per-row usage note + example sentence) */
 /*-----------------------------------------------*/
 /* An explanation line plus a romaji example (target word bolded) and
@@ -884,57 +905,17 @@ tr.irregular .type::before {
 /*-----------------------------------------------*/
 /* DATATABLES */
 /*-----------------------------------------------*/
+/* Every table.ref-table is initialized with layout: { topStart: null,
+   topEnd: null, bottomStart: null, bottomEnd: null } (see
+   initReferenceTables in script.js), so DataTables never renders its
+   own search box, length menu, info text, or pager — search is always
+   the single page-level box instead (.page-search). The only DataTables
+   chrome left in the DOM is the .dt-container wrapper and a single
+   .dt-layout-row holding the table itself, plus the sort-indicator
+   markup on sortable headers below. */
 
 .dt-container {
     margin-top: 28px;
-}
-
-.dt-layout-row:first-child {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    margin-bottom: 20px;
-}
-
-.dt-search {
-    margin: 0;
-}
-
-.dt-search label {
-    display: none;
-}
-
-.dt-search input {
-    width: 280px;
-
-    padding: 10px 14px 10px 38px;
-
-    border: 1px solid var(--border);
-    border-radius: 10px;
-
-    background-color: #fff;
-    background-image: var(--icon-search);
-    background-repeat: no-repeat;
-    background-position: 14px center;
-    background-size: 15px;
-
-    font: inherit;
-
-    transition: 0.15s;
-}
-
-.dt-search input:focus {
-    outline: none;
-
-    border-color: #d1d5db;
-    box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.05);
-}
-
-.dt-length,
-.dt-info,
-.dt-paging {
-    display: none;
 }
 
 table.dataTable {
@@ -1074,13 +1055,6 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
         max-width: 100%;
     }
 
-    .dt-layout-row:first-child {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
-    }
-
-    .dt-search input,
     .page-search input {
         width: 100%;
     }
@@ -1099,8 +1073,6 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
     .sidebar,
     .sidebar-search,
     .sidebar-empty,
-    .dt-search,
-    .dt-layout-row:first-child,
     .page-search,
     .table-nav {
         display: none !important;
@@ -1149,7 +1121,32 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
         font-weight: 700;
     }
 
+    /* Same ink-efficient treatment as irregular rows above: on paper,
+       particles read from weight, not color ink. */
+    .particle {
+        color: #000;
+        font-weight: 700;
+    }
+
     .jp rt {
         color: #555;
+    }
+
+    /* Dialogue Cards' pastel speaker bubbles are a screen-only cue —
+       on paper they'd otherwise print as flat color fills (ink, and
+       likely to vanish anyway if the browser's own "print backgrounds"
+       setting is off), so give them the same plain-bordered treatment
+       as everything else on the page. */
+    .message-a .message-bubble,
+    .message-b .message-bubble {
+        background: #fff !important;
+        border: 1px solid #ccc;
+    }
+
+    .message-a .message-speaker,
+    .message-b .message-speaker {
+        background: #fff !important;
+        color: #000 !important;
+        border: 1px solid #000;
     }
 }

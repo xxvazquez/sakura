@@ -63,11 +63,13 @@
         <!-- ------------------------------------- -->
         <!-- SIDEBAR NAVIGATION -->
         <!-- ------------------------------------- -->
-        <!-- Pages are grouped by category, one .menu-group per subfolder
-             (Vocabulary → /vocabulary/, Grammar → /grammar/, etc.). To add
-             a page: drop the file in its category folder, then add a
-             matching <a> here (plus a new .menu-group if it's a new
-             category) — the search script and layout both work off this
+        <!-- Two heading levels: .menu-category groups by folder
+             (Vocabulary → /vocabulary/, Grammar → /grammar/, etc.), and
+             within each, .menu-letter alphabetizes by page title (like
+             a dictionary). To add a page: drop the file in its category
+             folder, then add a matching .menu-letter + <a> pair here in
+             alphabetical order (plus a new .menu-category if it's a new
+             folder) — the search script and layout both work off this
              flat sibling structure, no other markup changes needed.
 
              Links are relative, not root-absolute — this site has to keep
@@ -88,11 +90,14 @@
              this one.
 
              Example, once /grammar/particles.html exists:
-             <div class="menu-group">Grammar</div>
+             <div class="menu-category">Grammar</div>
+             <div class="menu-letter">P</div>
              <a href="../grammar/particles.html">Particles</a> -->
         <nav class="menu" id="sidebarMenu">
-          <div class="menu-group">Vocabulary</div>
+          <div class="menu-category">Vocabulary</div>
+          <div class="menu-letter">N</div>
           <a class="active" href="numbers.html">Numbers</a>
+          <div class="menu-letter">T</div>
           <a href="time.html">Time</a>
         </nav>
         <p class="sidebar-empty" id="sidebarEmpty" hidden>No pages match.</p>

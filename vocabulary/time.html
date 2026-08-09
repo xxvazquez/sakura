@@ -63,11 +63,13 @@
         <!-- ------------------------------------- -->
         <!-- SIDEBAR NAVIGATION -->
         <!-- ------------------------------------- -->
-        <!-- Pages are grouped by category, one .menu-group per subfolder
-             (Vocabulary → /vocabulary/, Grammar → /grammar/, etc.). To add
-             a page: drop the file in its category folder, then add a
-             matching <a> here (plus a new .menu-group if it's a new
-             category) — the search script and layout both work off this
+        <!-- Two heading levels: .menu-category groups by folder
+             (Vocabulary → /vocabulary/, Grammar → /grammar/, etc.), and
+             within each, .menu-letter alphabetizes by page title (like
+             a dictionary). To add a page: drop the file in its category
+             folder, then add a matching .menu-letter + <a> pair here in
+             alphabetical order (plus a new .menu-category if it's a new
+             folder) — the search script and layout both work off this
              flat sibling structure, no other markup changes needed.
 
              Links are relative, not root-absolute — this site has to keep
@@ -87,8 +89,10 @@
              page's own content is the in-page table search box, not
              this one. -->
         <nav class="menu" id="sidebarMenu">
-          <div class="menu-group">Vocabulary</div>
+          <div class="menu-category">Vocabulary</div>
+          <div class="menu-letter">N</div>
           <a href="numbers.html">Numbers</a>
+          <div class="menu-letter">T</div>
           <a class="active" href="time.html">Time</a>
         </nav>
         <p class="sidebar-empty" id="sidebarEmpty" hidden>No pages match.</p>
@@ -100,9 +104,22 @@
           <p class="subtitle">JLPT N5</p>
 
           <!-- ------------------------------------- -->
+          <!-- SECTION NAV -->
+          <!-- ------------------------------------- -->
+          <!-- Jump links so what's on the page is visible before
+               scrolling. Keep this in sync with the .page-section ids
+               below whenever a section is added, renamed, or reordered. -->
+          <nav class="section-nav">
+            <a href="#hours">Hours</a>
+            <a href="#minutes">Minutes</a>
+            <a class="section-nav-plain" href="#also-useful">Also useful</a>
+          </nav>
+
+          <!-- ------------------------------------- -->
           <!-- HOURS TABLE -->
           <!-- ------------------------------------- -->
 
+          <section class="page-section" id="hours">
           <h2>Hours</h2>
 
           <table id="hoursTable">
@@ -214,11 +231,13 @@
               </tr>
             </tbody>
           </table>
+          </section>
 
           <!-- ------------------------------------- -->
           <!-- MINUTES TABLE -->
           <!-- ------------------------------------- -->
 
+          <section class="page-section" id="minutes">
           <h2>Minutes</h2>
 
           <table id="minutesTable">
@@ -386,15 +405,18 @@
               </tr>
             </tbody>
           </table>
+          </section>
 
           <!-- ------------------------------------- -->
           <!-- NOTES -->
           <!-- ------------------------------------- -->
           <!-- Two words that don't fit the Hours/Minutes tables above
                (they're not readings of a number + counter) but come up
-               constantly alongside them. -->
+               constantly alongside them. Not a .page-section (no pastel
+               tint) — it's supplementary, not a primary content block,
+               so it keeps the plain bordered-note treatment instead. -->
 
-          <div class="note">
+          <div class="note" id="also-useful">
             <h2>Also useful</h2>
             <ul>
               <li>何時（なんじ） — nanji — "what time?"</li>

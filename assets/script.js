@@ -77,9 +77,10 @@ function initTimeTables() {
 // SIDEBAR SEARCH
 // --------------------------------------------------
 // Filters the page list by matching each link's visible text.
-// The nav is a flat list of alternating .menu-group headings and
-// <a> links (see index.html); a heading hides itself once none
-// of the links under it still match.
+// The nav is a flat sibling list, two heading levels deep:
+// .menu-category (Vocabulary, Grammar…) > .menu-letter (N, T…) > <a>.
+// A letter hides itself once none of its links match; a category
+// hides itself once none of its letters have any matches left.
 
 function initSidebarSearch() {
     const input = document.getElementById("sidebarSearch");
@@ -88,25 +89,43 @@ function initSidebarSearch() {
 
     if (!input || !nav) return;
 
-    const groups = nav.querySelectorAll(".menu-group");
+    const categories = nav.querySelectorAll(".menu-category");
 
     input.addEventListener("input", () => {
         const query = input.value.trim().toLowerCase();
         let anyVisible = false;
 
-        groups.forEach((group) => {
-            let groupHasMatch = false;
-            let node = group.nextElementSibling;
+        categories.forEach((category) => {
+            let categoryHasMatch = false;
+            let currentLetter = null;
+            let letterHasMatch = false;
+            let node = category.nextElementSibling;
 
-            while (node && !node.classList.contains("menu-group")) {
-                const matches = node.textContent.toLowerCase().includes(query);
-                node.style.display = matches ? "" : "none";
-                if (matches) groupHasMatch = true;
+            const closeLetter = () => {
+                if (currentLetter) {
+                    currentLetter.style.display = letterHasMatch ? "" : "none";
+                }
+            };
+
+            while (node && !node.classList.contains("menu-category")) {
+                if (node.classList.contains("menu-letter")) {
+                    closeLetter();
+                    currentLetter = node;
+                    letterHasMatch = false;
+                } else {
+                    const matches = node.textContent.toLowerCase().includes(query);
+                    node.style.display = matches ? "" : "none";
+                    if (matches) {
+                        letterHasMatch = true;
+                        categoryHasMatch = true;
+                    }
+                }
                 node = node.nextElementSibling;
             }
+            closeLetter();
 
-            group.style.display = groupHasMatch ? "" : "none";
-            if (groupHasMatch) anyVisible = true;
+            category.style.display = categoryHasMatch ? "" : "none";
+            if (categoryHasMatch) anyVisible = true;
         });
 
         if (emptyState) emptyState.hidden = anyVisible;

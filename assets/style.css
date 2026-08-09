@@ -27,6 +27,19 @@
 
     --font: "Noto Sans JP", system-ui, sans-serif;
 
+    /* A small rotation of very low-saturation section tints, used only
+       to help tell adjacent sections apart on pages with more than one
+       table (e.g. Time's Hours/Minutes). Each has a pale background for
+       the section itself and a slightly stronger "accent" version for
+       small indicators (the section-nav dots). Deliberately muted —
+       this is not a color-coding system, just a boundary cue. */
+    --section-1-bg: #f4f6fb;
+    --section-1-accent: #a9b8dd;
+    --section-2-bg: #fbf7f0;
+    --section-2-accent: #d9bd8c;
+    --section-3-bg: #f4f8f5;
+    --section-3-accent: #a8c9ae;
+
     /* Minimal inline SVG magnifier, reused by every search input so the
        affordance reads as one deliberate pattern rather than a plugin
        default. Colour matches --muted. */
@@ -226,19 +239,30 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
     font-size: 0.8rem;
 }
 
-.menu-group {
-    margin: 22px 0 8px;
+.menu-category {
+    margin: 22px 0 2px;
 
-    color: var(--muted);
+    color: var(--text);
 
-    font-size: 0.68rem;
+    font-size: 0.72rem;
     font-weight: 700;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
 }
 
-.menu-group:first-of-type {
+.menu-category:first-of-type {
     margin-top: 0;
+}
+
+.menu-letter {
+    margin: 14px 0 2px 14px;
+
+    color: var(--muted);
+
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
 }
 
 .menu {
@@ -295,6 +319,138 @@ h1 {
 
 .page h2:first-of-type {
     margin-top: 0;
+}
+
+/*-----------------------------------------------*/
+/* PAGE INDEX (home page only) */
+/*-----------------------------------------------*/
+/* A flat, alphabetical directory of every page on the site — the
+   equivalent of a book's index, distinct from the sidebar (which
+   groups the same pages by category). Letters are shared visual
+   language with the sidebar's own .menu-letter, just larger since
+   this is primary page content, not a nav rail. */
+
+.page-index-letter {
+    margin: 28px 0 8px;
+
+    color: var(--muted);
+
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+}
+
+.page-index-letter:first-of-type {
+    margin-top: 0;
+}
+
+.page-index-link {
+    display: block;
+
+    padding: 6px 0;
+
+    color: var(--text);
+    text-decoration: none;
+    font-size: 1.05rem;
+}
+
+.page-index-link:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+/*-----------------------------------------------*/
+/* PAGE SECTIONS (multi-table pages) */
+/*-----------------------------------------------*/
+/* Wraps one heading + table pair on a page that has more than one
+   (e.g. Time's Hours and Minutes). The pale background is the fix for
+   "hard to tell where one table ends and the next begins" — a visible
+   zone per topic, not just a heading and whitespace. Colors rotate
+   through the --section-N tokens above and don't mean anything beyond
+   "a different section from its neighbor". */
+
+.page-section {
+    margin-bottom: 28px;
+    padding: 24px 24px 28px;
+
+    border-radius: var(--radius);
+}
+
+.page-section:nth-of-type(3n + 1) {
+    background: var(--section-1-bg);
+}
+
+.page-section:nth-of-type(3n + 2) {
+    background: var(--section-2-bg);
+}
+
+.page-section:nth-of-type(3n + 3) {
+    background: var(--section-3-bg);
+}
+
+.page-section h2 {
+    margin-top: 0;
+}
+
+/* Jump-to-section links at the top of a multi-section page, so what's
+   on the page is visible before scrolling. Each dot's color matches
+   that section's tint below it. */
+
+.section-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin-bottom: 32px;
+}
+
+.section-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 6px 14px;
+
+    border: 1px solid var(--border);
+    border-radius: 999px;
+
+    color: var(--text);
+    text-decoration: none;
+
+    font-size: 0.82rem;
+    font-weight: 600;
+
+    transition: 0.15s;
+}
+
+.section-nav a:hover {
+    background: var(--hover);
+}
+
+.section-nav a::before {
+    content: "";
+    display: inline-block;
+
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+}
+
+.section-nav a:nth-child(3n + 1)::before {
+    background: var(--section-1-accent);
+}
+
+.section-nav a:nth-child(3n + 2)::before {
+    background: var(--section-2-accent);
+}
+
+.section-nav a:nth-child(3n + 3)::before {
+    background: var(--section-3-accent);
+}
+
+.section-nav a.section-nav-plain::before {
+    display: none;
 }
 
 /*-----------------------------------------------*/

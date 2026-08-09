@@ -86,8 +86,7 @@
              new page.
 
              This search matches page titles only. Searching inside a
-             page's own content is the in-page table search box, not
-             this one. -->
+             page's own content is the in-page search box, not this one. -->
         <nav class="menu" id="sidebarMenu">
           <div class="menu-category">Vocabulary</div>
           <div class="menu-letter">N</div>
@@ -104,325 +103,320 @@
           <p class="subtitle">JLPT N5</p>
 
           <!-- ------------------------------------- -->
-          <!-- SECTION NAV -->
+          <!-- PAGE SEARCH -->
           <!-- ------------------------------------- -->
-          <!-- Jump links so what's on the page is visible before
-               scrolling. Keep this in sync with the .page-section ids
-               below whenever a section is added, renamed, or reordered. -->
-          <nav class="section-nav">
-            <a href="#hours">Hours</a>
-            <a href="#minutes">Minutes</a>
-            <a class="section-nav-plain" href="#also-useful">Also useful</a>
-          </nav>
+          <!-- One search box for the whole page, filtering both the
+               Hours and Minutes tables at once (each table keeps its
+               own DataTables instance for sorting, but search is
+               driven from here instead of two separate boxes). Typing
+               a non-empty query force-opens both toggles below so
+               matches in a collapsed section are still visible. -->
+
+          <div class="page-search">
+            <input
+              type="text"
+              id="timeSearch"
+              placeholder="Search…"
+              autocomplete="off"
+              aria-label="Search hours and minutes"
+            />
+          </div>
 
           <!-- ------------------------------------- -->
           <!-- HOURS TABLE -->
           <!-- ------------------------------------- -->
 
-          <section class="page-section" id="hours">
-          <h2>Hours</h2>
+          <details class="toggle-section" id="hours" open>
+            <summary><h2>Hours</h2></summary>
 
-          <table id="hoursTable">
-            <thead>
-              <tr>
-                <th class="type-col">Tag</th>
-                <th>Japanese</th>
-                <th>Romaji</th>
-                <th>English</th>
-              </tr>
-            </thead>
+            <div class="toggle-body">
+              <table id="hoursTable">
+                <thead>
+                  <tr>
+                    <th class="type-col">Tag</th>
+                    <th>Japanese</th>
+                    <th>Romaji</th>
+                    <th>English</th>
+                  </tr>
+                </thead>
 
-            <tbody>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">一時</span><rt>いちじ</rt></ruby>
-                </td>
-                <td class="romaji">ichiji</td>
-                <td>1 o'clock</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">二時</span><rt>にじ</rt></ruby>
-                </td>
-                <td class="romaji">niji</td>
-                <td>2 o'clock</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">三時</span><rt>さんじ</rt></ruby>
-                </td>
-                <td class="romaji">sanji</td>
-                <td>3 o'clock</td>
-              </tr>
-              <tr class="irregular">
-                <td class="type" data-order="1"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">四時</span><rt>よじ</rt></ruby>
-                </td>
-                <td class="romaji">yoji</td>
-                <td>4 o'clock</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">五時</span><rt>ごじ</rt></ruby>
-                </td>
-                <td class="romaji">goji</td>
-                <td>5 o'clock</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">六時</span><rt>ろくじ</rt></ruby>
-                </td>
-                <td class="romaji">rokuji</td>
-                <td>6 o'clock</td>
-              </tr>
-              <tr class="irregular">
-                <td class="type" data-order="1"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">七時</span><rt>しちじ</rt></ruby>
-                </td>
-                <td class="romaji">shichiji</td>
-                <td>7 o'clock</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">八時</span><rt>はちじ</rt></ruby>
-                </td>
-                <td class="romaji">hachiji</td>
-                <td>8 o'clock</td>
-              </tr>
-              <tr class="irregular">
-                <td class="type" data-order="1"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">九時</span><rt>くじ</rt></ruby>
-                </td>
-                <td class="romaji">kuji</td>
-                <td>9 o'clock</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">十時</span><rt>じゅうじ</rt></ruby>
-                </td>
-                <td class="romaji">jūji</td>
-                <td>10 o'clock</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">十一時</span><rt>じゅういちじ</rt></ruby>
-                </td>
-                <td class="romaji">jūichiji</td>
-                <td>11 o'clock</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">十二時</span><rt>じゅうにじ</rt></ruby>
-                </td>
-                <td class="romaji">jūniji</td>
-                <td>12 o'clock</td>
-              </tr>
-            </tbody>
-          </table>
-          </section>
+                <tbody>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">一時</span><rt>いちじ</rt></ruby>
+                    </td>
+                    <td class="romaji">ichiji</td>
+                    <td>1:00</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">二時</span><rt>にじ</rt></ruby>
+                    </td>
+                    <td class="romaji">niji</td>
+                    <td>2:00</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">三時</span><rt>さんじ</rt></ruby>
+                    </td>
+                    <td class="romaji">sanji</td>
+                    <td>3:00</td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">四時</span><rt>よじ</rt></ruby>
+                    </td>
+                    <td class="romaji">yoji</td>
+                    <td>4:00</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">五時</span><rt>ごじ</rt></ruby>
+                    </td>
+                    <td class="romaji">goji</td>
+                    <td>5:00</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">六時</span><rt>ろくじ</rt></ruby>
+                    </td>
+                    <td class="romaji">rokuji</td>
+                    <td>6:00</td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">七時</span><rt>しちじ</rt></ruby>
+                    </td>
+                    <td class="romaji">shichiji</td>
+                    <td>7:00</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">八時</span><rt>はちじ</rt></ruby>
+                    </td>
+                    <td class="romaji">hachiji</td>
+                    <td>8:00</td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">九時</span><rt>くじ</rt></ruby>
+                    </td>
+                    <td class="romaji">kuji</td>
+                    <td>9:00</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">十時</span><rt>じゅうじ</rt></ruby>
+                    </td>
+                    <td class="romaji">jūji</td>
+                    <td>10:00</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">十一時</span><rt>じゅういちじ</rt></ruby>
+                    </td>
+                    <td class="romaji">jūichiji</td>
+                    <td>11:00</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">十二時</span><rt>じゅうにじ</rt></ruby>
+                    </td>
+                    <td class="romaji">jūniji</td>
+                    <td>12:00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
 
           <!-- ------------------------------------- -->
           <!-- MINUTES TABLE -->
           <!-- ------------------------------------- -->
 
-          <section class="page-section" id="minutes">
-          <h2>Minutes</h2>
+          <details class="toggle-section" id="minutes" open>
+            <summary><h2>Minutes</h2></summary>
 
-          <table id="minutesTable">
-            <thead>
-              <tr>
-                <th class="type-col">Tag</th>
-                <th>Japanese</th>
-                <th>Romaji</th>
-                <th>English</th>
-              </tr>
-            </thead>
+            <div class="toggle-body">
+              <table id="minutesTable">
+                <thead>
+                  <tr>
+                    <th class="type-col">Tag</th>
+                    <th>Japanese</th>
+                    <th>Romaji</th>
+                    <th>English</th>
+                  </tr>
+                </thead>
 
-            <tbody>
-              <tr class="irregular">
-                <td class="type" data-order="1"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">一分</span><rt>いっぷん</rt></ruby>
-                </td>
-                <td class="romaji">ippun</td>
-                <td>1 minute</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">二分</span><rt>にふん</rt></ruby>
-                </td>
-                <td class="romaji">nifun</td>
-                <td>2 minutes</td>
-              </tr>
-              <tr class="irregular">
-                <td class="type" data-order="1"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">三分</span><rt>さんぷん</rt></ruby>
-                </td>
-                <td class="romaji">sanpun</td>
-                <td>3 minutes</td>
-              </tr>
-              <tr class="irregular">
-                <td class="type" data-order="1"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">四分</span><rt>よんぷん</rt></ruby>
-                </td>
-                <td class="romaji">yonpun</td>
-                <td>4 minutes</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">五分</span><rt>ごふん</rt></ruby>
-                </td>
-                <td class="romaji">gofun</td>
-                <td>5 minutes</td>
-              </tr>
-              <tr class="irregular">
-                <td class="type" data-order="1"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">六分</span><rt>ろっぷん</rt></ruby>
-                </td>
-                <td class="romaji">roppun</td>
-                <td>6 minutes</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">七分</span><rt>ななふん</rt></ruby>
-                </td>
-                <td class="romaji">nanafun</td>
-                <td>7 minutes</td>
-              </tr>
-              <tr class="irregular">
-                <td class="type" data-order="1"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">八分</span><rt>はっぷん</rt></ruby>
-                </td>
-                <td class="romaji">happun</td>
-                <td>8 minutes</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">九分</span><rt>きゅうふん</rt></ruby>
-                </td>
-                <td class="romaji">kyūfun</td>
-                <td>9 minutes</td>
-              </tr>
-              <tr class="irregular">
-                <td class="type" data-order="1"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">十分</span><rt>じゅっぷん</rt></ruby>
-                </td>
-                <td class="romaji">juppun</td>
-                <td>10 minutes</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">十五分</span><rt>じゅうごふん</rt></ruby>
-                </td>
-                <td class="romaji">jūgofun</td>
-                <td>15 minutes</td>
-              </tr>
-              <tr class="irregular">
-                <td class="type" data-order="1"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">二十分</span><rt>にじゅっぷん</rt></ruby>
-                </td>
-                <td class="romaji">nijuppun</td>
-                <td>20 minutes</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">二十五分</span><rt>にじゅうごふん</rt></ruby>
-                </td>
-                <td class="romaji">nijūgofun</td>
-                <td>25 minutes</td>
-              </tr>
-              <tr class="irregular">
-                <td class="type" data-order="1"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">三十分</span><rt>さんじゅっぷん</rt></ruby>
-                </td>
-                <td class="romaji">sanjuppun</td>
-                <td>30 minutes</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">三十五分</span><rt>さんじゅうごふん</rt></ruby>
-                </td>
-                <td class="romaji">sanjūgofun</td>
-                <td>35 minutes</td>
-              </tr>
-              <tr class="irregular">
-                <td class="type" data-order="1"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">四十分</span><rt>よんじゅっぷん</rt></ruby>
-                </td>
-                <td class="romaji">yonjuppun</td>
-                <td>40 minutes</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">四十五分</span><rt>よんじゅうごふん</rt></ruby>
-                </td>
-                <td class="romaji">yonjūgofun</td>
-                <td>45 minutes</td>
-              </tr>
-              <tr class="irregular">
-                <td class="type" data-order="1"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">五十分</span><rt>ごじゅっぷん</rt></ruby>
-                </td>
-                <td class="romaji">gojuppun</td>
-                <td>50 minutes</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp">
-                  <ruby><span class="kanji">五十五分</span><rt>ごじゅうごふん</rt></ruby>
-                </td>
-                <td class="romaji">gojūgofun</td>
-                <td>55 minutes</td>
-              </tr>
-            </tbody>
-          </table>
-          </section>
-
-          <!-- ------------------------------------- -->
-          <!-- NOTES -->
-          <!-- ------------------------------------- -->
-          <!-- Two words that don't fit the Hours/Minutes tables above
-               (they're not readings of a number + counter) but come up
-               constantly alongside them. Not a .page-section (no pastel
-               tint) — it's supplementary, not a primary content block,
-               so it keeps the plain bordered-note treatment instead. -->
-
-          <div class="note" id="also-useful">
-            <h2>Also useful</h2>
-            <ul>
-              <li>何時（なんじ） — nanji — "what time?"</li>
-              <li>〜半（はん） — han — "half past", added directly after the hour (e.g. 七時半 shichiji han = 7:30), as an alternative to 三十分</li>
-            </ul>
-          </div>
+                <tbody>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">一分</span><rt>いっぷん</rt></ruby>
+                    </td>
+                    <td class="romaji">ippun</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">二分</span><rt>にふん</rt></ruby>
+                    </td>
+                    <td class="romaji">nifun</td>
+                    <td>2</td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">三分</span><rt>さんぷん</rt></ruby>
+                    </td>
+                    <td class="romaji">sanpun</td>
+                    <td>3</td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">四分</span><rt>よんぷん</rt></ruby>
+                    </td>
+                    <td class="romaji">yonpun</td>
+                    <td>4</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">五分</span><rt>ごふん</rt></ruby>
+                    </td>
+                    <td class="romaji">gofun</td>
+                    <td>5</td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">六分</span><rt>ろっぷん</rt></ruby>
+                    </td>
+                    <td class="romaji">roppun</td>
+                    <td>6</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">七分</span><rt>ななふん</rt></ruby>
+                    </td>
+                    <td class="romaji">nanafun</td>
+                    <td>7</td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">八分</span><rt>はっぷん</rt></ruby>
+                    </td>
+                    <td class="romaji">happun</td>
+                    <td>8</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">九分</span><rt>きゅうふん</rt></ruby>
+                    </td>
+                    <td class="romaji">kyūfun</td>
+                    <td>9</td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">十分</span><rt>じゅっぷん</rt></ruby>
+                    </td>
+                    <td class="romaji">juppun</td>
+                    <td>10</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">十五分</span><rt>じゅうごふん</rt></ruby>
+                    </td>
+                    <td class="romaji">jūgofun</td>
+                    <td>15</td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">二十分</span><rt>にじゅっぷん</rt></ruby>
+                    </td>
+                    <td class="romaji">nijuppun</td>
+                    <td>20</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">二十五分</span><rt>にじゅうごふん</rt></ruby>
+                    </td>
+                    <td class="romaji">nijūgofun</td>
+                    <td>25</td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">三十分</span><rt>さんじゅっぷん</rt></ruby>
+                    </td>
+                    <td class="romaji">sanjuppun</td>
+                    <td>30</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">三十五分</span><rt>さんじゅうごふん</rt></ruby>
+                    </td>
+                    <td class="romaji">sanjūgofun</td>
+                    <td>35</td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">四十分</span><rt>よんじゅっぷん</rt></ruby>
+                    </td>
+                    <td class="romaji">yonjuppun</td>
+                    <td>40</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">四十五分</span><rt>よんじゅうごふん</rt></ruby>
+                    </td>
+                    <td class="romaji">yonjūgofun</td>
+                    <td>45</td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">五十分</span><rt>ごじゅっぷん</rt></ruby>
+                    </td>
+                    <td class="romaji">gojuppun</td>
+                    <td>50</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp">
+                      <ruby><span class="kanji">五十五分</span><rt>ごじゅうごふん</rt></ruby>
+                    </td>
+                    <td class="romaji">gojūgofun</td>
+                    <td>55</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
         </div>
       </main>
     </div>

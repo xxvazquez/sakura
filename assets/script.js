@@ -9,6 +9,7 @@
 $(document).ready(function () {
     initNumbersTable();
     initTimeTables();
+    initTimeSearch();
     initSidebarSearch();
 });
 
@@ -47,10 +48,16 @@ function initNumbersTable() {
 // TIME TABLES (Hours / Minutes)
 // --------------------------------------------------
 // Same Tag/Japanese/Romaji/English shape as the Numbers table, but
-// English here is descriptive text ("1 o'clock"), not a sortable
-// value — so order: [] keeps each table in its authored (chronological)
+// English here is a clock value ("1:00", "45"), not naturally sortable
+// as text — so order: [] keeps each table in its authored (chronological)
 // order on load instead of DataTables' own default of sorting column 0.
 // Columns stay fully sortable by click either way.
+//
+// No per-table search box: layout is stripped down to just the table
+// (no topStart/topEnd/bottomStart/bottomEnd chrome) because search for
+// this page is driven from the single #timeSearch box above both
+// tables — see initTimeSearch below. searching stays true so the API
+// (table.search()) still works even with the UI removed.
 
 function initTimeTables() {
     ["#hoursTable", "#minutesTable"].forEach((selector) => {
@@ -65,11 +72,47 @@ function initTimeTables() {
 
             order: [],
 
-            language: {
-                search: "",
-                searchPlaceholder: "Search…",
+            layout: {
+                topStart: null,
+                topEnd: null,
+                bottomStart: null,
+                bottomEnd: null,
             },
         });
+    });
+}
+
+// --------------------------------------------------
+// TIME PAGE SEARCH
+// --------------------------------------------------
+// One search box (#timeSearch) filters both the Hours and Minutes
+// DataTables at once, instead of each table having its own isolated
+// search. A non-empty query also force-opens both <details> toggles so
+// a match inside a collapsed section is still visible; an emptied query
+// leaves the toggles as the user last left them rather than forcing
+// them shut.
+
+function initTimeSearch() {
+    const input = document.getElementById("timeSearch");
+    if (!input) return;
+
+    const selectors = ["#hoursTable", "#minutesTable"].filter(
+        (selector) => $.fn.DataTable.isDataTable(selector)
+    );
+    if (selectors.length === 0) return;
+
+    input.addEventListener("input", () => {
+        const value = input.value;
+
+        selectors.forEach((selector) => {
+            $(selector).DataTable().search(value).draw();
+        });
+
+        if (value.trim() !== "") {
+            document.querySelectorAll(".toggle-section").forEach((el) => {
+                el.open = true;
+            });
+        }
     });
 }
 

@@ -63,14 +63,14 @@
         <!-- ------------------------------------- -->
         <!-- SIDEBAR NAVIGATION -->
         <!-- ------------------------------------- -->
-        <!-- Two heading levels: .menu-category groups by folder
-             (Vocabulary → /pages/, Grammar → /grammar/, etc.), and
-             within each, .menu-letter alphabetizes by page title (like
-             a dictionary). To add a page: drop the file in its category
-             folder, then add a matching .menu-letter + <a> pair here in
-             alphabetical order (plus a new .menu-category if it's a new
-             folder) — the search script and layout both work off this
-             flat sibling structure, no other markup changes needed.
+        <!-- Flat and alphabetical, no category heading — every page on
+             the site (regardless of folder) sorted by title into one
+             .menu-group per starting letter, the same organizing idea
+             as the home page's own .page-index. To add a page: drop
+             the file in its folder, then add its <a> to the matching
+             (or a new) .menu-group here in alphabetical order — the
+             search script and layout both work off this flat
+             structure, no other markup changes needed.
 
              Links are relative, not root-absolute — this site has to keep
              working wherever it's hosted (root domain, a subpath, a
@@ -89,16 +89,21 @@
              page's own content is the in-page table search box, not
              this one.
 
-             Example, once /grammar/particles.html exists:
-             <div class="menu-category">Grammar</div>
-             <div class="menu-letter">P</div>
-             <a href="../grammar/particles.html">Particles</a> -->
+             Example, once /grammar/particles.html exists (P sorts
+             between N and T, so it slots in as its own group there):
+             <div class="menu-group">
+               <span class="menu-letter">P</span>
+               <a href="../grammar/particles.html">Particles</a>
+             </div> -->
         <nav class="menu" id="sidebarMenu">
-          <div class="menu-category">Vocabulary</div>
-          <div class="menu-letter">N</div>
-          <a class="active" href="numbers.html">Numbers</a>
-          <div class="menu-letter">T</div>
-          <a href="time.html">Time</a>
+          <div class="menu-group">
+            <span class="menu-letter">N</span>
+            <a class="active" href="numbers.html">Numbers</a>
+          </div>
+          <div class="menu-group">
+            <span class="menu-letter">T</span>
+            <a href="time.html">Time</a>
+          </div>
         </nav>
         <p class="sidebar-empty" id="sidebarEmpty" hidden>No pages match.</p>
       </aside>

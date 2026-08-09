@@ -63,14 +63,14 @@
         <!-- ------------------------------------- -->
         <!-- SIDEBAR NAVIGATION -->
         <!-- ------------------------------------- -->
-        <!-- Two heading levels: .menu-category groups by folder
-             (Vocabulary → /pages/, Grammar → /grammar/, etc.), and
-             within each, .menu-letter alphabetizes by page title (like
-             a dictionary). To add a page: drop the file in its category
-             folder, then add a matching .menu-letter + <a> pair here in
-             alphabetical order (plus a new .menu-category if it's a new
-             folder) — the search script and layout both work off this
-             flat sibling structure, no other markup changes needed.
+        <!-- Flat and alphabetical, no category heading — every page on
+             the site (regardless of folder) sorted by title into one
+             .menu-group per starting letter, the same organizing idea
+             as the home page's own .page-index. To add a page: drop
+             the file in its folder, then add its <a> to the matching
+             (or a new) .menu-group here in alphabetical order — the
+             search script and layout both work off this flat
+             structure, no other markup changes needed.
 
              Links are relative, not root-absolute — this site has to keep
              working wherever it's hosted (root domain, a subpath, a
@@ -88,11 +88,14 @@
              This search matches page titles only. Searching inside a
              page's own content is the in-page search box, not this one. -->
         <nav class="menu" id="sidebarMenu">
-          <div class="menu-category">Vocabulary</div>
-          <div class="menu-letter">N</div>
-          <a href="numbers.html">Numbers</a>
-          <div class="menu-letter">T</div>
-          <a class="active" href="time.html">Time</a>
+          <div class="menu-group">
+            <span class="menu-letter">N</span>
+            <a href="numbers.html">Numbers</a>
+          </div>
+          <div class="menu-group">
+            <span class="menu-letter">T</span>
+            <a class="active" href="time.html">Time</a>
+          </div>
         </nav>
         <p class="sidebar-empty" id="sidebarEmpty" hidden>No pages match.</p>
       </aside>
@@ -138,7 +141,7 @@
             <a href="#minutes">Minutes</a>
             <a href="#duration">Duration</a>
             <a href="#vocabulary">Vocabulary</a>
-            <a href="#questions-answers">Questions &amp; Answers</a>
+            <a href="#dialogue-cards">Dialogue Cards</a>
           </nav>
 
           <!-- ------------------------------------- -->
@@ -166,7 +169,7 @@
                       <ruby><span class="kanji">一時</span><rt>いちじ</rt></ruby>
                     </td>
                     <td class="romaji">ichiji</td>
-                    <td class="english">1:00</td>
+                    <td class="english" data-order="1">1:00</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -174,7 +177,7 @@
                       <ruby><span class="kanji">二時</span><rt>にじ</rt></ruby>
                     </td>
                     <td class="romaji">niji</td>
-                    <td class="english">2:00</td>
+                    <td class="english" data-order="2">2:00</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -182,7 +185,7 @@
                       <ruby><span class="kanji">三時</span><rt>さんじ</rt></ruby>
                     </td>
                     <td class="romaji">sanji</td>
-                    <td class="english">3:00</td>
+                    <td class="english" data-order="3">3:00</td>
                   </tr>
                   <tr class="irregular">
                     <td class="type" data-order="1"></td>
@@ -190,7 +193,7 @@
                       <ruby><span class="kanji">四時</span><rt>よじ</rt></ruby>
                     </td>
                     <td class="romaji">yoji</td>
-                    <td class="english">4:00</td>
+                    <td class="english" data-order="4">4:00</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -198,7 +201,7 @@
                       <ruby><span class="kanji">五時</span><rt>ごじ</rt></ruby>
                     </td>
                     <td class="romaji">goji</td>
-                    <td class="english">5:00</td>
+                    <td class="english" data-order="5">5:00</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -206,7 +209,7 @@
                       <ruby><span class="kanji">六時</span><rt>ろくじ</rt></ruby>
                     </td>
                     <td class="romaji">rokuji</td>
-                    <td class="english">6:00</td>
+                    <td class="english" data-order="6">6:00</td>
                   </tr>
                   <tr class="irregular">
                     <td class="type" data-order="1"></td>
@@ -214,7 +217,7 @@
                       <ruby><span class="kanji">七時</span><rt>しちじ</rt></ruby>
                     </td>
                     <td class="romaji">shichiji</td>
-                    <td class="english">7:00</td>
+                    <td class="english" data-order="7">7:00</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -222,7 +225,7 @@
                       <ruby><span class="kanji">八時</span><rt>はちじ</rt></ruby>
                     </td>
                     <td class="romaji">hachiji</td>
-                    <td class="english">8:00</td>
+                    <td class="english" data-order="8">8:00</td>
                   </tr>
                   <tr class="irregular">
                     <td class="type" data-order="1"></td>
@@ -230,7 +233,7 @@
                       <ruby><span class="kanji">九時</span><rt>くじ</rt></ruby>
                     </td>
                     <td class="romaji">kuji</td>
-                    <td class="english">9:00</td>
+                    <td class="english" data-order="9">9:00</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -238,7 +241,7 @@
                       <ruby><span class="kanji">十時</span><rt>じゅうじ</rt></ruby>
                     </td>
                     <td class="romaji">jūji</td>
-                    <td class="english">10:00</td>
+                    <td class="english" data-order="10">10:00</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -246,7 +249,7 @@
                       <ruby><span class="kanji">十一時</span><rt>じゅういちじ</rt></ruby>
                     </td>
                     <td class="romaji">jūichiji</td>
-                    <td class="english">11:00</td>
+                    <td class="english" data-order="11">11:00</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -254,7 +257,7 @@
                       <ruby><span class="kanji">十二時</span><rt>じゅうにじ</rt></ruby>
                     </td>
                     <td class="romaji">jūniji</td>
-                    <td class="english">12:00</td>
+                    <td class="english" data-order="12">12:00</td>
                   </tr>
                 </tbody>
               </table>
@@ -286,7 +289,7 @@
                       <ruby><span class="kanji">一分</span><rt>いっぷん</rt></ruby>
                     </td>
                     <td class="romaji">ippun</td>
-                    <td class="english">1</td>
+                    <td class="english" data-order="1">1</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -294,7 +297,7 @@
                       <ruby><span class="kanji">二分</span><rt>にふん</rt></ruby>
                     </td>
                     <td class="romaji">nifun</td>
-                    <td class="english">2</td>
+                    <td class="english" data-order="2">2</td>
                   </tr>
                   <tr class="irregular">
                     <td class="type" data-order="1"></td>
@@ -302,7 +305,7 @@
                       <ruby><span class="kanji">三分</span><rt>さんぷん</rt></ruby>
                     </td>
                     <td class="romaji">sanpun</td>
-                    <td class="english">3</td>
+                    <td class="english" data-order="3">3</td>
                   </tr>
                   <tr class="irregular">
                     <td class="type" data-order="1"></td>
@@ -310,7 +313,7 @@
                       <ruby><span class="kanji">四分</span><rt>よんぷん</rt></ruby>
                     </td>
                     <td class="romaji">yonpun</td>
-                    <td class="english">4</td>
+                    <td class="english" data-order="4">4</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -318,7 +321,7 @@
                       <ruby><span class="kanji">五分</span><rt>ごふん</rt></ruby>
                     </td>
                     <td class="romaji">gofun</td>
-                    <td class="english">5</td>
+                    <td class="english" data-order="5">5</td>
                   </tr>
                   <tr class="irregular">
                     <td class="type" data-order="1"></td>
@@ -326,7 +329,7 @@
                       <ruby><span class="kanji">六分</span><rt>ろっぷん</rt></ruby>
                     </td>
                     <td class="romaji">roppun</td>
-                    <td class="english">6</td>
+                    <td class="english" data-order="6">6</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -334,7 +337,7 @@
                       <ruby><span class="kanji">七分</span><rt>ななふん</rt></ruby>
                     </td>
                     <td class="romaji">nanafun</td>
-                    <td class="english">7</td>
+                    <td class="english" data-order="7">7</td>
                   </tr>
                   <tr class="irregular">
                     <td class="type" data-order="1"></td>
@@ -342,7 +345,7 @@
                       <ruby><span class="kanji">八分</span><rt>はっぷん</rt></ruby>
                     </td>
                     <td class="romaji">happun</td>
-                    <td class="english">8</td>
+                    <td class="english" data-order="8">8</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -350,7 +353,7 @@
                       <ruby><span class="kanji">九分</span><rt>きゅうふん</rt></ruby>
                     </td>
                     <td class="romaji">kyūfun</td>
-                    <td class="english">9</td>
+                    <td class="english" data-order="9">9</td>
                   </tr>
                   <tr class="irregular">
                     <td class="type" data-order="1"></td>
@@ -358,7 +361,7 @@
                       <ruby><span class="kanji">十分</span><rt>じゅっぷん</rt></ruby>
                     </td>
                     <td class="romaji">juppun</td>
-                    <td class="english">10</td>
+                    <td class="english" data-order="10">10</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -366,7 +369,7 @@
                       <ruby><span class="kanji">十五分</span><rt>じゅうごふん</rt></ruby>
                     </td>
                     <td class="romaji">jūgofun</td>
-                    <td class="english">15</td>
+                    <td class="english" data-order="15">15</td>
                   </tr>
                   <tr class="irregular">
                     <td class="type" data-order="1"></td>
@@ -374,7 +377,7 @@
                       <ruby><span class="kanji">二十分</span><rt>にじゅっぷん</rt></ruby>
                     </td>
                     <td class="romaji">nijuppun</td>
-                    <td class="english">20</td>
+                    <td class="english" data-order="20">20</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -382,7 +385,7 @@
                       <ruby><span class="kanji">二十五分</span><rt>にじゅうごふん</rt></ruby>
                     </td>
                     <td class="romaji">nijūgofun</td>
-                    <td class="english">25</td>
+                    <td class="english" data-order="25">25</td>
                   </tr>
                   <tr class="irregular">
                     <td class="type" data-order="1"></td>
@@ -390,7 +393,7 @@
                       <ruby><span class="kanji">三十分</span><rt>さんじゅっぷん</rt></ruby>
                     </td>
                     <td class="romaji">sanjuppun</td>
-                    <td class="english">30</td>
+                    <td class="english" data-order="30">30</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -398,7 +401,7 @@
                       <ruby><span class="kanji">三十五分</span><rt>さんじゅうごふん</rt></ruby>
                     </td>
                     <td class="romaji">sanjūgofun</td>
-                    <td class="english">35</td>
+                    <td class="english" data-order="35">35</td>
                   </tr>
                   <tr class="irregular">
                     <td class="type" data-order="1"></td>
@@ -406,7 +409,7 @@
                       <ruby><span class="kanji">四十分</span><rt>よんじゅっぷん</rt></ruby>
                     </td>
                     <td class="romaji">yonjuppun</td>
-                    <td class="english">40</td>
+                    <td class="english" data-order="40">40</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -414,7 +417,7 @@
                       <ruby><span class="kanji">四十五分</span><rt>よんじゅうごふん</rt></ruby>
                     </td>
                     <td class="romaji">yonjūgofun</td>
-                    <td class="english">45</td>
+                    <td class="english" data-order="45">45</td>
                   </tr>
                   <tr class="irregular">
                     <td class="type" data-order="1"></td>
@@ -422,7 +425,7 @@
                       <ruby><span class="kanji">五十分</span><rt>ごじゅっぷん</rt></ruby>
                     </td>
                     <td class="romaji">gojuppun</td>
-                    <td class="english">50</td>
+                    <td class="english" data-order="50">50</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -430,7 +433,7 @@
                       <ruby><span class="kanji">五十五分</span><rt>ごじゅうごふん</rt></ruby>
                     </td>
                     <td class="romaji">gojūgofun</td>
-                    <td class="english">55</td>
+                    <td class="english" data-order="55">55</td>
                   </tr>
                 </tbody>
               </table>
@@ -462,7 +465,7 @@
                       <ruby><span class="kanji">一時間</span><rt>いちじかん</rt></ruby>
                     </td>
                     <td class="romaji">ichijikan</td>
-                    <td class="english">1 hour</td>
+                    <td class="english" data-order="1">1 hour</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -470,7 +473,7 @@
                       <ruby><span class="kanji">二時間</span><rt>にじかん</rt></ruby>
                     </td>
                     <td class="romaji">nijikan</td>
-                    <td class="english">2 hours</td>
+                    <td class="english" data-order="2">2 hours</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -478,7 +481,7 @@
                       <ruby><span class="kanji">三時間</span><rt>さんじかん</rt></ruby>
                     </td>
                     <td class="romaji">sanjikan</td>
-                    <td class="english">3 hours</td>
+                    <td class="english" data-order="3">3 hours</td>
                   </tr>
                   <tr class="irregular">
                     <td class="type" data-order="1"></td>
@@ -486,7 +489,7 @@
                       <ruby><span class="kanji">四時間</span><rt>よじかん</rt></ruby>
                     </td>
                     <td class="romaji">yojikan</td>
-                    <td class="english">4 hours</td>
+                    <td class="english" data-order="4">4 hours</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -494,7 +497,7 @@
                       <ruby><span class="kanji">五時間</span><rt>ごじかん</rt></ruby>
                     </td>
                     <td class="romaji">gojikan</td>
-                    <td class="english">5 hours</td>
+                    <td class="english" data-order="5">5 hours</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -502,7 +505,7 @@
                       <ruby><span class="kanji">六時間</span><rt>ろくじかん</rt></ruby>
                     </td>
                     <td class="romaji">rokujikan</td>
-                    <td class="english">6 hours</td>
+                    <td class="english" data-order="6">6 hours</td>
                   </tr>
                   <tr class="irregular">
                     <td class="type" data-order="1"></td>
@@ -510,7 +513,7 @@
                       <ruby><span class="kanji">七時間</span><rt>しちじかん</rt></ruby>
                     </td>
                     <td class="romaji">shichijikan</td>
-                    <td class="english">7 hours</td>
+                    <td class="english" data-order="7">7 hours</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -518,7 +521,7 @@
                       <ruby><span class="kanji">八時間</span><rt>はちじかん</rt></ruby>
                     </td>
                     <td class="romaji">hachijikan</td>
-                    <td class="english">8 hours</td>
+                    <td class="english" data-order="8">8 hours</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -526,7 +529,7 @@
                       <ruby><span class="kanji">九時間</span><rt>くじかん</rt></ruby>
                     </td>
                     <td class="romaji">kujikan</td>
-                    <td class="english">9 hours</td>
+                    <td class="english" data-order="9">9 hours</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -534,7 +537,7 @@
                       <ruby><span class="kanji">十時間</span><rt>じゅうじかん</rt></ruby>
                     </td>
                     <td class="romaji">jūjikan</td>
-                    <td class="english">10 hours</td>
+                    <td class="english" data-order="10">10 hours</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -542,7 +545,7 @@
                       <ruby><span class="kanji">十一時間</span><rt>じゅういちじかん</rt></ruby>
                     </td>
                     <td class="romaji">jūichijikan</td>
-                    <td class="english">11 hours</td>
+                    <td class="english" data-order="11">11 hours</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -550,7 +553,7 @@
                       <ruby><span class="kanji">十二時間</span><rt>じゅうにじかん</rt></ruby>
                     </td>
                     <td class="romaji">jūnijikan</td>
-                    <td class="english">12 hours</td>
+                    <td class="english" data-order="12">12 hours</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -558,7 +561,7 @@
                       <ruby><span class="kanji">二十四時間</span><rt>にじゅうよじかん</rt></ruby>
                     </td>
                     <td class="romaji">nijūyojikan</td>
-                    <td class="english">24 hours</td>
+                    <td class="english" data-order="24">24 hours</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
@@ -566,7 +569,7 @@
                       <ruby><span class="kanji">四十八時間</span><rt>よんじゅうはちじかん</rt></ruby>
                     </td>
                     <td class="romaji">yonjūhachijikan</td>
-                    <td class="english">48 hours</td>
+                    <td class="english" data-order="48">48 hours</td>
                   </tr>
                 </tbody>
               </table>
@@ -937,190 +940,159 @@
           </details>
 
           <!-- ------------------------------------- -->
-          <!-- QUESTIONS & ANSWERS TABLE -->
+          <!-- DIALOGUE CARDS -->
           <!-- ------------------------------------- -->
-          <!-- No Tag column — these are full Q&A exchanges, not single
-               vocab entries, so there's no irregular-reading concept to
-               flag. Each Japanese/Romaji/English cell stacks its
-               question and answer as two lines (.qa-q / .qa-a), colored
-               distinctly (see .qa-q / .qa-a in style.css) so which line
-               is the prompt and which is the reply is obvious at a
-               glance across all three columns. Japanese lines carry
-               inline furigana (<ruby>/<rt>) same as everywhere else on
-               the site — plain inline ruby here rather than the
-               .jp/.kanji grid component, since that component is built
-               for a single isolated word, not a running sentence. -->
+          <!-- Not a table — .dialogue-card is a self-contained unit
+               instead of a row, so a full back-and-forth exchange reads
+               as one piece rather than three parallel columns. Each
+               message always has the same three stacked lines
+               (Japanese w/ furigana, romaji, English); speaker A and B
+               are pulled apart by side (A left, B right) and by color
+               (--dialogue-a / --dialogue-b) so who's talking is obvious
+               without reading the A/B badge. Cards aren't a DataTable,
+               so the global search filters them separately — see the
+               .dialogue-card branch in initPageSearch (assets/script.js) —
+               and a match force-opens this toggle same as any other. -->
 
-          <details class="toggle-section" id="questions-answers">
-            <summary><h2>Questions &amp; Answers</h2></summary>
+          <details class="toggle-section" id="dialogue-cards">
+            <summary><h2>Dialogue Cards</h2></summary>
 
             <div class="toggle-body">
-              <table id="questionsAnswersTable" class="ref-table" data-default-order="2,asc">
-                <thead>
-                  <tr>
-                    <th>Japanese</th>
-                    <th>Romaji</th>
-                    <th>English</th>
-                  </tr>
-                </thead>
+              <div class="dialogue-grid">
 
-                <tbody>
-                  <tr>
-                    <td class="qa qa-jp">
-                      <span class="qa-q">Q: <ruby>今<rt>いま</rt></ruby><ruby>何時<rt>なんじ</rt></ruby>ですか。</span>
-                      <span class="qa-a">A: <ruby>午後<rt>ごご</rt></ruby><ruby>一時<rt>いちじ</rt></ruby><ruby>四十六分<rt>よんじゅうろっぷん</rt></ruby>です。</span>
-                    </td>
-                    <td class="qa qa-latin">
-                      <span class="qa-q">Q: Ima nanji desu ka?</span>
-                      <span class="qa-a">A: Gogo ichiji yonjūroppun desu.</span>
-                    </td>
-                    <td class="qa qa-latin english">
-                      <span class="qa-q">Q: What time is it?</span>
-                      <span class="qa-a">A: It is 1:46 PM.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="qa qa-jp">
-                      <span class="qa-q">Q: <ruby>何時<rt>なんじ</rt></ruby>ですか。</span>
-                      <span class="qa-a">A: <ruby>三時<rt>さんじ</rt></ruby>です。</span>
-                    </td>
-                    <td class="qa qa-latin">
-                      <span class="qa-q">Q: Nanji desu ka?</span>
-                      <span class="qa-a">A: Sanji desu.</span>
-                    </td>
-                    <td class="qa qa-latin english">
-                      <span class="qa-q">Q: What time is it?</span>
-                      <span class="qa-a">A: It is 3 o'clock.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="qa qa-jp">
-                      <span class="qa-q">Q: <ruby>今日<rt>きょう</rt></ruby>、お<ruby>店<rt>みせ</rt></ruby>は<ruby>何時<rt>なんじ</rt></ruby>から<ruby>何時<rt>なんじ</rt></ruby>までですか。</span>
-                      <span class="qa-a">A: <ruby>午前<rt>ごぜん</rt></ruby><ruby>八時<rt>はちじ</rt></ruby>から<ruby>午後<rt>ごご</rt></ruby><ruby>二時<rt>にじ</rt></ruby>までです。</span>
-                    </td>
-                    <td class="qa qa-latin">
-                      <span class="qa-q">Q: Kyō, omise wa nanji kara nanji made desu ka?</span>
-                      <span class="qa-a">A: Gozen hachiji kara gogo niji made desu.</span>
-                    </td>
-                    <td class="qa qa-latin english">
-                      <span class="qa-q">Q: What time is the shop open today?</span>
-                      <span class="qa-a">A: It is open from 8:00 AM to 2:00 PM.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="qa qa-jp">
-                      <span class="qa-q">Q: <ruby>何時間<rt>なんじかん</rt></ruby><ruby>勉強<rt>べんきょう</rt></ruby>しましたか。</span>
-                      <span class="qa-a">A: <ruby>一時間<rt>いちじかん</rt></ruby><ruby>勉強<rt>べんきょう</rt></ruby>しました。</span>
-                    </td>
-                    <td class="qa qa-latin">
-                      <span class="qa-q">Q: Nanjikan benkyō shimashita ka?</span>
-                      <span class="qa-a">A: Ichijikan benkyō shimashita.</span>
-                    </td>
-                    <td class="qa qa-latin english">
-                      <span class="qa-q">Q: How long did you study?</span>
-                      <span class="qa-a">A: I studied for one hour.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="qa qa-jp">
-                      <span class="qa-q">Q: <ruby>何時間<rt>なんじかん</rt></ruby><ruby>本<rt>ほん</rt></ruby>を<ruby>読<rt>よ</rt></ruby>みましたか。</span>
-                      <span class="qa-a">A: <ruby>二時間<rt>にじかん</rt></ruby><ruby>本<rt>ほん</rt></ruby>を<ruby>読<rt>よ</rt></ruby>みました。</span>
-                    </td>
-                    <td class="qa qa-latin">
-                      <span class="qa-q">Q: Nanjikan hon o yomimashita ka?</span>
-                      <span class="qa-a">A: Nijikan hon o yomimashita.</span>
-                    </td>
-                    <td class="qa qa-latin english">
-                      <span class="qa-q">Q: How long did you read?</span>
-                      <span class="qa-a">A: I read for two hours.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="qa qa-jp">
-                      <span class="qa-q">Q: <ruby>何時間<rt>なんじかん</rt></ruby><ruby>歩<rt>ある</rt></ruby>きましたか。</span>
-                      <span class="qa-a">A: <ruby>一時間半<rt>いちじかんはん</rt></ruby><ruby>歩<rt>ある</rt></ruby>きました。</span>
-                    </td>
-                    <td class="qa qa-latin">
-                      <span class="qa-q">Q: Nanjikan arukimashita ka?</span>
-                      <span class="qa-a">A: Ichijikan han arukimashita.</span>
-                    </td>
-                    <td class="qa qa-latin english">
-                      <span class="qa-q">Q: How long did you walk?</span>
-                      <span class="qa-a">A: I walked for one and a half hours.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="qa qa-jp">
-                      <span class="qa-q">Q: お<ruby>店<rt>みせ</rt></ruby>はいつ<ruby>開<rt>あ</rt></ruby>きますか。</span>
-                      <span class="qa-a">A: <ruby>月曜日<rt>げつようび</rt></ruby>と<ruby>土曜日<rt>どようび</rt></ruby>は<ruby>午前<rt>ごぜん</rt></ruby><ruby>八時<rt>はちじ</rt></ruby>に<ruby>開<rt>あ</rt></ruby>きます。</span>
-                    </td>
-                    <td class="qa qa-latin">
-                      <span class="qa-q">Q: Omise wa itsu akimasu ka?</span>
-                      <span class="qa-a">A: Getsuyōbi to doyōbi wa gozen hachiji ni akimasu.</span>
-                    </td>
-                    <td class="qa qa-latin english">
-                      <span class="qa-q">Q: When does the shop open?</span>
-                      <span class="qa-a">A: It opens at 8:00 AM on Mondays and Saturdays.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="qa qa-jp">
-                      <span class="qa-q">Q: <ruby>何時<rt>なんじ</rt></ruby>に<ruby>朝<rt>あさ</rt></ruby>ご<ruby>飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べますか。</span>
-                      <span class="qa-a">A: <ruby>午前<rt>ごぜん</rt></ruby><ruby>九時<rt>くじ</rt></ruby>に<ruby>食<rt>た</rt></ruby>べます。</span>
-                    </td>
-                    <td class="qa qa-latin">
-                      <span class="qa-q">Q: Nanji ni asagohan o tabemasu ka?</span>
-                      <span class="qa-a">A: Gozen kuji ni tabemasu.</span>
-                    </td>
-                    <td class="qa qa-latin english">
-                      <span class="qa-q">Q: What time do you eat breakfast?</span>
-                      <span class="qa-a">A: I eat breakfast at 9:00 AM.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="qa qa-jp">
-                      <span class="qa-q">Q: いつシャワーを<ruby>浴<rt>あ</rt></ruby>びますか。</span>
-                      <span class="qa-a">A: <ruby>朝<rt>あさ</rt></ruby>、よくシャワーを<ruby>浴<rt>あ</rt></ruby>びます。</span>
-                    </td>
-                    <td class="qa qa-latin">
-                      <span class="qa-q">Q: Itsu shawā o abimasu ka?</span>
-                      <span class="qa-a">A: Asa, yoku shawā o abimasu.</span>
-                    </td>
-                    <td class="qa qa-latin english">
-                      <span class="qa-q">Q: When do you take a shower?</span>
-                      <span class="qa-a">A: I often take a shower in the morning.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="qa qa-jp">
-                      <span class="qa-q">Q: いつ<ruby>運動<rt>うんどう</rt></ruby>しますか。</span>
-                      <span class="qa-a">A: <ruby>月曜日<rt>げつようび</rt></ruby>の<ruby>午後<rt>ごご</rt></ruby><ruby>七時<rt>しちじ</rt></ruby>に<ruby>運動<rt>うんどう</rt></ruby>します。</span>
-                    </td>
-                    <td class="qa qa-latin">
-                      <span class="qa-q">Q: Itsu undō shimasu ka?</span>
-                      <span class="qa-a">A: Getsuyōbi no gogo shichiji ni undō shimasu.</span>
-                    </td>
-                    <td class="qa qa-latin english">
-                      <span class="qa-q">Q: When do you exercise?</span>
-                      <span class="qa-a">A: I exercise on Mondays at 7:00 PM.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="qa qa-jp">
-                      <span class="qa-q">Q: <ruby>何時<rt>なんじ</rt></ruby>ごろ<ruby>晩<rt>ばん</rt></ruby>ご<ruby>飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べますか。</span>
-                      <span class="qa-a">A: <ruby>午後<rt>ごご</rt></ruby><ruby>十時<rt>じゅうじ</rt></ruby>ごろ<ruby>食<rt>た</rt></ruby>べます。</span>
-                    </td>
-                    <td class="qa qa-latin">
-                      <span class="qa-q">Q: Nanji goro bangohan o tabemasu ka?</span>
-                      <span class="qa-a">A: Gogo jūji goro tabemasu.</span>
-                    </td>
-                    <td class="qa qa-latin english">
-                      <span class="qa-q">Q: Around what time do you eat dinner?</span>
-                      <span class="qa-a">A: I eat dinner around 10:00 PM.</span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">🕒 Asking the Time</h3>
+                  <div class="dialogue-messages">
+                    <div class="message message-a">
+                      <span class="message-speaker">A</span>
+                      <div class="message-bubble">
+                        <p class="message-jp"><ruby>今<rt>いま</rt></ruby><ruby>何時<rt>なんじ</rt></ruby>ですか。</p>
+                        <p class="message-romaji">Ima nanji desu ka?</p>
+                        <p class="message-en">What time is it now?</p>
+                      </div>
+                    </div>
+                    <div class="message message-b">
+                      <span class="message-speaker">B</span>
+                      <div class="message-bubble">
+                        <p class="message-jp"><ruby>午後<rt>ごご</rt></ruby><ruby>一時<rt>いちじ</rt></ruby><ruby>四十六分<rt>よんじゅうろっぷん</rt></ruby>です。</p>
+                        <p class="message-romaji">Gogo ichiji yonjūroppun desu.</p>
+                        <p class="message-en">It is 1:46 PM.</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">🕒 Asking the Hour</h3>
+                  <div class="dialogue-messages">
+                    <div class="message message-a">
+                      <span class="message-speaker">A</span>
+                      <div class="message-bubble">
+                        <p class="message-jp"><ruby>何時<rt>なんじ</rt></ruby>ですか。</p>
+                        <p class="message-romaji">Nanji desu ka?</p>
+                        <p class="message-en">What time is it?</p>
+                      </div>
+                    </div>
+                    <div class="message message-b">
+                      <span class="message-speaker">B</span>
+                      <div class="message-bubble">
+                        <p class="message-jp"><ruby>三時<rt>さんじ</rt></ruby>です。</p>
+                        <p class="message-romaji">Sanji desu.</p>
+                        <p class="message-en">It is 3:00.</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">🏪 Opening Hours</h3>
+                  <div class="dialogue-messages">
+                    <div class="message message-a">
+                      <span class="message-speaker">A</span>
+                      <div class="message-bubble">
+                        <p class="message-jp"><ruby>今日<rt>きょう</rt></ruby>、お<ruby>店<rt>みせ</rt></ruby>は<ruby>何時<rt>なんじ</rt></ruby>から<ruby>何時<rt>なんじ</rt></ruby>までですか。</p>
+                        <p class="message-romaji">Kyō, omise wa nanji kara nanji made desu ka?</p>
+                        <p class="message-en">What time is the shop open today?</p>
+                      </div>
+                    </div>
+                    <div class="message message-b">
+                      <span class="message-speaker">B</span>
+                      <div class="message-bubble">
+                        <p class="message-jp"><ruby>午前<rt>ごぜん</rt></ruby><ruby>八時<rt>はちじ</rt></ruby>から<ruby>午後<rt>ごご</rt></ruby><ruby>二時<rt>にじ</rt></ruby>までです。</p>
+                        <p class="message-romaji">Gozen hachiji kara gogo niji made desu.</p>
+                        <p class="message-en">It is open from 8:00 AM to 2:00 PM.</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">⏳ Duration</h3>
+                  <div class="dialogue-messages">
+                    <div class="message message-a">
+                      <span class="message-speaker">A</span>
+                      <div class="message-bubble">
+                        <p class="message-jp"><ruby>何時間<rt>なんじかん</rt></ruby><ruby>勉強<rt>べんきょう</rt></ruby>しましたか。</p>
+                        <p class="message-romaji">Nanjikan benkyō shimashita ka?</p>
+                        <p class="message-en">How long did you study?</p>
+                      </div>
+                    </div>
+                    <div class="message message-b">
+                      <span class="message-speaker">B</span>
+                      <div class="message-bubble">
+                        <p class="message-jp"><ruby>一時間<rt>いちじかん</rt></ruby><ruby>勉強<rt>べんきょう</rt></ruby>しました。</p>
+                        <p class="message-romaji">Ichijikan benkyō shimashita.</p>
+                        <p class="message-en">I studied for one hour.</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">🍽 Daily Routine</h3>
+                  <div class="dialogue-messages">
+                    <div class="message message-a">
+                      <span class="message-speaker">A</span>
+                      <div class="message-bubble">
+                        <p class="message-jp"><ruby>何時<rt>なんじ</rt></ruby>ごろ<ruby>朝<rt>あさ</rt></ruby>ご<ruby>飯<rt>はん</rt></ruby>を<ruby>食<rt>た</rt></ruby>べますか。</p>
+                        <p class="message-romaji">Nanji goro asagohan o tabemasu ka?</p>
+                        <p class="message-en">Around what time do you eat breakfast?</p>
+                      </div>
+                    </div>
+                    <div class="message message-b">
+                      <span class="message-speaker">B</span>
+                      <div class="message-bubble">
+                        <p class="message-jp"><ruby>午前<rt>ごぜん</rt></ruby><ruby>九時<rt>くじ</rt></ruby>ごろ<ruby>食<rt>た</rt></ruby>べます。</p>
+                        <p class="message-romaji">Gozen kuji goro tabemasu.</p>
+                        <p class="message-en">I eat breakfast around 9:00 AM.</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">📅 Time + Day</h3>
+                  <div class="dialogue-messages">
+                    <div class="message message-a">
+                      <span class="message-speaker">A</span>
+                      <div class="message-bubble">
+                        <p class="message-jp"><ruby>月曜日<rt>げつようび</rt></ruby>は<ruby>何時<rt>なんじ</rt></ruby>に<ruby>運動<rt>うんどう</rt></ruby>しますか。</p>
+                        <p class="message-romaji">Getsuyōbi wa nanji ni undō shimasu ka?</p>
+                        <p class="message-en">What time do you exercise on Mondays?</p>
+                      </div>
+                    </div>
+                    <div class="message message-b">
+                      <span class="message-speaker">B</span>
+                      <div class="message-bubble">
+                        <p class="message-jp"><ruby>午後<rt>ごご</rt></ruby><ruby>七時<rt>しちじ</rt></ruby>に<ruby>運動<rt>うんどう</rt></ruby>します。</p>
+                        <p class="message-romaji">Gogo shichiji ni undō shimasu.</p>
+                        <p class="message-en">I exercise at 7:00 PM on Mondays.</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+              </div>
             </div>
           </details>
         </div>

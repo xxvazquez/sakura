@@ -21,12 +21,15 @@
     --red-bg: #fdf4f4;
     --red-border: #e5d0d0;
 
-    /* Question vs. answer in the Questions & Answers table — pastel and
-       muted like the rest of the palette, but distinct enough hues
-       (blue vs. green) that which line is which is obvious without
-       reading the Q:/A: prefix. */
-    --qa-q: #6b7bb0;
-    --qa-a: #4f9271;
+    /* Speaker A vs. speaker B in Dialogue Cards — pastel and muted like
+       the rest of the palette, but distinct enough hues (blue vs.
+       green) that who's talking is obvious from color and side alone,
+       without reading the A/B badge. -text is the accent (badge,
+       furigana); -bg is a light tint for that speaker's bubble. */
+    --dialogue-a-text: #6b7bb0;
+    --dialogue-a-bg: #f2f4fb;
+    --dialogue-b-text: #4f9271;
+    --dialogue-b-bg: #f0f8f3;
 
     --radius: 12px;
     --sidebar: 220px;
@@ -233,23 +236,24 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
     font-size: 0.8rem;
 }
 
-.menu-category {
-    margin: 22px 0 2px;
+/* Flat and alphabetical, no category heading — one .menu-group per
+   letter, each holding that letter's page link(s). Mirrors the home
+   page's own .page-index (same data, different context), so the site
+   has exactly one organizing idea for "all the pages" instead of two. */
 
-    color: var(--text);
-
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
-.menu-category:first-of-type {
-    margin-top: 0;
+.menu-group {
+    display: flex;
+    flex-direction: column;
 }
 
 .menu-letter {
-    margin: 14px 0 2px 14px;
+    margin: 0 0 2px 14px;
 
     color: var(--muted);
 
@@ -257,11 +261,6 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-}
-
-.menu {
-    display: flex;
-    flex-direction: column;
 }
 
 .menu a {
@@ -291,11 +290,16 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 /*-----------------------------------------------*/
 
 h1 {
-    margin-bottom: 32px;
+    margin-bottom: 6px;
 
     font-size: 2.3rem;
     font-weight: 700;
     letter-spacing: -0.03em;
+}
+
+.subtitle {
+    margin-bottom: 36px;
+    color: var(--muted);
 }
 
 .page h2 {
@@ -358,6 +362,7 @@ h1 {
    below so both read as the same control. */
 
 .page-search {
+    margin-top: 26px;
     margin-bottom: 28px;
 }
 
@@ -638,7 +643,7 @@ tr.irregular .type::before {
 
     color: #374151;
 
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 500;
     line-height: 1;
 }
@@ -701,42 +706,128 @@ tr.irregular .type::before {
 }
 
 /*-----------------------------------------------*/
-/* Q&A (Questions & Answers table) */
+/* DIALOGUE CARDS */
 /*-----------------------------------------------*/
-/* A question/answer pair stacked in one cell instead of a single value.
-   Q and A get distinct pastel colors (--qa-q / --qa-a) rather than just
-   a muted/full-color split, so which line is which reads instantly
-   across all three columns, not only from the Q:/A: prefix. Furigana
-   (<ruby>/<rt>) inside .qa-jp inherits that same color — no separate
-   override — so a question's readings stay visibly grouped with its
-   question, same for answers. */
+/* A full back-and-forth exchange as one card instead of table rows.
+   Cards flow in a responsive grid; each holds two speech bubbles, A
+   pinned left and B pinned right (mirrored layout, like a chat
+   thread) so who's talking is legible from position alone, backed up
+   by the --dialogue-a/-b color pair. Every message keeps the same
+   three-line shape — Japanese (with furigana), romaji, English — with
+   generous spacing between them and the Japanese line set slightly
+   larger, since it's the primary content and the other two lines are
+   reading aids. */
 
-.qa {
-    max-width: 300px;
-    line-height: 1.7;
+.dialogue-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
 }
 
-.qa-latin {
+.dialogue-card {
+    padding: 24px;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    background: #fff;
+}
+
+.dialogue-title {
+    margin: 0 0 20px;
+
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.dialogue-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.message {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+
+    max-width: 88%;
+}
+
+.message-a {
+    align-self: flex-start;
+}
+
+.message-b {
+    flex-direction: row-reverse;
+    align-self: flex-end;
+    text-align: right;
+}
+
+.message-speaker {
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 24px;
+    height: 24px;
+
+    border-radius: 50%;
+
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.message-a .message-speaker {
+    background: var(--dialogue-a-bg);
+    color: var(--dialogue-a-text);
+}
+
+.message-b .message-speaker {
+    background: var(--dialogue-b-bg);
+    color: var(--dialogue-b-text);
+}
+
+.message-bubble {
+    padding: 12px 16px;
+    border-radius: 14px;
+}
+
+.message-a .message-bubble {
+    background: var(--dialogue-a-bg);
+    border-bottom-left-radius: 4px;
+}
+
+.message-b .message-bubble {
+    background: var(--dialogue-b-bg);
+    border-bottom-right-radius: 4px;
+}
+
+.message-bubble p {
+    margin-top: 10px;
+}
+
+.message-bubble p:first-child {
+    margin-top: 0;
+}
+
+.message-jp {
+    font-size: 1.05rem;
+    color: var(--text);
+}
+
+.message-romaji {
+    color: var(--muted);
     font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.85rem;
 }
 
-.qa-q {
-    display: block;
-    color: var(--qa-q);
-    font-size: 0.9rem;
-}
-
-.qa-a {
-    display: block;
-    margin-top: 6px;
-    color: var(--qa-a);
-    font-weight: 500;
-}
-
-.qa-jp rt {
-    font-size: 0.55em;
-    font-weight: 400;
-    opacity: 0.85;
+.message-en {
+    color: var(--text);
+    font-size: 0.85rem;
 }
 
 /*-----------------------------------------------*/
@@ -878,14 +969,50 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
         display: block;
     }
 
+    /* Below the breakpoint the sidebar stops being a sidebar: instead
+       of a tall left column it becomes one horizontal bar along the
+       top — brand, search, and the page menu all flow left-to-right
+       and wrap, so a phone gets a compact nav strip instead of a
+       full-height block pushing the actual content down. */
+
     .sidebar {
         position: relative;
 
         width: 100%;
         height: auto;
+        overflow: visible;
+
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px 24px;
+
+        padding: 16px 20px;
 
         border-right: none;
         border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-brand {
+        margin-bottom: 0;
+    }
+
+    .sidebar-search {
+        flex: 1 1 160px;
+        min-width: 140px;
+        margin-bottom: 0;
+    }
+
+    .menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 6px 22px;
+    }
+
+    .sidebar-empty {
+        flex-basis: 100%;
+        margin-top: 0;
     }
 
     .content {

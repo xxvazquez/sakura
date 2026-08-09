@@ -63,12 +63,13 @@ function initReferenceTables() {
 // --------------------------------------------------
 // PAGE SEARCH
 // --------------------------------------------------
-// One search box (#pageSearch) filters every table.ref-table on the
-// page at once — never an individual table's own box. A non-empty
-// query also force-opens every <details class="toggle-section"> so a
-// match inside a collapsed section is still visible; an emptied query
-// leaves toggles as the user last left them rather than forcing them
-// shut.
+// One search box (#pageSearch) filters every table.ref-table AND every
+// .dialogue-card on the page at once — never an individual table's own
+// box. Cards aren't a DataTable, so they're filtered separately by a
+// plain text-content match. A non-empty query also force-opens every
+// <details class="toggle-section"> so a match inside a collapsed
+// section is still visible; an emptied query leaves toggles as the
+// user last left them rather than forcing them shut.
 
 function initPageSearch() {
     const input = document.getElementById("pageSearch");
@@ -77,13 +78,20 @@ function initPageSearch() {
     const tables = $("table.ref-table").filter(function () {
         return $.fn.DataTable.isDataTable(this);
     });
-    if (tables.length === 0) return;
+    const cards = document.querySelectorAll(".dialogue-card");
+    if (tables.length === 0 && cards.length === 0) return;
 
     input.addEventListener("input", () => {
         const value = input.value;
+        const query = value.trim().toLowerCase();
 
         tables.each(function () {
             $(this).DataTable().search(value).draw();
+        });
+
+        cards.forEach((card) => {
+            const matches = card.textContent.toLowerCase().includes(query);
+            card.style.display = matches ? "" : "none";
         });
 
         if (value.trim() !== "") {
@@ -140,11 +148,10 @@ function initTableNav() {
 // --------------------------------------------------
 // SIDEBAR SEARCH
 // --------------------------------------------------
-// Filters the page list by matching each link's visible text.
-// The nav is a flat sibling list, two heading levels deep:
-// .menu-category (Vocabulary, Grammar…) > .menu-letter (N, T…) > <a>.
-// A letter hides itself once none of its links match; a category
-// hides itself once none of its letters have any matches left.
+// Filters the page list by matching each link's visible text. The nav
+// is flat: one .menu-group per letter, each holding that letter's
+// .menu-letter label and its page link(s). A link hides if it doesn't
+// match; its whole group hides once none of its links match.
 
 function initSidebarSearch() {
     const input = document.getElementById("sidebarSearch");
@@ -153,43 +160,23 @@ function initSidebarSearch() {
 
     if (!input || !nav) return;
 
-    const categories = nav.querySelectorAll(".menu-category");
+    const groups = nav.querySelectorAll(".menu-group");
 
     input.addEventListener("input", () => {
         const query = input.value.trim().toLowerCase();
         let anyVisible = false;
 
-        categories.forEach((category) => {
-            let categoryHasMatch = false;
-            let currentLetter = null;
-            let letterHasMatch = false;
-            let node = category.nextElementSibling;
+        groups.forEach((group) => {
+            let groupHasMatch = false;
 
-            const closeLetter = () => {
-                if (currentLetter) {
-                    currentLetter.style.display = letterHasMatch ? "" : "none";
-                }
-            };
+            group.querySelectorAll("a").forEach((link) => {
+                const matches = link.textContent.toLowerCase().includes(query);
+                link.style.display = matches ? "" : "none";
+                if (matches) groupHasMatch = true;
+            });
 
-            while (node && !node.classList.contains("menu-category")) {
-                if (node.classList.contains("menu-letter")) {
-                    closeLetter();
-                    currentLetter = node;
-                    letterHasMatch = false;
-                } else {
-                    const matches = node.textContent.toLowerCase().includes(query);
-                    node.style.display = matches ? "" : "none";
-                    if (matches) {
-                        letterHasMatch = true;
-                        categoryHasMatch = true;
-                    }
-                }
-                node = node.nextElementSibling;
-            }
-            closeLetter();
-
-            category.style.display = categoryHasMatch ? "" : "none";
-            if (categoryHasMatch) anyVisible = true;
+            group.style.display = groupHasMatch ? "" : "none";
+            if (groupHasMatch) anyVisible = true;
         });
 
         if (emptyState) emptyState.hidden = anyVisible;

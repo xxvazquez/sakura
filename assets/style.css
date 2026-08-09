@@ -21,6 +21,13 @@
     --red-bg: #fdf4f4;
     --red-border: #e5d0d0;
 
+    /* Question vs. answer in the Questions & Answers table — pastel and
+       muted like the rest of the palette, but distinct enough hues
+       (blue vs. green) that which line is which is obvious without
+       reading the Q:/A: prefix. */
+    --qa-q: #6b7bb0;
+    --qa-a: #4f9271;
+
     --radius: 12px;
     --sidebar: 220px;
     --content: 860px;
@@ -284,16 +291,11 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 /*-----------------------------------------------*/
 
 h1 {
-    margin-bottom: 6px;
+    margin-bottom: 32px;
 
     font-size: 2.3rem;
     font-weight: 700;
     letter-spacing: -0.03em;
-}
-
-.subtitle {
-    margin-bottom: 36px;
-    color: var(--muted);
 }
 
 .page h2 {
@@ -699,15 +701,19 @@ tr.irregular .type::before {
 }
 
 /*-----------------------------------------------*/
-/* Q&A (Practice Q&A table) */
+/* Q&A (Questions & Answers table) */
 /*-----------------------------------------------*/
-/* A question/answer pair stacked in one cell instead of a single
-   value — the Q line muted (the prompt), the A line full text color
-   (the payload), same muted-then-emphasized hierarchy as .notes above. */
+/* A question/answer pair stacked in one cell instead of a single value.
+   Q and A get distinct pastel colors (--qa-q / --qa-a) rather than just
+   a muted/full-color split, so which line is which reads instantly
+   across all three columns, not only from the Q:/A: prefix. Furigana
+   (<ruby>/<rt>) inside .qa-jp inherits that same color — no separate
+   override — so a question's readings stay visibly grouped with its
+   question, same for answers. */
 
 .qa {
     max-width: 300px;
-    line-height: 1.55;
+    line-height: 1.7;
 }
 
 .qa-latin {
@@ -716,14 +722,21 @@ tr.irregular .type::before {
 
 .qa-q {
     display: block;
-    color: var(--muted);
+    color: var(--qa-q);
     font-size: 0.9rem;
 }
 
 .qa-a {
     display: block;
-    margin-top: 4px;
-    color: var(--text);
+    margin-top: 6px;
+    color: var(--qa-a);
+    font-weight: 500;
+}
+
+.qa-jp rt {
+    font-size: 0.55em;
+    font-weight: 400;
+    opacity: 0.85;
 }
 
 /*-----------------------------------------------*/

@@ -19,7 +19,7 @@
     <!-- STYLES -->
     <!-- ------------------------------------- -->
 
-    <link rel="stylesheet" href="/assets/style.css" />
+    <link rel="stylesheet" href="assets/style.css" />
 
     <!-- ------------------------------------- -->
     <!-- DATA TABLES -->
@@ -48,7 +48,7 @@
         <!-- The only way back to this landing page — it's deliberately
              not one of the alphabetical entries below, since it isn't
              study content itself. -->
-        <a class="sidebar-brand" href="/">Sakura Study</a>
+        <a class="sidebar-brand" href="index.html">Sakura Study</a>
 
         <!-- ------------------------------------- -->
         <!-- SIDEBAR SEARCH -->
@@ -72,9 +72,18 @@
              category) — the search script and layout both work off this
              flat sibling structure, no other markup changes needed.
 
-             Links are absolute from the site root (/vocabulary/...) so
-             they work the same regardless of how deep a page's own
-             folder is, or which page is currently open.
+             Links are relative, not root-absolute — this site has to keep
+             working wherever it's hosted (root domain, a subpath, a
+             local file), and only relative paths are guaranteed to
+             survive that. The cost: every link's ../ count depends on
+             the linking page's own folder depth. From root (index.html)
+             assets are assets/style.css and pages are
+             vocabulary/numbers.html. From one folder deep
+             (vocabulary/*.html) it's ../assets/style.css, a same-folder
+             page is just numbers.html, and a different category is
+             ../grammar/particles.html. One more ../ per extra level of
+             nesting — get the depth right when copying this nav to a
+             new page.
 
              This search matches page titles only. Searching inside a
              page's own content is the in-page table search box, not
@@ -82,11 +91,11 @@
 
              Example, once /grammar/particles.html exists:
              <div class="menu-group">Grammar</div>
-             <a href="/grammar/particles.html">Particles</a> -->
+             <a href="grammar/particles.html">Particles</a> -->
         <nav class="menu" id="sidebarMenu">
           <div class="menu-group">Vocabulary</div>
-          <a href="/vocabulary/numbers.html">Numbers</a>
-          <a href="/vocabulary/time.html">Time</a>
+          <a href="vocabulary/numbers.html">Numbers</a>
+          <a href="vocabulary/time.html">Time</a>
         </nav>
         <p class="sidebar-empty" id="sidebarEmpty" hidden>No pages match.</p>
       </aside>
@@ -109,7 +118,7 @@
 <!-- SCRIPTS -->
 <!-- ------------------------------------- -->
 
-<script src="/assets/script.js"></script>
+<script src="assets/script.js"></script>
 
   </body>
   <!-- ------------------------------------- -->

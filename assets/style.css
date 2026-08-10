@@ -81,6 +81,7 @@ body {
 
     * {
         transition-duration: 0.001ms !important;
+        animation-duration: 0.001ms !important;
         scroll-behavior: auto !important;
     }
 }
@@ -199,6 +200,8 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 /*-----------------------------------------------*/
 
 .sidebar-search {
+    position: relative;
+
     margin-bottom: 18px;
 }
 
@@ -234,12 +237,83 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
     box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.05);
 }
 
-.sidebar-empty {
-    margin-top: 4px;
-    padding-left: 14px;
+/* Documentation-style results dropdown, floated below the search box
+   instead of pushing page content — see initGlobalSearch (script.js)
+   and assets/search-index.js (the content it searches, one entry per
+   table row / dialogue card / grammar note across every lesson). */
+
+.search-results {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    z-index: 20;
+
+    max-height: 360px;
+    overflow-y: auto;
+
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(17, 24, 39, 0.1);
+
+    padding: 6px;
+}
+
+.search-result {
+    display: block;
+
+    padding: 8px 10px;
+
+    border-radius: 8px;
+
+    color: var(--text);
+    text-decoration: none;
+}
+
+.search-result:hover,
+.search-result:focus-visible {
+    background: var(--hover);
+    outline: none;
+}
+
+.search-result + .search-result {
+    margin-top: 2px;
+}
+
+.search-result-meta {
+    display: block;
+    margin-bottom: 3px;
 
     color: var(--muted);
-    font-size: 0.8rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.search-result-snippet {
+    display: -webkit-box;
+    overflow: hidden;
+
+    font-size: 0.85rem;
+    line-height: 1.4;
+
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.search-result-snippet mark {
+    background: none;
+    color: var(--text);
+    font-weight: 700;
+}
+
+.search-results-empty {
+    padding: 10px;
+
+    color: var(--muted);
+    font-size: 0.85rem;
 }
 
 /* Flat and alphabetical, no category heading — one .menu-group per
@@ -272,7 +346,7 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 .menu a {
     display: block;
 
-    padding: 7px 0 7px 14px;
+    padding: 9px 0 9px 14px;
 
     color: var(--text);
     text-decoration: none;
@@ -430,7 +504,7 @@ h1 {
 }
 
 .table-nav a {
-    padding: 6px 14px;
+    padding: 9px 16px;
 
     border: 1px solid var(--border);
     border-radius: 999px;
@@ -458,7 +532,7 @@ h1 {
    as every other bordered block in this design system. */
 
 .toggle-section {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -471,7 +545,7 @@ h1 {
     align-items: center;
     justify-content: space-between;
 
-    padding: 16px 24px;
+    padding: 18px 24px;
 
     cursor: pointer;
     list-style: none;
@@ -621,10 +695,16 @@ tr.irregular .romaji {
 }
 
 /* The irregular marker itself is CSS-generated rather than typed into
-   every row's HTML — one place to change the glyph later, and no risk
-   of a new irregular entry quietly missing its marker. */
+   every row's HTML — one place to change the label later, and no risk
+   of a new irregular entry quietly missing its marker. Spelled out as
+   "irr." rather than a bare "*": no tooltip and no legend anywhere on
+   the site explains what the asterisk meant, so a first-time reader
+   had no way to discover it — a short word reads as self-explanatory
+   without either. */
 tr.irregular .type::before {
-    content: "*";
+    content: "irr.";
+
+    letter-spacing: 0.02em;
 }
 
 /*-----------------------------------------------*/
@@ -708,10 +788,12 @@ tr.irregular .type::before {
 /*-----------------------------------------------*/
 /* NOTES (per-row usage note + example sentence) */
 /*-----------------------------------------------*/
-/* An explanation line plus a romaji example (target word bolded) and
-   its translation, stacked in one cell. Monochrome like the rest of
-   the table: hierarchy comes from weight/style/color-within-palette,
-   not new color. */
+/* An explanation line plus a three-line example — Japanese (with
+   furigana), romaji, English — the same order used everywhere else on
+   the site (dialogue cards, Q&A). Target word bolded on both the
+   Japanese and romaji lines. Monochrome like the rest of the table:
+   hierarchy comes from weight/style/color-within-palette, not new
+   color. */
 
 .notes {
     max-width: 320px;
@@ -721,16 +803,31 @@ tr.irregular .type::before {
     line-height: 1.55;
 }
 
+.notes .example-jp {
+    display: inline-block;
+    margin-top: 6px;
+
+    color: var(--text);
+    font-size: 0.95rem;
+}
+
+.notes .example-jp rt {
+    font-size: 0.55em;
+    font-weight: 400;
+    color: #9ca3af;
+}
+
 .notes .example {
     display: inline-block;
-    margin-top: 4px;
+    margin-top: 3px;
 
     color: var(--text);
     font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
     font-style: italic;
 }
 
-.notes .example strong {
+.notes .example strong,
+.notes .example-jp strong {
     font-weight: 700;
     font-style: normal;
 }
@@ -756,7 +853,7 @@ tr.irregular .type::before {
 .dialogue-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+    gap: 24px;
 }
 
 .dialogue-card {
@@ -779,7 +876,7 @@ tr.irregular .type::before {
 .dialogue-messages {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
 }
 
 .message {
@@ -842,7 +939,7 @@ tr.irregular .type::before {
 }
 
 .message-bubble p {
-    margin-top: 10px;
+    margin-top: 12px;
 }
 
 .message-bubble p:first-child {
@@ -900,6 +997,146 @@ tr.irregular .type::before {
 
 .grammar-note li + li {
     margin-top: 6px;
+}
+
+/*-----------------------------------------------*/
+/* PRACTICE (placeholder) */
+/*-----------------------------------------------*/
+/* Every lesson ends with a Practice section for the same reason every
+   lesson starts with the same page-search/table-nav: one predictable
+   shape across the site. No exercises exist yet, so it's just this
+   line — plain text, not a bordered callout, so an empty section
+   doesn't visually compete with the real content above it. */
+
+.practice-placeholder {
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+/*-----------------------------------------------*/
+/* DISPLAY TOGGLES (Furigana / Romaji / English) */
+/*-----------------------------------------------*/
+/* Three checkboxes, on by default, persisted per-browser in
+   localStorage by initDisplayToggles (script.js) — unchecking one
+   adds a body.hide-* class that this stylesheet reads everywhere that
+   layer appears (table cells, dialogue lines, notes examples).
+   visibility: hidden rather than display: none throughout, on purpose
+   — the whole point is that hiding a layer must not reflow the table
+   or collapse the vertical rhythm of a dialogue card; a blank cell or
+   blank line in its place does that. */
+
+.display-toggles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+
+    margin-bottom: 24px;
+}
+
+.display-toggles label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+
+    cursor: pointer;
+    user-select: none;
+}
+
+.display-toggles input[type="checkbox"] {
+    width: 14px;
+    height: 14px;
+
+    accent-color: var(--text);
+    cursor: pointer;
+}
+
+body.hide-furigana rt {
+    visibility: hidden;
+}
+
+body.hide-romaji td.romaji,
+body.hide-romaji th.col-romaji,
+body.hide-romaji .message-romaji,
+body.hide-romaji .notes .example {
+    visibility: hidden;
+}
+
+body.hide-english td.english,
+body.hide-english th.col-english,
+body.hide-english .message-en,
+body.hide-english .notes .example-en {
+    visibility: hidden;
+}
+
+/*-----------------------------------------------*/
+/* SEARCH RESULT HIGHLIGHT */
+/*-----------------------------------------------*/
+/* Landing on a page from a search result (initSearchHighlight in
+   script.js) briefly tints whichever row/card/note matched, so it's
+   obvious what the search actually found instead of just landing
+   somewhere in an opened section and leaving you to re-read it. Fades
+   back to nothing on its own — nothing to dismiss. */
+
+.search-highlight {
+    animation: sakura-search-flash 2.2s ease-out;
+}
+
+@keyframes sakura-search-flash {
+    0%,
+    35% {
+        background-color: #fff3cd;
+    }
+
+    100% {
+        background-color: transparent;
+    }
+}
+
+/*-----------------------------------------------*/
+/* LESSON NAV (previous / next) */
+/*-----------------------------------------------*/
+/* Footer nav so studying can continue straight to the next lesson
+   (Numbers → Time → Frequency) without a trip back to the home page.
+   Spacing only, no rule line, to separate it from the page above —
+   same pill-link language as .table-nav, just anchored bottom-left/
+   bottom-right instead of top and wrapped. */
+
+.lesson-nav {
+    display: flex;
+    justify-content: space-between;
+
+    margin-top: 40px;
+}
+
+.lesson-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 10px 16px;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    color: var(--text);
+    text-decoration: none;
+
+    font-size: 0.88rem;
+    font-weight: 600;
+
+    transition: 0.15s;
+}
+
+.lesson-nav a:hover {
+    background: var(--hover);
+}
+
+.lesson-nav-next {
+    margin-left: auto;
 }
 
 /*-----------------------------------------------*/
@@ -1042,11 +1279,6 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
         gap: 6px 22px;
     }
 
-    .sidebar-empty {
-        flex-basis: 100%;
-        margin-top: 0;
-    }
-
     .content {
         padding: 28px;
     }
@@ -1057,6 +1289,26 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
 
     .page-search input {
         width: 100%;
+    }
+}
+
+/* A narrower tier for phones specifically: the 900px breakpoint's
+   padding/message widths were tuned for tablet-ish widths and get
+   cramped once .dialogue-card's own padding and .message-bubble's
+   padding stack on top on a ~375px screen — trim the outer page
+   margin a little and let messages use more of that reclaimed width. */
+
+@media (max-width: 480px) {
+    .content {
+        padding: 20px;
+    }
+
+    .dialogue-card {
+        padding: 18px;
+    }
+
+    .message {
+        max-width: 94%;
     }
 }
 
@@ -1072,9 +1324,10 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
 @media print {
     .sidebar,
     .sidebar-search,
-    .sidebar-empty,
     .page-search,
-    .table-nav {
+    .table-nav,
+    .display-toggles,
+    .lesson-nav {
         display: none !important;
     }
 
@@ -1095,6 +1348,22 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
 
     .toggle-section .toggle-body {
         display: block !important;
+    }
+
+    /* Same reasoning as forcing collapsed toggles open above: a
+       printed reference page should be complete regardless of
+       whatever furigana/romaji/English layers were switched off on
+       screen at the time. */
+    body.hide-furigana rt,
+    body.hide-romaji td.romaji,
+    body.hide-romaji th.col-romaji,
+    body.hide-romaji .message-romaji,
+    body.hide-romaji .notes .example,
+    body.hide-english td.english,
+    body.hide-english th.col-english,
+    body.hide-english .message-en,
+    body.hide-english .notes .example-en {
+        visibility: visible !important;
     }
 
     body {

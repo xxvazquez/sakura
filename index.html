@@ -57,9 +57,10 @@
           <input
             type="text"
             id="sidebarSearch"
-            placeholder="Search pages…"
+            placeholder="Search lessons…"
             autocomplete="off"
           />
+          <div class="search-results" id="searchResults" hidden></div>
         </div>
 
         <!-- ------------------------------------- -->
@@ -87,8 +88,10 @@
              nesting — get the depth right when copying this nav to a
              new page.
 
-             This search matches page titles only. Searching inside a
-             page's own content is the in-page search box, not this one.
+             This search matches every lesson's actual content, not just page
+             titles — see initGlobalSearch in assets/script.js and
+             assets/search-index.js (regenerate that file after editing
+             lesson content: python3 assets/build-search-index.py).
 
              Example, once /grammar/particles.html exists (P sorts
              between N and T, so it slots in as its own group there):
@@ -110,7 +113,6 @@
             <a href="pages/time.html">Time</a>
           </div>
         </nav>
-        <p class="sidebar-empty" id="sidebarEmpty" hidden>No pages match.</p>
       </aside>
 
       <main class="content">
@@ -140,6 +142,7 @@
 <!-- SCRIPTS -->
 <!-- ------------------------------------- -->
 
+<script src="assets/search-index.js"></script>
 <script src="assets/script.js"></script>
 
   </body>

@@ -55,9 +55,10 @@
           <input
             type="text"
             id="sidebarSearch"
-            placeholder="Search pages…"
+            placeholder="Search lessons…"
             autocomplete="off"
           />
+          <div class="search-results" id="searchResults" hidden></div>
         </div>
 
         <!-- ------------------------------------- -->
@@ -85,8 +86,10 @@
              nesting — get the depth right when copying this nav to a
              new page.
 
-             This search matches page titles only. Searching inside a
-             page's own content is the in-page search box, not this one. -->
+             This search matches every lesson's actual content, not just page
+             titles — see initGlobalSearch in assets/script.js and
+             assets/search-index.js (regenerate that file after editing
+             lesson content: python3 assets/build-search-index.py). -->
         <nav class="menu" id="sidebarMenu">
           <div class="menu-group">
             <span class="menu-letter">F</span>
@@ -101,7 +104,6 @@
             <a class="active" href="time.html">Time</a>
           </div>
         </nav>
-        <p class="sidebar-empty" id="sidebarEmpty" hidden>No pages match.</p>
       </aside>
 
       <main class="content">
@@ -129,6 +131,19 @@
           </div>
 
           <!-- ------------------------------------- -->
+          <!-- DISPLAY TOGGLES -->
+          <!-- ------------------------------------- -->
+          <!-- Furigana/romaji/English, on by default and persisted in
+               localStorage across the whole site — see
+               initDisplayToggles in assets/script.js. -->
+
+          <div class="display-toggles">
+            <label><input type="checkbox" id="toggleFurigana" checked /> Furigana</label>
+            <label><input type="checkbox" id="toggleRomaji" checked /> Romaji</label>
+            <label><input type="checkbox" id="toggleEnglish" checked /> English</label>
+          </div>
+
+          <!-- ------------------------------------- -->
           <!-- TABLE NAV -->
           <!-- ------------------------------------- -->
           <!-- Sticky quick-jump bar for pages with more than one table.
@@ -141,12 +156,402 @@
                whenever a table is added, renamed, or reordered. -->
 
           <nav class="table-nav" id="tableNav">
+            <a href="#vocabulary">Vocabulary</a>
             <a href="#hours">Hours</a>
             <a href="#minutes">Minutes</a>
             <a href="#duration">Duration</a>
-            <a href="#vocabulary">Vocabulary</a>
             <a href="#dialogue-cards">Dialogue Cards</a>
+            <a href="#practice">Practice</a>
           </nav>
+
+          <!-- ------------------------------------- -->
+          <!-- VOCABULARY TABLE -->
+          <!-- ------------------------------------- -->
+
+          <details class="toggle-section" id="vocabulary">
+            <summary><h2>Vocabulary</h2></summary>
+
+            <div class="toggle-body">
+              <table id="vocabularyTable" class="ref-table" data-default-order="3,asc">
+                <thead>
+                  <tr>
+                    <th class="type-col">Tag</th>
+                    <th>Japanese</th>
+                    <th class="col-romaji">Romaji</th>
+                    <th class="col-english">English</th>
+                    <th>Notes</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">今日</span><rt>きょう</rt></ruby>
+                    </td>
+                    <td class="romaji">kyō</td>
+                    <td class="english">today</td>
+                    <td class="notes">
+                      Used to talk about the current day.<br>
+                      <span class="example-jp" lang="ja"><ruby>今日<rt>きょう</rt></ruby><span class="particle">は</span><ruby>月曜日<rt>げつようび</rt></ruby>です。</span><br>
+                      <span class="example"><strong>Kyō</strong> <span class="particle">wa</span> getsuyōbi desu.</span><br>
+                      <span class="example-en">Today is Monday.</span>
+                    </td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">明日</span><rt>あした</rt></ruby>
+                    </td>
+                    <td class="romaji">ashita</td>
+                    <td class="english">tomorrow</td>
+                    <td class="notes">
+                      Used to talk about the next day.<br>
+                      <span class="example-jp" lang="ja"><ruby>明日<rt>あした</rt></ruby><span class="particle">は</span><ruby>学校<rt>がっこう</rt></ruby><span class="particle">へ</span><ruby>行<rt>い</rt></ruby>きます。</span><br>
+                      <span class="example"><strong>Ashita</strong> <span class="particle">wa</span> gakkō <span class="particle">e</span> ikimasu.</span><br>
+                      <span class="example-en">I will go to school tomorrow.</span>
+                    </td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">昨日</span><rt>きのう</rt></ruby>
+                    </td>
+                    <td class="romaji">kinō</td>
+                    <td class="english">yesterday</td>
+                    <td class="notes">
+                      Used to talk about the previous day.<br>
+                      <span class="example-jp" lang="ja"><ruby>昨日<rt>きのう</rt></ruby><span class="particle">は</span><ruby>雨<rt>あめ</rt></ruby>でした。</span><br>
+                      <span class="example"><strong>Kinō</strong> <span class="particle">wa</span> ame deshita.</span><br>
+                      <span class="example-en">Yesterday it rained.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">朝</span><rt>あさ</rt></ruby>
+                    </td>
+                    <td class="romaji">asa</td>
+                    <td class="english">morning</td>
+                    <td class="notes">
+                      Refers to the morning.<br>
+                      <span class="example-jp" lang="ja"><ruby>朝<rt>あさ</rt></ruby>、パン<span class="particle">を</span><ruby>食<rt>た</rt></ruby>べます。</span><br>
+                      <span class="example"><strong>Asa</strong>, pan <span class="particle">o</span> tabemasu.</span><br>
+                      <span class="example-en">I eat bread in the morning.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">昼</span><rt>ひる</rt></ruby>
+                    </td>
+                    <td class="romaji">hiru</td>
+                    <td class="english">daytime / noon</td>
+                    <td class="notes">
+                      Refers to the daytime or around noon.<br>
+                      <span class="example-jp" lang="ja"><ruby>昼<rt>ひる</rt></ruby>、<ruby>昼<rt>ひる</rt></ruby>ご<ruby>飯<rt>はん</rt></ruby><span class="particle">を</span><ruby>食<rt>た</rt></ruby>べます。</span><br>
+                      <span class="example"><strong>Hiru</strong>, hirugohan <span class="particle">o</span> tabemasu.</span><br>
+                      <span class="example-en">I eat lunch at noon.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">夜</span><rt>よる</rt></ruby>
+                    </td>
+                    <td class="romaji">yoru</td>
+                    <td class="english">night</td>
+                    <td class="notes">
+                      Refers to the night.<br>
+                      <span class="example-jp" lang="ja"><ruby>夜<rt>よる</rt></ruby>、<ruby>寝<rt>ね</rt></ruby>ます。</span><br>
+                      <span class="example"><strong>Yoru</strong>, nemasu.</span><br>
+                      <span class="example-en">I go to bed at night.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">午前</span><rt>ごぜん</rt></ruby>
+                    </td>
+                    <td class="romaji">gozen</td>
+                    <td class="english">AM / before noon</td>
+                    <td class="notes">
+                      Goes before the hour.<br>
+                      <span class="example-jp" lang="ja"><ruby>私<rt>わたし</rt></ruby><span class="particle">は</span><strong><ruby>午前<rt>ごぜん</rt></ruby></strong><ruby>七時<rt>しちじ</rt></ruby><span class="particle">に</span><ruby>起<rt>お</rt></ruby>きます。</span><br>
+                      <span class="example">Watashi <span class="particle">wa</span> <strong>gozen</strong> shichiji <span class="particle">ni</span> okimasu.</span><br>
+                      <span class="example-en">I wake up at 7:00 AM.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">午後</span><rt>ごご</rt></ruby>
+                    </td>
+                    <td class="romaji">gogo</td>
+                    <td class="english">PM / after noon</td>
+                    <td class="notes">
+                      Goes before the hour.<br>
+                      <span class="example-jp" lang="ja"><ruby>私<rt>わたし</rt></ruby><span class="particle">は</span><strong><ruby>午後<rt>ごご</rt></ruby></strong><ruby>三時<rt>さんじ</rt></ruby><span class="particle">に</span><ruby>勉強<rt>べんきょう</rt></ruby>します。</span><br>
+                      <span class="example">Watashi <span class="particle">wa</span> <strong>gogo</strong> sanji <span class="particle">ni</span> benkyō shimasu.</span><br>
+                      <span class="example-en">I study at 3:00 PM.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">正午</span><rt>しょうご</rt></ruby>
+                    </td>
+                    <td class="romaji">shōgo</td>
+                    <td class="english">noon (12:00 PM)</td>
+                    <td class="notes">
+                      Refers to exactly 12:00 PM.<br>
+                      <span class="example-jp" lang="ja"><ruby>私<rt>わたし</rt></ruby><span class="particle">は</span><strong><ruby>正午<rt>しょうご</rt></ruby></strong><span class="particle">に</span><ruby>昼<rt>ひる</rt></ruby>ご<ruby>飯<rt>はん</rt></ruby><span class="particle">を</span><ruby>食<rt>た</rt></ruby>べます。</span><br>
+                      <span class="example">Watashi <span class="particle">wa</span> <strong>shōgo</strong> <span class="particle">ni</span> hirugohan <span class="particle">o</span> tabemasu.</span><br>
+                      <span class="example-en">I eat lunch at noon.</span>
+                    </td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">今</span><rt>いま</rt></ruby>
+                    </td>
+                    <td class="romaji">ima</td>
+                    <td class="english">now</td>
+                    <td class="notes">
+                      Refers to the present moment.<br>
+                      <span class="example-jp" lang="ja"><ruby>今<rt>いま</rt></ruby><span class="particle">は</span><ruby>九時<rt>くじ</rt></ruby>です。</span><br>
+                      <span class="example"><strong>Ima</strong> <span class="particle">wa</span> kuji desu.</span><br>
+                      <span class="example-en">It is 9:00 now.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">毎朝</span><rt>まいあさ</rt></ruby>
+                    </td>
+                    <td class="romaji">maiasa</td>
+                    <td class="english">every morning</td>
+                    <td class="notes">
+                      Used for repeated morning actions.<br>
+                      <span class="example-jp" lang="ja"><ruby>毎朝<rt>まいあさ</rt></ruby>コーヒー<span class="particle">を</span><ruby>飲<rt>の</rt></ruby>みます。</span><br>
+                      <span class="example"><strong>Maiasa</strong> kōhī <span class="particle">o</span> nomimasu.</span><br>
+                      <span class="example-en">I drink coffee every morning.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">毎晩</span><rt>まいばん</rt></ruby>
+                    </td>
+                    <td class="romaji">maiban</td>
+                    <td class="english">every evening</td>
+                    <td class="notes">
+                      Used for repeated evening actions.<br>
+                      <span class="example-jp" lang="ja"><ruby>毎晩<rt>まいばん</rt></ruby>テレビ<span class="particle">を</span><ruby>見<rt>み</rt></ruby>ます。</span><br>
+                      <span class="example"><strong>Maiban</strong> terebi <span class="particle">o</span> mimasu.</span><br>
+                      <span class="example-en">I watch TV every evening.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">毎日</span><rt>まいにち</rt></ruby>
+                    </td>
+                    <td class="romaji">mainichi</td>
+                    <td class="english">every day</td>
+                    <td class="notes">
+                      Used for daily habits.<br>
+                      <span class="example-jp" lang="ja"><ruby>毎日<rt>まいにち</rt></ruby><ruby>日本語<rt>にほんご</rt></ruby><span class="particle">を</span><ruby>勉強<rt>べんきょう</rt></ruby>します。</span><br>
+                      <span class="example"><strong>Mainichi</strong> Nihongo <span class="particle">o</span> benkyō shimasu.</span><br>
+                      <span class="example-en">I study Japanese every day.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">毎週</span><rt>まいしゅう</rt></ruby>
+                    </td>
+                    <td class="romaji">maishū</td>
+                    <td class="english">every week</td>
+                    <td class="notes">
+                      Used for weekly habits.<br>
+                      <span class="example-jp" lang="ja"><ruby>毎週<rt>まいしゅう</rt></ruby><ruby>図書館<rt>としょかん</rt></ruby><span class="particle">へ</span><ruby>行<rt>い</rt></ruby>きます。</span><br>
+                      <span class="example"><strong>Maishū</strong> toshokan <span class="particle">e</span> ikimasu.</span><br>
+                      <span class="example-en">I go to the library every week.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">毎月</span><rt>まいつき</rt></ruby>
+                    </td>
+                    <td class="romaji">maitsuki</td>
+                    <td class="english">every month</td>
+                    <td class="notes">
+                      Used for monthly events.<br>
+                      <span class="example-jp" lang="ja"><ruby>毎月<rt>まいつき</rt></ruby><ruby>本<rt>ほん</rt></ruby><span class="particle">を</span><ruby>買<rt>か</rt></ruby>います。</span><br>
+                      <span class="example"><strong>Maitsuki</strong> hon <span class="particle">o</span> kaimasu.</span><br>
+                      <span class="example-en">I buy a book every month.</span>
+                    </td>
+                  </tr>
+                  <tr class="irregular">
+                    <td class="type" data-order="1"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">毎年</span><rt>まいとし</rt></ruby>
+                    </td>
+                    <td class="romaji">maitoshi</td>
+                    <td class="english">every year</td>
+                    <td class="notes">
+                      Used for yearly events.<br>
+                      <span class="example-jp" lang="ja"><ruby>毎年<rt>まいとし</rt></ruby><ruby>日本<rt>にほん</rt></ruby><span class="particle">へ</span><ruby>行<rt>い</rt></ruby>きます。</span><br>
+                      <span class="example"><strong>Maitoshi</strong> Nihon <span class="particle">e</span> ikimasu.</span><br>
+                      <span class="example-en">I go to Japan every year.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">～時</span><rt>～じ</rt></ruby>
+                    </td>
+                    <td class="romaji">~ji</td>
+                    <td class="english">o'clock</td>
+                    <td class="notes">
+                      Added after the hour.<br>
+                      <span class="example-jp" lang="ja"><ruby>学校<rt>がっこう</rt></ruby><span class="particle">は</span><strong><ruby>八時<rt>はちじ</rt></ruby></strong><span class="particle">に</span><ruby>始<rt>はじ</rt></ruby>まります。</span><br>
+                      <span class="example">Gakkō <span class="particle">wa</span> <strong>hachiji</strong> <span class="particle">ni</span> hajimarimasu.</span><br>
+                      <span class="example-en">School starts at 8:00.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">～分</span><rt>～ふん・～ぷん</rt></ruby>
+                    </td>
+                    <td class="romaji">~fun / ~pun</td>
+                    <td class="english">minute</td>
+                    <td class="notes">
+                      Added after the number. The reading changes depending on the number.<br>
+                      <span class="example-jp" lang="ja">バス<span class="particle">は</span><strong><ruby>十分<rt>じゅっぷん</rt></ruby></strong><span class="particle">で</span><ruby>来<rt>き</rt></ruby>ます。</span><br>
+                      <span class="example">Basu <span class="particle">wa</span> <strong>juppun</strong> <span class="particle">de</span> kimasu.</span><br>
+                      <span class="example-en">The bus comes in 10 minutes.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">半</span><rt>はん</rt></ruby>
+                    </td>
+                    <td class="romaji">han</td>
+                    <td class="english">half</td>
+                    <td class="notes">
+                      Replaces 30 minutes.<br>
+                      <span class="example-jp" lang="ja"><ruby>今<rt>いま</rt></ruby><span class="particle">は</span><ruby>三時<rt>さんじ</rt></ruby><strong><ruby>半<rt>はん</rt></ruby></strong>です。</span><br>
+                      <span class="example">Ima <span class="particle">wa</span> sanji <strong>han</strong> desu.</span><br>
+                      <span class="example-en">It is 3:30 now.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">～前</span><rt>～まえ</rt></ruby>
+                    </td>
+                    <td class="romaji">~mae</td>
+                    <td class="english">before</td>
+                    <td class="notes">
+                      Goes after the amount of time.<br>
+                      <span class="example-jp" lang="ja"><ruby>電車<rt>でんしゃ</rt></ruby><span class="particle">は</span><ruby>八時<rt>はちじ</rt></ruby><ruby>五分<rt>ごふん</rt></ruby><strong><ruby>前<rt>まえ</rt></ruby></strong><span class="particle">に</span><ruby>出<rt>で</rt></ruby>ます。</span><br>
+                      <span class="example">Densha <span class="particle">wa</span> hachiji gofun <strong>mae</strong> <span class="particle">ni</span> demasu.</span><br>
+                      <span class="example-en">The train leaves 5 minutes before 8:00.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">～後</span><rt>～あと</rt></ruby>
+                    </td>
+                    <td class="romaji">~ato</td>
+                    <td class="english">after</td>
+                    <td class="notes">
+                      Goes after the amount of time.<br>
+                      <span class="example-jp" lang="ja"><ruby>私<rt>わたし</rt></ruby><span class="particle">は</span><ruby>今<rt>いま</rt></ruby><span class="particle">から</span><ruby>十分<rt>じゅっぷん</rt></ruby><strong><ruby>後<rt>ご</rt></ruby></strong><span class="particle">に</span><ruby>出発<rt>しゅっぱつ</rt></ruby>します。</span><br>
+                      <span class="example">Watashi <span class="particle">wa</span> ima <span class="particle">kara</span> juppun <strong>ato</strong> <span class="particle">ni</span> shuppatsu shimasu.</span><br>
+                      <span class="example-en">I will leave 10 minutes from now.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji kana-only">～ごろ</span><rt>&nbsp;</rt></ruby>
+                    </td>
+                    <td class="romaji">~goro</td>
+                    <td class="english">around (approximately)</td>
+                    <td class="notes">
+                      Goes after the time.<br>
+                      <span class="example-jp" lang="ja"><ruby>私<rt>わたし</rt></ruby><span class="particle">は</span><ruby>七時<rt>しちじ</rt></ruby><strong>ごろ</strong><span class="particle">に</span><ruby>帰<rt>かえ</rt></ruby>ります。</span><br>
+                      <span class="example">Watashi <span class="particle">wa</span> shichiji <strong>goro</strong> <span class="particle">ni</span> kaerimasu.</span><br>
+                      <span class="example-en">I go home around 7:00.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji kana-only">～<span class="particle">から</span></span><rt>&nbsp;</rt></ruby>
+                    </td>
+                    <td class="romaji">~<span class="particle">kara</span></td>
+                    <td class="english">from</td>
+                    <td class="notes">
+                      Marks the starting time.<br>
+                      <span class="example-jp" lang="ja"><ruby>学校<rt>がっこう</rt></ruby><span class="particle">は</span><ruby>八時<rt>はちじ</rt></ruby><strong><span class="particle">から</span></strong>です。</span><br>
+                      <span class="example">Gakkō <span class="particle">wa</span> hachiji <strong><span class="particle">kara</span></strong> desu.</span><br>
+                      <span class="example-en">School starts at 8:00.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji kana-only">～<span class="particle">まで</span></span><rt>&nbsp;</rt></ruby>
+                    </td>
+                    <td class="romaji">~<span class="particle">made</span></td>
+                    <td class="english">until</td>
+                    <td class="notes">
+                      Marks the ending time.<br>
+                      <span class="example-jp" lang="ja"><ruby>学校<rt>がっこう</rt></ruby><span class="particle">は</span><ruby>三時<rt>さんじ</rt></ruby><strong><span class="particle">まで</span></strong>です。</span><br>
+                      <span class="example">Gakkō <span class="particle">wa</span> sanji <strong><span class="particle">made</span></strong> desu.</span><br>
+                      <span class="example-en">School is until 3:00.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji kana-only">～<span class="particle">から</span>～<span class="particle">まで</span></span><rt>&nbsp;</rt></ruby>
+                    </td>
+                    <td class="romaji">~<span class="particle">kara</span> ~<span class="particle">made</span></td>
+                    <td class="english">from … to …</td>
+                    <td class="notes">
+                      Used to express a time range.<br>
+                      <span class="example-jp" lang="ja"><ruby>学校<rt>がっこう</rt></ruby><span class="particle">は</span><ruby>八時<rt>はちじ</rt></ruby><strong><span class="particle">から</span></strong><ruby>三時<rt>さんじ</rt></ruby><strong><span class="particle">まで</span></strong>です。</span><br>
+                      <span class="example">Gakkō <span class="particle">wa</span> hachiji <strong><span class="particle">kara</span></strong> sanji <strong><span class="particle">made</span></strong> desu.</span><br>
+                      <span class="example-en">School is from 8:00 to 3:00.</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">～時間</span><rt>～じかん</rt></ruby>
+                    </td>
+                    <td class="romaji">~jikan</td>
+                    <td class="english">hour(s) (duration)</td>
+                    <td class="notes">
+                      Used to express a duration.<br>
+                      <span class="example-jp" lang="ja"><ruby>日本語<rt>にほんご</rt></ruby><span class="particle">を</span><strong><ruby>二時間<rt>にじかん</rt></ruby></strong><ruby>勉強<rt>べんきょう</rt></ruby>します。</span><br>
+                      <span class="example">Nihongo <span class="particle">o</span> <strong>nijikan</strong> benkyō shimasu.</span><br>
+                      <span class="example-en">I study Japanese for two hours.</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
 
           <!-- ------------------------------------- -->
           <!-- HOURS TABLE -->
@@ -161,8 +566,8 @@
                   <tr>
                     <th class="type-col">Tag</th>
                     <th>Japanese</th>
-                    <th>Romaji</th>
-                    <th>English</th>
+                    <th class="col-romaji">Romaji</th>
+                    <th class="col-english">English</th>
                   </tr>
                 </thead>
 
@@ -281,8 +686,8 @@
                   <tr>
                     <th class="type-col">Tag</th>
                     <th>Japanese</th>
-                    <th>Romaji</th>
-                    <th>English</th>
+                    <th class="col-romaji">Romaji</th>
+                    <th class="col-english">English</th>
                   </tr>
                 </thead>
 
@@ -457,8 +862,8 @@
                   <tr>
                     <th class="type-col">Tag</th>
                     <th>Japanese</th>
-                    <th>Romaji</th>
-                    <th>English</th>
+                    <th class="col-romaji">Romaji</th>
+                    <th class="col-english">English</th>
                   </tr>
                 </thead>
 
@@ -574,369 +979,6 @@
                     </td>
                     <td class="romaji">yonjūhachijikan</td>
                     <td class="english" data-order="48">48 hours</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </details>
-
-          <!-- ------------------------------------- -->
-          <!-- VOCABULARY TABLE -->
-          <!-- ------------------------------------- -->
-
-          <details class="toggle-section" id="vocabulary">
-            <summary><h2>Vocabulary</h2></summary>
-
-            <div class="toggle-body">
-              <table id="vocabularyTable" class="ref-table" data-default-order="3,asc">
-                <thead>
-                  <tr>
-                    <th class="type-col">Tag</th>
-                    <th>Japanese</th>
-                    <th>Romaji</th>
-                    <th>English</th>
-                    <th>Notes</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <tr class="irregular">
-                    <td class="type" data-order="1"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">今日</span><rt>きょう</rt></ruby>
-                    </td>
-                    <td class="romaji">kyō</td>
-                    <td class="english">today</td>
-                    <td class="notes">
-                      Used to talk about the current day.<br>
-                      <span class="example"><strong>Kyō</strong> <span class="particle">wa</span> getsuyōbi desu.</span><br>
-                      <span class="example-en">Today is Monday.</span>
-                    </td>
-                  </tr>
-                  <tr class="irregular">
-                    <td class="type" data-order="1"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">明日</span><rt>あした</rt></ruby>
-                    </td>
-                    <td class="romaji">ashita</td>
-                    <td class="english">tomorrow</td>
-                    <td class="notes">
-                      Used to talk about the next day.<br>
-                      <span class="example"><strong>Ashita</strong> <span class="particle">wa</span> gakkō <span class="particle">e</span> ikimasu.</span><br>
-                      <span class="example-en">I will go to school tomorrow.</span>
-                    </td>
-                  </tr>
-                  <tr class="irregular">
-                    <td class="type" data-order="1"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">昨日</span><rt>きのう</rt></ruby>
-                    </td>
-                    <td class="romaji">kinō</td>
-                    <td class="english">yesterday</td>
-                    <td class="notes">
-                      Used to talk about the previous day.<br>
-                      <span class="example"><strong>Kinō</strong> <span class="particle">wa</span> ame deshita.</span><br>
-                      <span class="example-en">Yesterday it rained.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">朝</span><rt>あさ</rt></ruby>
-                    </td>
-                    <td class="romaji">asa</td>
-                    <td class="english">morning</td>
-                    <td class="notes">
-                      Refers to the morning.<br>
-                      <span class="example"><strong>Asa</strong>, pan <span class="particle">o</span> tabemasu.</span><br>
-                      <span class="example-en">I eat bread in the morning.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">昼</span><rt>ひる</rt></ruby>
-                    </td>
-                    <td class="romaji">hiru</td>
-                    <td class="english">daytime / noon</td>
-                    <td class="notes">
-                      Refers to the daytime or around noon.<br>
-                      <span class="example"><strong>Hiru</strong>, hirugohan <span class="particle">o</span> tabemasu.</span><br>
-                      <span class="example-en">I eat lunch at noon.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">夜</span><rt>よる</rt></ruby>
-                    </td>
-                    <td class="romaji">yoru</td>
-                    <td class="english">night</td>
-                    <td class="notes">
-                      Refers to the night.<br>
-                      <span class="example"><strong>Yoru</strong>, nemasu.</span><br>
-                      <span class="example-en">I go to bed at night.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">午前</span><rt>ごぜん</rt></ruby>
-                    </td>
-                    <td class="romaji">gozen</td>
-                    <td class="english">AM / before noon</td>
-                    <td class="notes">
-                      Goes before the hour.<br>
-                      <span class="example">Watashi <span class="particle">wa</span> <strong>gozen</strong> shichiji <span class="particle">ni</span> okimasu.</span><br>
-                      <span class="example-en">I wake up at 7:00 AM.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">午後</span><rt>ごご</rt></ruby>
-                    </td>
-                    <td class="romaji">gogo</td>
-                    <td class="english">PM / after noon</td>
-                    <td class="notes">
-                      Goes before the hour.<br>
-                      <span class="example">Watashi <span class="particle">wa</span> <strong>gogo</strong> sanji <span class="particle">ni</span> benkyō shimasu.</span><br>
-                      <span class="example-en">I study at 3:00 PM.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">正午</span><rt>しょうご</rt></ruby>
-                    </td>
-                    <td class="romaji">shōgo</td>
-                    <td class="english">noon (12:00 PM)</td>
-                    <td class="notes">
-                      Refers to exactly 12:00 PM.<br>
-                      <span class="example">Watashi <span class="particle">wa</span> <strong>shōgo</strong> <span class="particle">ni</span> hirugohan <span class="particle">o</span> tabemasu.</span><br>
-                      <span class="example-en">I eat lunch at noon.</span>
-                    </td>
-                  </tr>
-                  <tr class="irregular">
-                    <td class="type" data-order="1"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">今</span><rt>いま</rt></ruby>
-                    </td>
-                    <td class="romaji">ima</td>
-                    <td class="english">now</td>
-                    <td class="notes">
-                      Refers to the present moment.<br>
-                      <span class="example"><strong>Ima</strong> <span class="particle">wa</span> kuji desu.</span><br>
-                      <span class="example-en">It is 9:00 now.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">毎朝</span><rt>まいあさ</rt></ruby>
-                    </td>
-                    <td class="romaji">maiasa</td>
-                    <td class="english">every morning</td>
-                    <td class="notes">
-                      Used for repeated morning actions.<br>
-                      <span class="example"><strong>Maiasa</strong> kōhī <span class="particle">o</span> nomimasu.</span><br>
-                      <span class="example-en">I drink coffee every morning.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">毎晩</span><rt>まいばん</rt></ruby>
-                    </td>
-                    <td class="romaji">maiban</td>
-                    <td class="english">every evening</td>
-                    <td class="notes">
-                      Used for repeated evening actions.<br>
-                      <span class="example"><strong>Maiban</strong> terebi <span class="particle">o</span> mimasu.</span><br>
-                      <span class="example-en">I watch TV every evening.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">毎日</span><rt>まいにち</rt></ruby>
-                    </td>
-                    <td class="romaji">mainichi</td>
-                    <td class="english">every day</td>
-                    <td class="notes">
-                      Used for daily habits.<br>
-                      <span class="example"><strong>Mainichi</strong> Nihongo <span class="particle">o</span> benkyō shimasu.</span><br>
-                      <span class="example-en">I study Japanese every day.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">毎週</span><rt>まいしゅう</rt></ruby>
-                    </td>
-                    <td class="romaji">maishū</td>
-                    <td class="english">every week</td>
-                    <td class="notes">
-                      Used for weekly habits.<br>
-                      <span class="example"><strong>Maishū</strong> toshokan <span class="particle">e</span> ikimasu.</span><br>
-                      <span class="example-en">I go to the library every week.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">毎月</span><rt>まいつき</rt></ruby>
-                    </td>
-                    <td class="romaji">maitsuki</td>
-                    <td class="english">every month</td>
-                    <td class="notes">
-                      Used for monthly events.<br>
-                      <span class="example"><strong>Maitsuki</strong> hon <span class="particle">o</span> kaimasu.</span><br>
-                      <span class="example-en">I buy a book every month.</span>
-                    </td>
-                  </tr>
-                  <tr class="irregular">
-                    <td class="type" data-order="1"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">毎年</span><rt>まいとし</rt></ruby>
-                    </td>
-                    <td class="romaji">maitoshi</td>
-                    <td class="english">every year</td>
-                    <td class="notes">
-                      Used for yearly events.<br>
-                      <span class="example"><strong>Maitoshi</strong> Nihon <span class="particle">e</span> ikimasu.</span><br>
-                      <span class="example-en">I go to Japan every year.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">～時</span><rt>～じ</rt></ruby>
-                    </td>
-                    <td class="romaji">~ji</td>
-                    <td class="english">o'clock</td>
-                    <td class="notes">
-                      Added after the hour.<br>
-                      <span class="example">Gakkō <span class="particle">wa</span> <strong>hachiji</strong> <span class="particle">ni</span> hajimarimasu.</span><br>
-                      <span class="example-en">School starts at 8:00.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">～分</span><rt>～ふん・～ぷん</rt></ruby>
-                    </td>
-                    <td class="romaji">~fun / ~pun</td>
-                    <td class="english">minute</td>
-                    <td class="notes">
-                      Added after the number. The reading changes depending on the number.<br>
-                      <span class="example">Basu <span class="particle">wa</span> <strong>juppun</strong> <span class="particle">de</span> kimasu.</span><br>
-                      <span class="example-en">The bus comes in 10 minutes.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">半</span><rt>はん</rt></ruby>
-                    </td>
-                    <td class="romaji">han</td>
-                    <td class="english">half</td>
-                    <td class="notes">
-                      Replaces 30 minutes.<br>
-                      <span class="example">Ima <span class="particle">wa</span> sanji <strong>han</strong> desu.</span><br>
-                      <span class="example-en">It is 3:30 now.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">～前</span><rt>～まえ</rt></ruby>
-                    </td>
-                    <td class="romaji">~mae</td>
-                    <td class="english">before</td>
-                    <td class="notes">
-                      Goes after the amount of time.<br>
-                      <span class="example">Densha <span class="particle">wa</span> hachiji gofun <strong>mae</strong> <span class="particle">ni</span> demasu.</span><br>
-                      <span class="example-en">The train leaves 5 minutes before 8:00.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">～後</span><rt>～あと</rt></ruby>
-                    </td>
-                    <td class="romaji">~ato</td>
-                    <td class="english">after</td>
-                    <td class="notes">
-                      Goes after the amount of time.<br>
-                      <span class="example">Watashi <span class="particle">wa</span> ima <span class="particle">kara</span> juppun <strong>ato</strong> <span class="particle">ni</span> shuppatsu shimasu.</span><br>
-                      <span class="example-en">I will leave 10 minutes from now.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">～ごろ</span><rt>&nbsp;</rt></ruby>
-                    </td>
-                    <td class="romaji">~goro</td>
-                    <td class="english">around (approximately)</td>
-                    <td class="notes">
-                      Goes after the time.<br>
-                      <span class="example">Watashi <span class="particle">wa</span> shichiji <strong>goro</strong> <span class="particle">ni</span> kaerimasu.</span><br>
-                      <span class="example-en">I go home around 7:00.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">～<span class="particle">から</span></span><rt>&nbsp;</rt></ruby>
-                    </td>
-                    <td class="romaji">~<span class="particle">kara</span></td>
-                    <td class="english">from</td>
-                    <td class="notes">
-                      Marks the starting time.<br>
-                      <span class="example">Gakkō <span class="particle">wa</span> hachiji <strong><span class="particle">kara</span></strong> desu.</span><br>
-                      <span class="example-en">School starts at 8:00.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">～<span class="particle">まで</span></span><rt>&nbsp;</rt></ruby>
-                    </td>
-                    <td class="romaji">~<span class="particle">made</span></td>
-                    <td class="english">until</td>
-                    <td class="notes">
-                      Marks the ending time.<br>
-                      <span class="example">Gakkō <span class="particle">wa</span> sanji <strong><span class="particle">made</span></strong> desu.</span><br>
-                      <span class="example-en">School is until 3:00.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">～<span class="particle">から</span>～<span class="particle">まで</span></span><rt>&nbsp;</rt></ruby>
-                    </td>
-                    <td class="romaji">~<span class="particle">kara</span> ~<span class="particle">made</span></td>
-                    <td class="english">from … to …</td>
-                    <td class="notes">
-                      Used to express a time range.<br>
-                      <span class="example">Gakkō <span class="particle">wa</span> hachiji <strong><span class="particle">kara</span></strong> sanji <strong><span class="particle">made</span></strong> desu.</span><br>
-                      <span class="example-en">School is from 8:00 to 3:00.</span>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">～時間</span><rt>～じかん</rt></ruby>
-                    </td>
-                    <td class="romaji">~jikan</td>
-                    <td class="english">hour(s) (duration)</td>
-                    <td class="notes">
-                      Used to express a duration.<br>
-                      <span class="example">Nihongo <span class="particle">o</span> <strong>nijikan</strong> benkyō shimasu.</span><br>
-                      <span class="example-en">I study Japanese for two hours.</span>
-                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -1099,6 +1141,30 @@
               </div>
             </div>
           </details>
+
+          <!-- ------------------------------------- -->
+          <!-- PRACTICE (placeholder) -->
+          <!-- ------------------------------------- -->
+
+          <details class="toggle-section" id="practice">
+            <summary><h2>Practice</h2></summary>
+
+            <div class="toggle-body">
+              <p class="practice-placeholder">Practice exercises for this lesson are coming soon.</p>
+            </div>
+          </details>
+
+          <!-- ------------------------------------- -->
+          <!-- LESSON NAV -->
+          <!-- ------------------------------------- -->
+          <!-- Sakura's learning order: Numbers → Time → Frequency
+               (telling time depends on numbers; frequency expressions
+               are commonly paired with time vocabulary). -->
+
+          <nav class="lesson-nav">
+            <a class="lesson-nav-prev" href="numbers.html">← Numbers</a>
+            <a class="lesson-nav-next" href="frequency.html">Frequency →</a>
+          </nav>
         </div>
       </main>
     </div>
@@ -1107,6 +1173,7 @@
 <!-- SCRIPTS -->
 <!-- ------------------------------------- -->
 
+<script src="../assets/search-index.js"></script>
 <script src="../assets/script.js"></script>
 
   </body>

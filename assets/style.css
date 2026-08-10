@@ -388,7 +388,6 @@ h1 {
    a reader learns to expect it in the same spot on every page. */
 
 .lesson-overview {
-    max-width: 640px;
     margin: 10px 0 28px;
 
     color: var(--muted);
@@ -403,29 +402,6 @@ h1 {
 }
 
 .page h2:first-of-type {
-    margin-top: 0;
-}
-
-/* An eyebrow label, not a collapsible section of its own — "Core
-   Reference" groups the tables directly under it (e.g. Time's Hours /
-   Minutes / Time Vocabulary / Counting Hours) into one labeled block
-   in the lesson's Overview → Core Reference → … → Practice order,
-   without wrapping them in an extra <details> that would just add a
-   click for no benefit when they're each already independently
-   collapsible. */
-
-.section-label {
-    margin: 32px 0 12px;
-
-    color: var(--muted);
-
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-}
-
-.section-label:first-of-type {
     margin-top: 0;
 }
 
@@ -1244,7 +1220,7 @@ tbody tr.search-highlight {
    language as everything else instead of a new visual pattern. */
 
 .related-pages {
-    margin: 40px 0 0;
+    margin: 40px 0 28px;
     padding-top: 20px;
 
     border-top: 1px solid var(--border);

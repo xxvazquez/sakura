@@ -382,6 +382,18 @@ h1 {
     color: var(--muted);
 }
 
+/* One sentence, every lesson: "what will I learn on this page?" — not
+   grammar explanation, not a vocab recap. Same visual weight as the
+   home page's .subtitle (it plays the same role, just per-lesson) so
+   a reader learns to expect it in the same spot on every page. */
+
+.lesson-overview {
+    max-width: 640px;
+    margin: 10px 0 28px;
+
+    color: var(--muted);
+}
+
 .page h2 {
     margin: 40px 0 16px;
 
@@ -394,43 +406,172 @@ h1 {
     margin-top: 0;
 }
 
-/*-----------------------------------------------*/
-/* PAGE INDEX (home page only) */
-/*-----------------------------------------------*/
-/* A flat, alphabetical directory of every page on the site — the
-   equivalent of a book's index, distinct from the sidebar (which
-   groups the same pages by category). Letters are shared visual
-   language with the sidebar's own .menu-letter, just larger since
-   this is primary page content, not a nav rail. */
+/* An eyebrow label, not a collapsible section of its own — "Core
+   Reference" groups the tables directly under it (e.g. Time's Hours /
+   Minutes / Time Vocabulary / Counting Hours) into one labeled block
+   in the lesson's Overview → Core Reference → … → Practice order,
+   without wrapping them in an extra <details> that would just add a
+   click for no benefit when they're each already independently
+   collapsible. */
 
-.page-index-letter {
-    margin: 28px 0 8px;
+.section-label {
+    margin: 32px 0 12px;
 
     color: var(--muted);
 
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     font-weight: 700;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
 }
 
-.page-index-letter:first-of-type {
+.section-label:first-of-type {
     margin-top: 0;
 }
 
-.page-index-link {
-    display: block;
+/*-----------------------------------------------*/
+/* CATEGORY INDEX (home page only) */
+/*-----------------------------------------------*/
+/* The home page's reference index: lessons grouped into fixed
+   categories (Writing System, Numbers & Time, Grammar…) instead of by
+   page structure or learning order — the organization that scales to
+   100+ lessons, since a learner arrives already knowing roughly what
+   they're looking for ("something about time") rather than where it
+   sits in a syllabus. Each category is a native <details> so the page
+   stays scannable instead of dumping every lesson at once; only the
+   category that currently has real content ships open (see index.html)
+   so first paint is calm rather than one giant expanded list. */
 
-    padding: 6px 0;
+.category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
-    color: var(--text);
-    text-decoration: none;
+.category {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+
+    overflow: hidden;
+}
+
+.category-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    padding: 16px 20px;
+
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+}
+
+.category-summary::-webkit-details-marker {
+    display: none;
+}
+
+.category-summary:hover {
+    background: var(--hover);
+}
+
+.category-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.category-icon {
     font-size: 1.05rem;
 }
 
-.page-index-link:hover {
-    color: #000;
-    text-decoration: underline;
+.category-count {
+    flex-shrink: 0;
+
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+/* A small rotating chevron, same visual language as .toggle-section's
+   own expand indicator on lesson pages — one motif for "this section
+   expands" everywhere on the site. */
+
+.category-summary::after {
+    content: "";
+    flex-shrink: 0;
+    margin-left: 4px;
+
+    width: 8px;
+    height: 8px;
+
+    border-right: 2px solid var(--muted);
+    border-bottom: 2px solid var(--muted);
+    transform: rotate(45deg);
+
+    transition: transform 0.15s;
+}
+
+.category[open] .category-summary::after {
+    transform: rotate(-135deg);
+}
+
+.category-items {
+    display: flex;
+    flex-direction: column;
+
+    padding: 4px 12px 12px;
+    border-top: 1px solid var(--border);
+}
+
+.lesson-link,
+.lesson-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 10px 8px;
+    border-radius: 8px;
+
+    font-size: 0.92rem;
+}
+
+.lesson-link {
+    color: var(--text);
+    text-decoration: none;
+}
+
+.lesson-link:hover,
+.lesson-link:focus-visible {
+    background: var(--hover);
+    outline: none;
+}
+
+/* Not yet written — plain muted text, not a link, so a lesson the
+   notebook doesn't have yet can still show up in the category it
+   belongs to (communicating the notebook's planned scope) without
+   ever producing a clickable dead end. */
+
+.lesson-placeholder {
+    color: var(--muted);
+}
+
+.soon-tag {
+    padding: 2px 8px;
+
+    border: 1px solid var(--border);
+    border-radius: 999px;
+
+    color: var(--muted);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
 }
 
 /*-----------------------------------------------*/
@@ -853,7 +994,7 @@ tr.irregular .type::before {
 .dialogue-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
+    gap: 28px;
 }
 
 .dialogue-card {
@@ -876,7 +1017,7 @@ tr.irregular .type::before {
 .dialogue-messages {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 26px;
 }
 
 .message {
@@ -1036,7 +1177,9 @@ tr.irregular .type::before {
 .display-toggles label {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 7px;
+
+    padding: 4px 2px;
 
     color: var(--muted);
     font-size: 0.82rem;
@@ -1047,8 +1190,8 @@ tr.irregular .type::before {
 }
 
 .display-toggles input[type="checkbox"] {
-    width: 14px;
-    height: 14px;
+    width: 15px;
+    height: 15px;
 
     accent-color: var(--text);
     cursor: pointer;
@@ -1076,24 +1219,66 @@ body.hide-english .notes .example-en {
 /* SEARCH RESULT HIGHLIGHT */
 /*-----------------------------------------------*/
 /* Landing on a page from a search result (initSearchHighlight in
-   script.js) briefly tints whichever row/card/note matched, so it's
-   obvious what the search actually found instead of just landing
-   somewhere in an opened section and leaving you to re-read it. Fades
-   back to nothing on its own — nothing to dismiss. */
+   script.js) tints whichever row/card/note matched — the same pale
+   "find in page" yellow browsers use, so the convention is already
+   familiar. Stays lit (no fade timer) until the next click or
+   keypress, since the whole point is to still be visible by the time
+   you've actually found and read the match. */
 
-.search-highlight {
-    animation: sakura-search-flash 2.2s ease-out;
+/* tbody tr.search-highlight, not just .search-highlight, so this
+   outranks tbody tr:nth-child(even)'s zebra-stripe background — same
+   specificity, but a selector this specific has to be spelled out to
+   win the tie rather than relying on source order alone. */
+.search-highlight,
+tbody tr.search-highlight {
+    background-color: #fef9c3;
+    transition: background-color 0.2s ease-out;
 }
 
-@keyframes sakura-search-flash {
-    0%,
-    35% {
-        background-color: #fff3cd;
-    }
+/*-----------------------------------------------*/
+/* RELATED PAGES */
+/*-----------------------------------------------*/
+/* 2-4 manually-picked links to other lessons, deliberately not a
+   <details> — unlike Core Reference/Q&A/Practice this is a handful of
+   links, not material to collapse away. Same plain-bordered-block
+   language as everything else instead of a new visual pattern. */
 
-    100% {
-        background-color: transparent;
-    }
+.related-pages {
+    margin: 40px 0 0;
+    padding-top: 20px;
+
+    border-top: 1px solid var(--border);
+}
+
+.related-pages h2 {
+    margin: 0 0 14px;
+}
+
+.related-pages-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.related-pages-list a {
+    padding: 9px 16px;
+
+    border: 1px solid var(--border);
+    border-radius: 999px;
+
+    color: var(--text);
+    text-decoration: none;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    transition: 0.15s;
+}
+
+.related-pages-list a:hover,
+.related-pages-list a:focus-visible {
+    background: var(--hover);
+    outline: none;
 }
 
 /*-----------------------------------------------*/
@@ -1290,6 +1475,36 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
     .page-search input {
         width: 100%;
     }
+
+    /* Larger touch targets once the pointer is (most likely) a finger
+       rather than a mouse — the same links/rows, just roomier padding
+       so tapping the right one doesn't require precision. */
+
+    .menu a {
+        padding: 12px 0 12px 14px;
+    }
+
+    .table-nav a,
+    .lesson-nav a {
+        padding: 12px 18px;
+    }
+
+    .category-summary {
+        padding: 18px 20px;
+    }
+
+    .lesson-link,
+    .lesson-placeholder {
+        padding: 12px 8px;
+    }
+
+    .display-toggles {
+        gap: 12px 20px;
+    }
+
+    .display-toggles label {
+        padding: 6px 2px;
+    }
 }
 
 /* A narrower tier for phones specifically: the 900px breakpoint's
@@ -1300,15 +1515,23 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
 
 @media (max-width: 480px) {
     .content {
-        padding: 20px;
+        padding: 22px 18px;
     }
 
     .dialogue-card {
         padding: 18px;
     }
 
+    .dialogue-messages {
+        gap: 22px;
+    }
+
     .message {
         max-width: 94%;
+    }
+
+    .related-pages-list a {
+        padding: 11px 16px;
     }
 }
 

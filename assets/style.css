@@ -37,6 +37,18 @@
        never gets confused with an unrelated grammar point. */
     --particle: #8a5e14;
 
+    /* One muted, low-saturation accent for visual hierarchy only —
+       section headings (.page h2, Grammar Note's h3) and Related Pages
+       pills. A dusty steel-blue, deliberately darker/grayer than
+       --dialogue-a-text (#6b7bb0) so it doesn't get mistaken for that
+       existing "speaker A" meaning when a heading sits near a dialogue
+       card. -soft/-border are pale tints of the same hue for the
+       Overview summary card's fill and Related Pages' pill fill/border
+       — everything traces back to this one color, not a new palette. */
+    --heading-accent: #4a6b85;
+    --heading-accent-soft: #f4f6f8;
+    --heading-accent-border: #dbe1e7;
+
     --radius: 12px;
     --sidebar: 220px;
     --content: 860px;
@@ -383,18 +395,32 @@ h1 {
 }
 
 /* One sentence, every lesson: "what will I learn on this page?" — not
-   grammar explanation, not a vocab recap. Same visual weight as the
-   home page's .subtitle (it plays the same role, just per-lesson) so
-   a reader learns to expect it in the same spot on every page. */
+   grammar explanation, not a vocab recap. Styled as a quiet summary
+   card (pale accent-tinted fill) so it reads as a distinct, scannable
+   unit instead of disappearing into the page the way plain text did —
+   the content itself is untouched, only the container. */
 
 .lesson-overview {
     margin: 10px 0 28px;
+    padding: 16px 20px;
+
+    background: var(--heading-accent-soft);
+    border-radius: var(--radius);
 
     color: var(--muted);
 }
 
+/* Section headings only — never body text. One muted accent color
+   (see --heading-accent) applied everywhere a section-level h2 appears
+   (toggle-section summaries, Related Pages) so hierarchy comes from
+   color as well as size/weight, without introducing per-section colors
+   that would start to look like a learning app instead of reference
+   documentation. */
+
 .page h2 {
     margin: 40px 0 16px;
+
+    color: var(--heading-accent);
 
     font-size: 1.2rem;
     font-weight: 700;
@@ -541,7 +567,7 @@ h1 {
     padding: 2px 8px;
 
     border: 1px solid var(--border);
-    border-radius: 999px;
+    border-radius: var(--radius);
 
     color: var(--muted);
     font-size: 0.62rem;
@@ -624,7 +650,7 @@ h1 {
     padding: 9px 16px;
 
     border: 1px solid var(--border);
-    border-radius: 999px;
+    border-radius: var(--radius);
 
     color: var(--text);
     text-decoration: none;
@@ -713,7 +739,7 @@ h1 {
     padding: 3px 9px;
 
     border: 1px solid var(--red-border);
-    border-radius: 999px;
+    border-radius: var(--radius);
 
     background: var(--red-bg);
     color: var(--red);
@@ -1097,7 +1123,7 @@ tr.irregular .type::before {
 .grammar-note h3 {
     margin: 0 0 12px;
 
-    color: var(--muted);
+    color: var(--heading-accent);
 
     font-size: 0.72rem;
     font-weight: 700;
@@ -1114,20 +1140,6 @@ tr.irregular .type::before {
 
 .grammar-note li + li {
     margin-top: 6px;
-}
-
-/*-----------------------------------------------*/
-/* PRACTICE (placeholder) */
-/*-----------------------------------------------*/
-/* Every lesson ends with a Practice section for the same reason every
-   lesson starts with the same page-search/table-nav: one predictable
-   shape across the site. No exercises exist yet, so it's just this
-   line — plain text, not a bordered callout, so an empty section
-   doesn't visually compete with the real content above it. */
-
-.practice-placeholder {
-    color: var(--muted);
-    font-size: 0.9rem;
 }
 
 /*-----------------------------------------------*/
@@ -1215,9 +1227,11 @@ tbody tr.search-highlight {
 /* RELATED PAGES */
 /*-----------------------------------------------*/
 /* 2-4 manually-picked links to other lessons, deliberately not a
-   <details> — unlike Core Reference/Q&A/Practice this is a handful of
-   links, not material to collapse away. Same plain-bordered-block
-   language as everything else instead of a new visual pattern. */
+   <details> — unlike the tables/Q&A above, this is a handful of links,
+   not material to collapse away. Pills share the same --heading-accent
+   as the section headings (not a neutral grey) so this reads as
+   integrated with the rest of the hierarchy system rather than another
+   generic nav control. */
 
 .related-pages {
     margin: 40px 0 28px;
@@ -1239,10 +1253,11 @@ tbody tr.search-highlight {
 .related-pages-list a {
     padding: 9px 16px;
 
-    border: 1px solid var(--border);
-    border-radius: 999px;
+    border: 1px solid var(--heading-accent-border);
+    border-radius: var(--radius);
 
-    color: var(--text);
+    background: var(--heading-accent-soft);
+    color: var(--heading-accent);
     text-decoration: none;
 
     font-size: 0.85rem;
@@ -1253,7 +1268,7 @@ tbody tr.search-highlight {
 
 .related-pages-list a:hover,
 .related-pages-list a:focus-visible {
-    background: var(--hover);
+    background: var(--heading-accent-border);
     outline: none;
 }
 
@@ -1281,7 +1296,7 @@ tbody tr.search-highlight {
     padding: 10px 16px;
 
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: var(--radius);
 
     color: var(--text);
     text-decoration: none;
@@ -1598,6 +1613,27 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
 
     .jp rt {
         color: #555;
+    }
+
+    /* Same reasoning again for the accent introduced for on-screen
+       hierarchy (section headings, the Overview card, Related Pages
+       pills) — a screen-only cue that would otherwise print as a flat
+       tint if "print backgrounds" happens to be on, so fall back to
+       plain black-on-white/bordered like everything else on paper. */
+    .page h2,
+    .grammar-note h3 {
+        color: #000;
+    }
+
+    .lesson-overview {
+        background: #fff !important;
+        padding: 0;
+    }
+
+    .related-pages-list a {
+        background: #fff !important;
+        border: 1px solid #ccc;
+        color: #000;
     }
 
     /* Dialogue Cards' pastel speaker bubbles are a screen-only cue —

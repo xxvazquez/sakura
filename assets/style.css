@@ -38,13 +38,13 @@
     --particle: #8a5e14;
 
     /* One muted, low-saturation accent for visual hierarchy only —
-       section headings (.page h2, Grammar Note's h3) and Related Pages
-       pills. A dusty steel-blue, deliberately darker/grayer than
+       section headings (.page h2, Grammar Note's h3) and the Overview
+       summary card. A dusty steel-blue, deliberately darker/grayer than
        --dialogue-a-text (#6b7bb0) so it doesn't get mistaken for that
        existing "speaker A" meaning when a heading sits near a dialogue
        card. -soft/-border are pale tints of the same hue for the
-       Overview summary card's fill and Related Pages' pill fill/border
-       — everything traces back to this one color, not a new palette. */
+       Overview card's fill/border — everything traces back to this one
+       color, not a new palette. */
     --heading-accent: #4a6b85;
     --heading-accent-soft: #f4f6f8;
     --heading-accent-border: #dbe1e7;
@@ -412,10 +412,9 @@ h1 {
 
 /* Section headings only — never body text. One muted accent color
    (see --heading-accent) applied everywhere a section-level h2 appears
-   (toggle-section summaries, Related Pages) so hierarchy comes from
-   color as well as size/weight, without introducing per-section colors
-   that would start to look like a learning app instead of reference
-   documentation. */
+   (toggle-section summaries) so hierarchy comes from color as well as
+   size/weight, without introducing per-section colors that would start
+   to look like a learning app instead of reference documentation. */
 
 .page h2 {
     margin: 40px 0 16px;
@@ -980,6 +979,16 @@ tr.irregular .type::before {
     margin-top: 2px;
 }
 
+/* A ✗-marked wrong example, same red already used everywhere else on
+   the site for "exception/watch out" (tr.irregular) — not a new color,
+   just the same token reused for the same meaning in a new spot
+   (Likes & Dislikes' Common Mistake note). */
+.notes.incorrect .example,
+.notes.incorrect .example-jp,
+.notes.incorrect .example-en {
+    color: var(--red);
+}
+
 /*-----------------------------------------------*/
 /* DIALOGUE CARDS */
 /*-----------------------------------------------*/
@@ -1120,6 +1129,19 @@ tr.irregular .type::before {
     border-top: 1px solid var(--border);
 }
 
+/* Grammar Notes can also be its own top-level section made of several
+   stacked .grammar-note blocks (one per grammar point) instead of a
+   single note tacked onto a table — same component, just repeated. The
+   very first one in that stack has nothing above it but the section
+   heading, so the hairline rule that normally separates it from a
+   table above would just be a stray line under the heading; drop it
+   only there, same pattern as .page h2:first-of-type. */
+.grammar-note:first-child {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+
 .grammar-note h3 {
     margin: 0 0 12px;
 
@@ -1140,6 +1162,22 @@ tr.irregular .type::before {
 
 .grammar-note li + li {
     margin-top: 6px;
+}
+
+/* .notes (below) was built for a table cell, but the same JP/romaji/
+   English example styling is exactly what a Grammar Note's own worked
+   examples need — reused as-is in two new contexts instead of a new
+   component. Inside a Grammar Note it follows a <ul>, so it needs a
+   little more separation than .example-jp's own 6px top margin gives
+   alone; inside a Core Patterns card (see DIALOGUE CARDS below) the
+   card itself already constrains the width, so the 320px cap made for
+   a table cell would just waste space rather than aid readability. */
+.grammar-note .notes {
+    margin-top: 10px;
+}
+
+.dialogue-card .notes {
+    max-width: none;
 }
 
 /*-----------------------------------------------*/
@@ -1221,55 +1259,6 @@ body.hide-english .notes .example-en {
 tbody tr.search-highlight {
     background-color: #fef9c3;
     transition: background-color 0.2s ease-out;
-}
-
-/*-----------------------------------------------*/
-/* RELATED PAGES */
-/*-----------------------------------------------*/
-/* 2-4 manually-picked links to other lessons, deliberately not a
-   <details> — unlike the tables/Q&A above, this is a handful of links,
-   not material to collapse away. Pills share the same --heading-accent
-   as the section headings (not a neutral grey) so this reads as
-   integrated with the rest of the hierarchy system rather than another
-   generic nav control. */
-
-.related-pages {
-    margin: 40px 0 28px;
-    padding-top: 20px;
-
-    border-top: 1px solid var(--border);
-}
-
-.related-pages h2 {
-    margin: 0 0 14px;
-}
-
-.related-pages-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.related-pages-list a {
-    padding: 9px 16px;
-
-    border: 1px solid var(--heading-accent-border);
-    border-radius: var(--radius);
-
-    background: var(--heading-accent-soft);
-    color: var(--heading-accent);
-    text-decoration: none;
-
-    font-size: 0.85rem;
-    font-weight: 600;
-
-    transition: 0.15s;
-}
-
-.related-pages-list a:hover,
-.related-pages-list a:focus-visible {
-    background: var(--heading-accent-border);
-    outline: none;
 }
 
 /*-----------------------------------------------*/
@@ -1520,10 +1509,6 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
     .message {
         max-width: 94%;
     }
-
-    .related-pages-list a {
-        padding: 11px 16px;
-    }
 }
 
 /*-----------------------------------------------*/
@@ -1616,10 +1601,10 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
     }
 
     /* Same reasoning again for the accent introduced for on-screen
-       hierarchy (section headings, the Overview card, Related Pages
-       pills) — a screen-only cue that would otherwise print as a flat
-       tint if "print backgrounds" happens to be on, so fall back to
-       plain black-on-white/bordered like everything else on paper. */
+       hierarchy (section headings, the Overview card) — a screen-only
+       cue that would otherwise print as a flat tint if "print
+       backgrounds" happens to be on, so fall back to plain
+       black-on-white/bordered like everything else on paper. */
     .page h2,
     .grammar-note h3 {
         color: #000;
@@ -1628,12 +1613,6 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
     .lesson-overview {
         background: #fff !important;
         padding: 0;
-    }
-
-    .related-pages-list a {
-        background: #fff !important;
-        border: 1px solid #ccc;
-        color: #000;
     }
 
     /* Dialogue Cards' pastel speaker bubbles are a screen-only cue —

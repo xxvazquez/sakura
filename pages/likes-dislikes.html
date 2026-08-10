@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Sakura Study — Likes &amp; Dislikes</title>
+    <meta name="description" content="A personal Japanese reference notebook. Likes &amp; Dislikes (JLPT N5): 好き, 好きじゃない, 大好き, 嫌い, が, は, の and も for expressing preferences." />
+
+    <!-- ------------------------------------- -->
+    <!-- FONT -->
+    <!-- ------------------------------------- -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <!-- ------------------------------------- -->
+    <!-- STYLES -->
+    <!-- ------------------------------------- -->
+
+    <link rel="stylesheet" href="../assets/style.css" />
+
+    <!-- ------------------------------------- -->
+    <!-- DATA TABLES -->
+    <!-- ------------------------------------- -->
+    <!-- dataTables.min.js (this build) requires jQuery to already be
+         defined, so jQuery has to load first. Both are loaded once
+         here; do not also load either again before </body>. This page
+         has no table.ref-table, but initReferenceTables (script.js)
+         just no-ops when it finds none — same shared template as every
+         other page, no special case. -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+
+  </head>
+
+  <!-- ------------------------------------- -->
+  <!-- BODY STARTS -->
+  <!-- ------------------------------------- -->
+
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+
+        <!-- ------------------------------------- -->
+        <!-- SIDEBAR BRAND -->
+        <!-- ------------------------------------- -->
+        <!-- The only way back to the landing page — it's deliberately
+             not one of the alphabetical entries below, since it isn't
+             study content itself. -->
+        <a class="sidebar-brand" href="../index.html">Sakura Study</a>
+
+        <!-- ------------------------------------- -->
+        <!-- SIDEBAR SEARCH -->
+        <!-- ------------------------------------- -->
+        <div class="sidebar-search">
+          <input
+            type="text"
+            id="sidebarSearch"
+            placeholder="Search lessons…"
+            autocomplete="off"
+          />
+          <div class="search-results" id="searchResults" hidden></div>
+        </div>
+
+        <!-- ------------------------------------- -->
+        <!-- SIDEBAR NAVIGATION -->
+        <!-- ------------------------------------- -->
+        <!-- Flat and alphabetical, no category heading — every page on
+             the site (regardless of folder) sorted by title into one
+             .menu-group per starting letter, the same organizing idea
+             as the home page's own .page-index. To add a page: drop
+             the file in its folder, then add its <a> to the matching
+             (or a new) .menu-group here in alphabetical order — the
+             search script and layout both work off this flat
+             structure, no other markup changes needed.
+
+             Links are relative, not root-absolute — this site has to keep
+             working wherever it's hosted (root domain, a subpath, a
+             local file), and only relative paths are guaranteed to
+             survive that. The cost: every link's ../ count depends on
+             the linking page's own folder depth. From root (index.html)
+             assets are assets/style.css and pages are
+             pages/numbers.html. From one folder deep
+             (pages/*.html) it's ../assets/style.css, a same-folder
+             page is just numbers.html, and a different category is
+             ../grammar/particles.html. One more ../ per extra level of
+             nesting — get the depth right when copying this nav to a
+             new page.
+
+             This search matches every lesson's actual content, not just page
+             titles — see initGlobalSearch in assets/script.js and
+             assets/search-index.js (regenerate that file after editing
+             lesson content: python3 assets/build-search-index.py). -->
+        <nav class="menu" id="sidebarMenu">
+          <div class="menu-group">
+            <span class="menu-letter">D</span>
+            <a href="demonstratives.html">Demonstratives</a>
+          </div>
+          <div class="menu-group">
+            <span class="menu-letter">F</span>
+            <a href="frequency.html">Frequency</a>
+          </div>
+          <div class="menu-group">
+            <span class="menu-letter">L</span>
+            <a class="active" href="likes-dislikes.html">Likes &amp; Dislikes</a>
+          </div>
+          <div class="menu-group">
+            <span class="menu-letter">N</span>
+            <a href="numbers.html">Numbers</a>
+          </div>
+          <div class="menu-group">
+            <span class="menu-letter">P</span>
+            <a href="pronouns.html">Personal Pronouns</a>
+          </div>
+          <div class="menu-group">
+            <span class="menu-letter">T</span>
+            <a href="time.html">Time</a>
+          </div>
+        </nav>
+      </aside>
+
+      <main class="content">
+        <div class="page">
+          <h1>Likes &amp; Dislikes</h1>
+          <p class="lesson-overview">📖 <ruby>好<rt>す</rt></ruby>き (suki) behaves like an adjective rather than the English verb "to like" — it describes the thing being liked, not an action performed on it. Because of this, the thing you like is normally marked with the particle が (ga), not を. In negative sentences, Japanese commonly switches to は (wa) instead, drawing a contrast between what you do and don't like.</p>
+
+          <!-- ------------------------------------- -->
+          <!-- PAGE SEARCH -->
+          <!-- ------------------------------------- -->
+          <!-- One search box for the whole page, filtering every
+               .dialogue-card on it at once (Core Patterns' pattern
+               cards included — see initPageSearch's .dialogue-card
+               branch in assets/script.js, which doesn't care whether a
+               card holds a back-and-forth exchange or a single
+               statement). Typing a non-empty query force-opens every
+               toggle below so matches in a collapsed section are still
+               visible. -->
+
+          <div class="page-search">
+            <input
+              type="text"
+              id="pageSearch"
+              placeholder="Search…"
+              autocomplete="off"
+              aria-label="Search all likes and dislikes patterns and dialogues"
+            />
+          </div>
+
+          <!-- ------------------------------------- -->
+          <!-- DISPLAY TOGGLES -->
+          <!-- ------------------------------------- -->
+          <!-- Furigana/romaji/English, on by default and persisted in
+               localStorage across the whole site — see
+               initDisplayToggles in assets/script.js. -->
+
+          <div class="display-toggles">
+            <label><input type="checkbox" id="toggleFurigana" checked /> Furigana</label>
+            <label><input type="checkbox" id="toggleRomaji" checked /> Romaji</label>
+            <label><input type="checkbox" id="toggleEnglish" checked /> English</label>
+          </div>
+
+          <!-- ------------------------------------- -->
+          <!-- TABLE NAV -->
+          <!-- ------------------------------------- -->
+          <!-- Sticky quick-jump bar for pages with more than one
+               section. Stays pinned to the viewport top while
+               scrolling (same position: sticky trick as .sidebar) so
+               switching sections never requires scrolling back up.
+               Clicking a link opens that section's toggle (they're
+               collapsed by default) and scrolls to it — see
+               initTableNav in assets/script.js. Keep this in sync with
+               the toggle-section ids below whenever a section is
+               added, renamed, or reordered. -->
+
+          <nav class="table-nav" id="tableNav">
+            <a href="#core-patterns">Core Patterns</a>
+            <a href="#questions-answers">Questions &amp; Answers</a>
+            <a href="#grammar-notes">Grammar Notes</a>
+            <a href="#example-dialogue">Example Dialogue</a>
+          </nav>
+
+          <!-- ------------------------------------- -->
+          <!-- CORE PATTERNS -->
+          <!-- ------------------------------------- -->
+          <!-- Four model sentences (not a table — this page has nothing
+               that's genuinely tabular data), each reusing the same
+               .dialogue-card shell as every other card on the site,
+               titled the same way, but holding a single statement
+               instead of an A/B exchange, so the .message/.message-
+               bubble/speaker-badge parts aren't used here. The actual
+               JP/romaji/English triplet reuses .notes' .example-jp/
+               .example/.example-en classes — the exact styling already
+               built for a table cell's usage example — just without
+               the max-width cap that made sense for a narrow column
+               (see .dialogue-card .notes in style.css). -->
+
+          <details class="toggle-section" id="core-patterns">
+            <summary><h2>📋 Core Patterns</h2></summary>
+
+            <div class="toggle-body">
+              <div class="dialogue-grid">
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">❤️ Like</h3>
+                  <p class="notes">
+                    <span class="example-jp" lang="ja"><ruby>私<rt>わたし</rt></ruby><span class="particle">は</span>ラーメン<span class="particle">が</span><strong><ruby>好<rt>す</rt></ruby>きです</strong>。</span><br>
+                    <span class="example">Watashi <span class="particle">wa</span> rāmen <span class="particle">ga</span> <strong>suki desu</strong>.</span><br>
+                    <span class="example-en">I like ramen.</span>
+                  </p>
+                </article>
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">💔 Don't Like</h3>
+                  <p class="notes">
+                    <span class="example-jp" lang="ja"><ruby>私<rt>わたし</rt></ruby><span class="particle">は</span>コーヒー<span class="particle">は</span><strong><ruby>好<rt>す</rt></ruby>きじゃないです</strong>。</span><br>
+                    <span class="example">Watashi <span class="particle">wa</span> kōhī <span class="particle">wa</span> <strong>suki janai desu</strong>.</span><br>
+                    <span class="example-en">I don't like coffee.</span>
+                  </p>
+                </article>
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">💕 Really Like</h3>
+                  <p class="notes">
+                    <span class="example-jp" lang="ja"><ruby>私<rt>わたし</rt></ruby><span class="particle">は</span>すし<span class="particle">が</span><strong><ruby>大好<rt>だいす</rt></ruby>きです</strong>。</span><br>
+                    <span class="example">Watashi <span class="particle">wa</span> sushi <span class="particle">ga</span> <strong>daisuki desu</strong>.</span><br>
+                    <span class="example-en">I really like sushi.</span>
+                  </p>
+                </article>
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">👎 Dislike</h3>
+                  <p class="notes">
+                    <span class="example-jp" lang="ja"><ruby>私<rt>わたし</rt></ruby><span class="particle">は</span>セロリ<span class="particle">が</span><strong><ruby>嫌<rt>きら</rt></ruby>いです</strong>。</span><br>
+                    <span class="example">Watashi <span class="particle">wa</span> serori <span class="particle">ga</span> <strong>kirai desu</strong>.</span><br>
+                    <span class="example-en">I dislike celery.</span>
+                  </p>
+                </article>
+
+              </div>
+
+              <!-- ------------------------------------- -->
+              <!-- NOTE -->
+              <!-- ------------------------------------- -->
+              <!-- Named "Note" rather than "Grammar Note" specifically
+                   to avoid sitting right next to the page's own
+                   "Grammar Notes" section further down with near-
+                   identical text. -->
+
+              <div class="grammar-note">
+                <h3>Note</h3>
+                <ul>
+                  <li><ruby>嫌<rt>きら</rt></ruby>い (kirai) is grammatically correct, but stronger than <ruby>好<rt>す</rt></ruby>きじゃない (suki janai) — beginners will usually hear and use 好きじゃない more often.</li>
+                </ul>
+              </div>
+            </div>
+          </details>
+
+          <!-- ------------------------------------- -->
+          <!-- QUESTIONS & ANSWERS (DIALOGUE CARDS) -->
+          <!-- ------------------------------------- -->
+
+          <details class="toggle-section" id="questions-answers">
+            <summary><h2>💬 Questions &amp; Answers</h2></summary>
+
+            <div class="toggle-body">
+              <div class="dialogue-grid">
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">❤️ What Do You Like?</h3>
+                  <div class="dialogue-messages">
+                    <div class="message message-a">
+                      <span class="message-speaker">A</span>
+                      <div class="message-bubble">
+                        <p class="message-jp" lang="ja"><ruby>何<rt>なに</rt></ruby><span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです<span class="particle">か</span>。</p>
+                        <p class="message-romaji">Nani <span class="particle">ga</span> suki desu <span class="particle">ka</span>?</p>
+                        <p class="message-en">What do you like?</p>
+                      </div>
+                    </div>
+                    <div class="message message-b">
+                      <span class="message-speaker">B</span>
+                      <div class="message-bubble">
+                        <p class="message-jp" lang="ja"><ruby>私<rt>わたし</rt></ruby><span class="particle">は</span>ラーメン<span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです。</p>
+                        <p class="message-romaji">Watashi <span class="particle">wa</span> rāmen <span class="particle">ga</span> suki desu.</p>
+                        <p class="message-en">I like ramen.</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">🍣 Do You Like Sushi?</h3>
+                  <div class="dialogue-messages">
+                    <div class="message message-a">
+                      <span class="message-speaker">A</span>
+                      <div class="message-bubble">
+                        <p class="message-jp" lang="ja">すし<span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです<span class="particle">か</span>。</p>
+                        <p class="message-romaji">Sushi <span class="particle">ga</span> suki desu <span class="particle">ka</span>?</p>
+                        <p class="message-en">Do you like sushi?</p>
+                      </div>
+                    </div>
+                    <div class="message message-b">
+                      <span class="message-speaker">B</span>
+                      <div class="message-bubble">
+                        <p class="message-jp" lang="ja">いいえ、すし<span class="particle">は</span><ruby>好<rt>す</rt></ruby>きじゃないです。</p>
+                        <p class="message-romaji">Iie, sushi <span class="particle">wa</span> suki janai desu.</p>
+                        <p class="message-en">No, I don't like sushi.</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">🍤 Which Kind?</h3>
+                  <div class="dialogue-messages">
+                    <div class="message message-a">
+                      <span class="message-speaker">A</span>
+                      <div class="message-bubble">
+                        <p class="message-jp" lang="ja">すし<span class="particle">は</span><ruby>何<rt>なに</rt></ruby><span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです<span class="particle">か</span>。</p>
+                        <p class="message-romaji">Sushi <span class="particle">wa</span> nani <span class="particle">ga</span> suki desu <span class="particle">ka</span>?</p>
+                        <p class="message-en">What kind of sushi do you like?</p>
+                      </div>
+                    </div>
+                    <div class="message message-b">
+                      <span class="message-speaker">B</span>
+                      <div class="message-bubble">
+                        <p class="message-jp" lang="ja">えび<span class="particle">の</span>すし<span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです。</p>
+                        <p class="message-romaji">Ebi <span class="particle">no</span> sushi <span class="particle">ga</span> suki desu.</p>
+                        <p class="message-en">I like shrimp sushi.</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">🐕 Me Too</h3>
+                  <div class="dialogue-messages">
+                    <div class="message message-a">
+                      <span class="message-speaker">A</span>
+                      <div class="message-bubble">
+                        <p class="message-jp" lang="ja"><ruby>犬<rt>いぬ</rt></ruby><span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです。</p>
+                        <p class="message-romaji">Inu <span class="particle">ga</span> suki desu.</p>
+                        <p class="message-en">I like dogs.</p>
+                      </div>
+                    </div>
+                    <div class="message message-b">
+                      <span class="message-speaker">B</span>
+                      <div class="message-bubble">
+                        <p class="message-jp" lang="ja"><ruby>私<rt>わたし</rt></ruby><span class="particle">も</span><ruby>好<rt>す</rt></ruby>きです。<ruby>猫<rt>ねこ</rt></ruby><span class="particle">も</span><ruby>好<rt>す</rt></ruby>きです。</p>
+                        <p class="message-romaji">Watashi <span class="particle">mo</span> suki desu. Neko <span class="particle">mo</span> suki desu.</p>
+                        <p class="message-en">I like them too. I like cats too.</p>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+
+              </div>
+            </div>
+          </details>
+
+          <!-- ------------------------------------- -->
+          <!-- GRAMMAR NOTES -->
+          <!-- ------------------------------------- -->
+          <!-- Five .grammar-note blocks stacked in its own section
+               instead of one attached to a table — same component,
+               repeated, since this lesson has more grammar ground to
+               cover than a single table+note pairing fits. The first
+               note's leading hairline rule is suppressed by
+               .grammar-note:first-child (style.css) since there's
+               nothing above it but the section heading. -->
+
+          <details class="toggle-section" id="grammar-notes">
+            <summary><h2>🧩 Grammar Notes</h2></summary>
+
+            <div class="toggle-body">
+
+              <div class="grammar-note">
+                <h3><ruby>好<rt>す</rt></ruby>き (suki)</h3>
+                <ul>
+                  <li>好き is a な-adjective (na-adjective), not a verb — it describes the thing liked rather than an action.</li>
+                  <li>Because it's an adjective, the thing that is liked is normally marked with が (ga), not を.</li>
+                </ul>
+              </div>
+
+              <div class="grammar-note">
+                <h3>が (ga) vs は (wa)</h3>
+                <ul>
+                  <li>Japanese commonly switches from が to は in negative sentences, to draw a contrast with what isn't liked.</li>
+                </ul>
+                <p class="notes">
+                  Positive:<br>
+                  <span class="example-jp" lang="ja">ラーメン<span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです。</span><br>
+                  <span class="example">Rāmen <span class="particle">ga</span> suki desu.</span><br>
+                  <span class="example-en">I like ramen.</span>
+                </p>
+                <p class="notes">
+                  Negative:<br>
+                  <span class="example-jp" lang="ja">ラーメン<span class="particle">は</span><ruby>好<rt>す</rt></ruby>きじゃないです。</span><br>
+                  <span class="example">Rāmen <span class="particle">wa</span> suki janai desu.</span><br>
+                  <span class="example-en">I don't like ramen.</span>
+                </p>
+              </div>
+
+              <div class="grammar-note">
+                <h3>Using の (no)</h3>
+                <ul>
+                  <li>の links a general category to a more specific subtype — similar to "'s" or "of" in English.</li>
+                </ul>
+                <p class="notes">
+                  <span class="example-jp" lang="ja">えび<span class="particle">の</span>すし</span><br>
+                  <span class="example">ebi <span class="particle">no</span> sushi</span><br>
+                  <span class="example-en">shrimp sushi</span>
+                </p>
+                <p class="notes">
+                  <span class="example-jp" lang="ja"><ruby>日本<rt>にほん</rt></ruby><span class="particle">の</span><ruby>料理<rt>りょうり</rt></ruby></span><br>
+                  <span class="example">Nihon <span class="particle">no</span> ryōri</span><br>
+                  <span class="example-en">Japanese food</span>
+                </p>
+                <p class="notes">
+                  <span class="example-jp" lang="ja">チョコレート<span class="particle">の</span>ケーキ</span><br>
+                  <span class="example">chokorēto <span class="particle">no</span> kēki</span><br>
+                  <span class="example-en">chocolate cake</span>
+                </p>
+              </div>
+
+              <div class="grammar-note">
+                <h3>Using も (mo)</h3>
+                <ul>
+                  <li>も replaces が or は when adding something to a list of things already liked.</li>
+                </ul>
+                <p class="notes">
+                  <span class="example-jp" lang="ja"><ruby>私<rt>わたし</rt></ruby><span class="particle">は</span>ラーメン<span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです。</span><br>
+                  <span class="example">Watashi <span class="particle">wa</span> rāmen <span class="particle">ga</span> suki desu.</span><br>
+                  <span class="example-en">I like ramen.</span>
+                </p>
+                <p class="notes">
+                  <span class="example-jp" lang="ja">ピザ<span class="particle">も</span><ruby>好<rt>す</rt></ruby>きです。</span><br>
+                  <span class="example">Piza <span class="particle">mo</span> suki desu.</span><br>
+                  <span class="example-en">I like pizza too.</span>
+                </p>
+              </div>
+
+              <div class="grammar-note">
+                <h3>⚠️ Common Mistake</h3>
+                <ul>
+                  <li>Don't add の between two nouns that already mean the same thing — only use の to link a category to a genuinely more specific subtype.</li>
+                </ul>
+                <p class="notes">
+                  Correct:<br>
+                  <span class="example-jp" lang="ja">ケチャップ<span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです。</span><br>
+                  <span class="example">Kechappu <span class="particle">ga</span> suki desu.</span><br>
+                  <span class="example-en">I like ketchup.</span>
+                </p>
+                <p class="notes incorrect">
+                  Incorrect:<br>
+                  <span class="example-jp" lang="ja">✗ ケチャップ<span class="particle">の</span>ソース</span><br>
+                  <span class="example">kechappu <span class="particle">no</span> sōsu</span><br>
+                  <span class="example-en">"ketchup's sauce" — ケチャップ already means "ketchup sauce"</span>
+                </p>
+                <p class="notes">
+                  Correct:<br>
+                  <span class="example-jp" lang="ja">みそ<ruby>汁<rt>しる</rt></ruby><span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです。</span><br>
+                  <span class="example">Misoshiru <span class="particle">ga</span> suki desu.</span><br>
+                  <span class="example-en">I like miso soup.</span>
+                </p>
+                <p class="notes incorrect">
+                  Incorrect:<br>
+                  <span class="example-jp" lang="ja">✗ みそ<ruby>汁<rt>しる</rt></ruby><span class="particle">の</span>スープ</span><br>
+                  <span class="example">misoshiru <span class="particle">no</span> sūpu</span><br>
+                  <span class="example-en">"miso soup's soup" — みそ汁 already means "miso soup"</span>
+                </p>
+              </div>
+
+            </div>
+          </details>
+
+          <!-- ------------------------------------- -->
+          <!-- EXAMPLE DIALOGUE -->
+          <!-- ------------------------------------- -->
+          <!-- One continuous back-and-forth, unlike the short single-
+               exchange cards above — so it's one full-width
+               .dialogue-card holding every turn, not a grid of cards. -->
+
+          <details class="toggle-section" id="example-dialogue">
+            <summary><h2>🗨️ Example Dialogue</h2></summary>
+
+            <div class="toggle-body">
+              <article class="dialogue-card">
+                <h3 class="dialogue-title">🍜 Talking About Favorites</h3>
+                <div class="dialogue-messages">
+                  <div class="message message-a">
+                    <span class="message-speaker">A</span>
+                    <div class="message-bubble">
+                      <p class="message-jp" lang="ja"><ruby>何<rt>なに</rt></ruby><span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです<span class="particle">か</span>。</p>
+                      <p class="message-romaji">Nani <span class="particle">ga</span> suki desu <span class="particle">ka</span>?</p>
+                      <p class="message-en">What do you like?</p>
+                    </div>
+                  </div>
+                  <div class="message message-b">
+                    <span class="message-speaker">B</span>
+                    <div class="message-bubble">
+                      <p class="message-jp" lang="ja"><ruby>私<rt>わたし</rt></ruby><span class="particle">は</span>ラーメン<span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです。</p>
+                      <p class="message-romaji">Watashi <span class="particle">wa</span> rāmen <span class="particle">ga</span> suki desu.</p>
+                      <p class="message-en">I like ramen.</p>
+                    </div>
+                  </div>
+                  <div class="message message-a">
+                    <span class="message-speaker">A</span>
+                    <div class="message-bubble">
+                      <p class="message-jp" lang="ja">そうです<span class="particle">か</span>。<ruby>食<rt>た</rt></ruby>べ<ruby>物<rt>もの</rt></ruby><span class="particle">は</span><ruby>何<rt>なに</rt></ruby><span class="particle">が</span><ruby>一番<rt>いちばん</rt></ruby><ruby>好<rt>す</rt></ruby>きです<span class="particle">か</span>。</p>
+                      <p class="message-romaji">Sō desu ka. Tabemono <span class="particle">wa</span> nani <span class="particle">ga</span> ichiban suki desu <span class="particle">ka</span>?</p>
+                      <p class="message-en">I see. What food do you like the most?</p>
+                    </div>
+                  </div>
+                  <div class="message message-b">
+                    <span class="message-speaker">B</span>
+                    <div class="message-bubble">
+                      <p class="message-jp" lang="ja">すし<span class="particle">が</span><ruby>一番<rt>いちばん</rt></ruby><ruby>好<rt>す</rt></ruby>きです。</p>
+                      <p class="message-romaji">Sushi <span class="particle">ga</span> ichiban suki desu.</p>
+                      <p class="message-en">I like sushi the most.</p>
+                    </div>
+                  </div>
+                  <div class="message message-a">
+                    <span class="message-speaker">A</span>
+                    <div class="message-bubble">
+                      <p class="message-jp" lang="ja">すし<span class="particle">は</span><ruby>何<rt>なに</rt></ruby><span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです<span class="particle">か</span>。</p>
+                      <p class="message-romaji">Sushi <span class="particle">wa</span> nani <span class="particle">ga</span> suki desu <span class="particle">ka</span>?</p>
+                      <p class="message-en">What kind of sushi do you like?</p>
+                    </div>
+                  </div>
+                  <div class="message message-b">
+                    <span class="message-speaker">B</span>
+                    <div class="message-bubble">
+                      <p class="message-jp" lang="ja">えび<span class="particle">の</span>すし<span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです。</p>
+                      <p class="message-romaji">Ebi <span class="particle">no</span> sushi <span class="particle">ga</span> suki desu.</p>
+                      <p class="message-en">I like shrimp sushi.</p>
+                    </div>
+                  </div>
+                  <div class="message message-a">
+                    <span class="message-speaker">A</span>
+                    <div class="message-bubble">
+                      <p class="message-jp" lang="ja">コーヒー<span class="particle">は</span><ruby>好<rt>す</rt></ruby>きです<span class="particle">か</span>。</p>
+                      <p class="message-romaji">Kōhī <span class="particle">wa</span> suki desu <span class="particle">ka</span>?</p>
+                      <p class="message-en">Do you like coffee?</p>
+                    </div>
+                  </div>
+                  <div class="message message-b">
+                    <span class="message-speaker">B</span>
+                    <div class="message-bubble">
+                      <p class="message-jp" lang="ja">いいえ、コーヒー<span class="particle">は</span><ruby>好<rt>す</rt></ruby>きじゃないです。</p>
+                      <p class="message-romaji">Iie, kōhī <span class="particle">wa</span> suki janai desu.</p>
+                      <p class="message-en">No, I don't like coffee.</p>
+                    </div>
+                  </div>
+                  <div class="message message-a">
+                    <span class="message-speaker">A</span>
+                    <div class="message-bubble">
+                      <p class="message-jp" lang="ja">そうです<span class="particle">か</span>。<ruby>私<rt>わたし</rt></ruby><span class="particle">も</span>コーヒー<span class="particle">は</span><ruby>好<rt>す</rt></ruby>きじゃないです。</p>
+                      <p class="message-romaji">Sō desu ka. Watashi <span class="particle">mo</span> kōhī <span class="particle">wa</span> suki janai desu.</p>
+                      <p class="message-en">I see. I don't like coffee either.</p>
+                    </div>
+                  </div>
+                  <div class="message message-b">
+                    <span class="message-speaker">B</span>
+                    <div class="message-bubble">
+                      <p class="message-jp" lang="ja">そうです<span class="particle">か</span>。</p>
+                      <p class="message-romaji">Sō desu ka.</p>
+                      <p class="message-en">I see.</p>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </details>
+
+          <!-- ------------------------------------- -->
+          <!-- LESSON NAV -->
+          <!-- ------------------------------------- -->
+          <!-- Follows the homepage's own reading order across every
+               category, not just within one — Basic Communication is
+               listed above Numbers & Time on the homepage, so this
+               lesson now leads the full chain: Likes & Dislikes →
+               Numbers → Time → Frequency → Personal Pronouns →
+               Demonstratives (placeholders skipped since they have no
+               page to link to). -->
+
+          <nav class="lesson-nav">
+            <a class="lesson-nav-next" href="numbers.html">Numbers →</a>
+          </nav>
+        </div>
+      </main>
+    </div>
+
+<!-- ------------------------------------- -->
+<!-- SCRIPTS -->
+<!-- ------------------------------------- -->
+
+<script src="../assets/search-index.js"></script>
+<script src="../assets/script.js"></script>
+
+  </body>
+  <!-- ------------------------------------- -->
+  <!-- BODY ENDED -->
+  <!-- ------------------------------------- -->
+</html>

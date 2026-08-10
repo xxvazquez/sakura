@@ -927,6 +927,17 @@ tr.irregular .type::before {
     font-weight: 600;
 }
 
+/* Marks a single hiragana inside an otherwise-plain vocabulary word —
+   Hiragana's Vocabulary Reference tables use this when the example
+   word doesn't start with the target character but contains it
+   further in (see hiragana.html). Reuses --heading-accent rather than
+   a new color, same reasoning as .particle reusing --particle: one
+   token, one meaning, everywhere it appears. */
+.kana-highlight {
+    color: var(--heading-accent);
+    font-weight: 700;
+}
+
 /*-----------------------------------------------*/
 /* NOTES (per-row usage note + example sentence) */
 /*-----------------------------------------------*/
@@ -1606,7 +1617,8 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
        backgrounds" happens to be on, so fall back to plain
        black-on-white/bordered like everything else on paper. */
     .page h2,
-    .grammar-note h3 {
+    .grammar-note h3,
+    .kana-highlight {
         color: #000;
     }
 

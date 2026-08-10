@@ -55,9 +55,10 @@
           <input
             type="text"
             id="sidebarSearch"
-            placeholder="Search pages…"
+            placeholder="Search lessons…"
             autocomplete="off"
           />
+          <div class="search-results" id="searchResults" hidden></div>
         </div>
 
         <!-- ------------------------------------- -->
@@ -85,9 +86,10 @@
              nesting — get the depth right when copying this nav to a
              new page.
 
-             This search matches page titles only. Searching inside a
-             page's own content is the in-page table search box, not
-             this one.
+             This search matches every lesson's actual content, not just page
+             titles — see initGlobalSearch in assets/script.js and
+             assets/search-index.js (regenerate that file after editing
+             lesson content: python3 assets/build-search-index.py).
 
              Example, once /grammar/particles.html exists (P sorts
              between N and T, so it slots in as its own group there):
@@ -109,7 +111,6 @@
             <a href="time.html">Time</a>
           </div>
         </nav>
-        <p class="sidebar-empty" id="sidebarEmpty" hidden>No pages match.</p>
       </aside>
 
       <main class="content">
@@ -135,6 +136,28 @@
           </div>
 
           <!-- ------------------------------------- -->
+          <!-- DISPLAY TOGGLES -->
+          <!-- ------------------------------------- -->
+          <!-- Furigana/romaji/English, on by default and persisted in
+               localStorage across the whole site — see
+               initDisplayToggles in assets/script.js. -->
+
+          <div class="display-toggles">
+            <label><input type="checkbox" id="toggleFurigana" checked /> Furigana</label>
+            <label><input type="checkbox" id="toggleRomaji" checked /> Romaji</label>
+            <label><input type="checkbox" id="toggleEnglish" checked /> English</label>
+          </div>
+
+          <!-- ------------------------------------- -->
+          <!-- TABLE NAV -->
+          <!-- ------------------------------------- -->
+
+          <nav class="table-nav" id="tableNav">
+            <a href="#numbers">Numbers</a>
+            <a href="#practice">Practice</a>
+          </nav>
+
+          <!-- ------------------------------------- -->
           <!-- TABLE STARTS -->
           <!-- ------------------------------------- -->
           <!-- Every reference table lives inside a collapsible
@@ -151,8 +174,8 @@
                   <tr>
                     <th class="type-col">Tag</th>
                     <th>Japanese</th>
-                    <th>Romaji</th>
-                    <th>English</th>
+                    <th class="col-romaji">Romaji</th>
+                    <th class="col-english">English</th>
                   </tr>
                 </thead>
 
@@ -364,6 +387,29 @@
           <!-- ------------------------------------- -->
           <!-- TABLE ENDED -->
           <!-- ------------------------------------- -->
+
+          <!-- ------------------------------------- -->
+          <!-- PRACTICE (placeholder) -->
+          <!-- ------------------------------------- -->
+
+          <details class="toggle-section" id="practice">
+            <summary><h2>Practice</h2></summary>
+
+            <div class="toggle-body">
+              <p class="practice-placeholder">Practice exercises for this lesson are coming soon.</p>
+            </div>
+          </details>
+
+          <!-- ------------------------------------- -->
+          <!-- LESSON NAV -->
+          <!-- ------------------------------------- -->
+          <!-- Numbers is first in Sakura's learning order (numbers are
+               a prerequisite for telling time), so there's no Previous
+               link here — only Next. -->
+
+          <nav class="lesson-nav">
+            <a class="lesson-nav-next" href="time.html">Time →</a>
+          </nav>
         </div>
       </main>
     </div>
@@ -372,6 +418,7 @@
 <!-- SCRIPTS -->
 <!-- ------------------------------------- -->
 
+<script src="../assets/search-index.js"></script>
 <script src="../assets/script.js"></script>
 
   </body>

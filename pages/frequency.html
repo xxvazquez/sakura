@@ -55,9 +55,10 @@
           <input
             type="text"
             id="sidebarSearch"
-            placeholder="Search pages…"
+            placeholder="Search lessons…"
             autocomplete="off"
           />
+          <div class="search-results" id="searchResults" hidden></div>
         </div>
 
         <!-- ------------------------------------- -->
@@ -85,8 +86,10 @@
              nesting — get the depth right when copying this nav to a
              new page.
 
-             This search matches page titles only. Searching inside a
-             page's own content is the in-page search box, not this one. -->
+             This search matches every lesson's actual content, not just page
+             titles — see initGlobalSearch in assets/script.js and
+             assets/search-index.js (regenerate that file after editing
+             lesson content: python3 assets/build-search-index.py). -->
         <nav class="menu" id="sidebarMenu">
           <div class="menu-group">
             <span class="menu-letter">F</span>
@@ -101,7 +104,6 @@
             <a href="time.html">Time</a>
           </div>
         </nav>
-        <p class="sidebar-empty" id="sidebarEmpty" hidden>No pages match.</p>
       </aside>
 
       <main class="content">
@@ -130,6 +132,19 @@
           </div>
 
           <!-- ------------------------------------- -->
+          <!-- DISPLAY TOGGLES -->
+          <!-- ------------------------------------- -->
+          <!-- Furigana/romaji/English, on by default and persisted in
+               localStorage across the whole site — see
+               initDisplayToggles in assets/script.js. -->
+
+          <div class="display-toggles">
+            <label><input type="checkbox" id="toggleFurigana" checked /> Furigana</label>
+            <label><input type="checkbox" id="toggleRomaji" checked /> Romaji</label>
+            <label><input type="checkbox" id="toggleEnglish" checked /> English</label>
+          </div>
+
+          <!-- ------------------------------------- -->
           <!-- TABLE NAV -->
           <!-- ------------------------------------- -->
           <!-- Sticky quick-jump bar for pages with more than one table.
@@ -145,6 +160,7 @@
             <a href="#frequency">Frequency</a>
             <a href="#questions-answers">Questions &amp; Answers</a>
             <a href="#dialogue">Dialogue</a>
+            <a href="#practice">Practice</a>
           </nav>
 
           <!-- ------------------------------------- -->
@@ -160,8 +176,8 @@
                   <tr>
                     <th class="type-col">Tag</th>
                     <th>Japanese</th>
-                    <th>Romaji</th>
-                    <th>English</th>
+                    <th class="col-romaji">Romaji</th>
+                    <th class="col-english">English</th>
                   </tr>
                 </thead>
 
@@ -284,22 +300,22 @@
               <div class="dialogue-grid">
 
                 <article class="dialogue-card">
-                  <h3 class="dialogue-title">📅 Daily Habit</h3>
+                  <h3 class="dialogue-title">🔁 Always</h3>
                   <div class="dialogue-messages">
                     <div class="message message-a">
                       <span class="message-speaker">A</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">どのくらい<ruby>日本語<rt>にほんご</rt></ruby><span class="particle">を</span><ruby>勉強<rt>べんきょう</rt></ruby>します<span class="particle">か</span>。</p>
-                        <p class="message-romaji">Dono kurai Nihongo <span class="particle">o</span> benkyō shimasu <span class="particle">ka</span>?</p>
-                        <p class="message-en">How often do you study Japanese?</p>
+                        <p class="message-jp" lang="ja">いつも<ruby>日本語<rt>にほんご</rt></ruby><span class="particle">を</span><ruby>勉強<rt>べんきょう</rt></ruby>します<span class="particle">か</span>。</p>
+                        <p class="message-romaji">Itsumo Nihongo <span class="particle">o</span> benkyō shimasu <span class="particle">ka</span>?</p>
+                        <p class="message-en">Do you always study Japanese?</p>
                       </div>
                     </div>
                     <div class="message message-b">
                       <span class="message-speaker">B</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja"><ruby>毎日<rt>まいにち</rt></ruby><ruby>勉強<rt>べんきょう</rt></ruby>します。</p>
-                        <p class="message-romaji">Mainichi benkyō shimasu.</p>
-                        <p class="message-en">I study every day.</p>
+                        <p class="message-jp" lang="ja">はい、いつも<ruby>勉強<rt>べんきょう</rt></ruby>します。</p>
+                        <p class="message-romaji">Hai, itsumo benkyō shimasu.</p>
+                        <p class="message-en">Yes, I always do.</p>
                       </div>
                     </div>
                   </div>
@@ -511,6 +527,28 @@
               </article>
             </div>
           </details>
+
+          <!-- ------------------------------------- -->
+          <!-- PRACTICE (placeholder) -->
+          <!-- ------------------------------------- -->
+
+          <details class="toggle-section" id="practice">
+            <summary><h2>Practice</h2></summary>
+
+            <div class="toggle-body">
+              <p class="practice-placeholder">Practice exercises for this lesson are coming soon.</p>
+            </div>
+          </details>
+
+          <!-- ------------------------------------- -->
+          <!-- LESSON NAV -->
+          <!-- ------------------------------------- -->
+          <!-- Frequency is last in Sakura's learning order, so there's
+               no Next link here — only Previous. -->
+
+          <nav class="lesson-nav">
+            <a class="lesson-nav-prev" href="time.html">← Time</a>
+          </nav>
         </div>
       </main>
     </div>
@@ -519,6 +557,7 @@
 <!-- SCRIPTS -->
 <!-- ------------------------------------- -->
 
+<script src="../assets/search-index.js"></script>
 <script src="../assets/script.js"></script>
 
   </body>

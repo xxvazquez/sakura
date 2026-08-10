@@ -29,6 +29,7 @@ PAGES = [
     ("pages/pronouns.html", "pronouns.html", "Personal Pronouns"),
     ("pages/demonstratives.html", "demonstratives.html", "Demonstratives"),
     ("pages/likes-dislikes.html", "likes-dislikes.html", "Likes & Dislikes"),
+    ("pages/hiragana.html", "hiragana.html", "Hiragana"),
 ]
 
 SECTION_RE = re.compile(

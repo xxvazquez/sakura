@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Sakura Study — Frequency</title>
-    <meta name="description" content="A personal Japanese reference notebook. Frequency (JLPT N5): adverbs, grammar notes, and irregular forms." />
+    <title>Sakura Study — Personal Pronouns</title>
+    <meta name="description" content="A personal Japanese reference notebook. Personal Pronouns (JLPT N5): 私/あなた/彼/彼女, natural ways to refer to people, grammar notes, and example dialogues." />
 
     <!-- ------------------------------------- -->
     <!-- FONT -->
@@ -97,7 +97,7 @@
           </div>
           <div class="menu-group">
             <span class="menu-letter">F</span>
-            <a class="active" href="frequency.html">Frequency</a>
+            <a href="frequency.html">Frequency</a>
           </div>
           <div class="menu-group">
             <span class="menu-letter">N</span>
@@ -105,7 +105,7 @@
           </div>
           <div class="menu-group">
             <span class="menu-letter">P</span>
-            <a href="pronouns.html">Personal Pronouns</a>
+            <a class="active" href="pronouns.html">Personal Pronouns</a>
           </div>
           <div class="menu-group">
             <span class="menu-letter">T</span>
@@ -116,8 +116,8 @@
 
       <main class="content">
         <div class="page">
-          <h1>Frequency</h1>
-          <p class="lesson-overview">Learn how to describe how often actions happen using common N5 frequency expressions.</p>
+          <h1>Personal Pronouns</h1>
+          <p class="lesson-overview">Learn the common N5 personal pronouns — <strong>私（わたし, watashi）</strong>, <strong>私たち（わたしたち, watashitachi）</strong>, <strong>あなた（あなた, anata）</strong>, <strong>彼（かれ, kare）</strong> and <strong>彼女（かのじょ, kanojo）</strong> — and the more natural ways Japanese speakers refer to people instead.</p>
 
           <!-- ------------------------------------- -->
           <!-- PAGE SEARCH -->
@@ -136,7 +136,7 @@
               id="pageSearch"
               placeholder="Search…"
               autocomplete="off"
-              aria-label="Search all frequency tables and dialogues"
+              aria-label="Search all personal pronouns tables and dialogues"
             />
           </div>
 
@@ -166,21 +166,32 @@
                whenever a section is added, renamed, or reordered. -->
 
           <nav class="table-nav" id="tableNav">
-            <a href="#frequency">Frequency</a>
+            <a href="#personal-pronouns">Personal Pronouns</a>
+            <a href="#referring-to-people">Common Ways to Refer to People</a>
             <a href="#questions-answers">Questions &amp; Answers</a>
             <a href="#example-dialogue">Example Dialogue</a>
             <a href="#practice">Practice</a>
           </nav>
 
           <!-- ------------------------------------- -->
-          <!-- FREQUENCY TABLE -->
+          <!-- PERSONAL PRONOUNS TABLE -->
           <!-- ------------------------------------- -->
+          <!-- No data-default-order here on purpose, same reasoning as
+               Demonstratives' tables: script.js's initReferenceTables
+               falls back to authored order when the attribute is
+               absent, and this list is authored singular-first-person →
+               plural-first-person → second-person → third-person,
+               which teaches better than an alphabetical-by-English
+               reshuffle (he/him, I/me, she/her, we/us, you) would. The
+               grammar note lives here rather than after the second
+               table, since it's about the pronouns themselves, not
+               about contrasting the two tables. -->
 
-          <details class="toggle-section" id="frequency">
-            <summary><h2>Frequency</h2></summary>
+          <details class="toggle-section" id="personal-pronouns">
+            <summary><h2>Personal Pronouns</h2></summary>
 
             <div class="toggle-body">
-              <table id="frequencyTable" class="ref-table" data-default-order="3,asc">
+              <table id="personalPronounsTable" class="ref-table">
                 <thead>
                   <tr>
                     <th class="type-col">Tag</th>
@@ -194,90 +205,42 @@
                   <tr>
                     <td class="type" data-order="0"></td>
                     <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">いつも</span><rt>&nbsp;</rt></ruby>
+                      <ruby><span class="kanji">私</span><rt>わたし</rt></ruby>
                     </td>
-                    <td class="romaji">itsumo</td>
-                    <td class="english">always</td>
+                    <td class="romaji">watashi</td>
+                    <td class="english">I / me</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
                     <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">よく</span><rt>&nbsp;</rt></ruby>
+                      <ruby><span class="kanji">私たち</span><rt>わたしたち</rt></ruby>
                     </td>
-                    <td class="romaji">yoku</td>
-                    <td class="english">often</td>
+                    <td class="romaji">watashitachi</td>
+                    <td class="english">we / us</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
                     <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">ときどき</span><rt>&nbsp;</rt></ruby>
+                      <ruby><span class="kanji kana-only">あなた</span><rt>&nbsp;</rt></ruby>
                     </td>
-                    <td class="romaji">tokidoki</td>
-                    <td class="english">sometimes</td>
+                    <td class="romaji">anata</td>
+                    <td class="english">you</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
                     <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">あまり～ません</span><rt>&nbsp;</rt></ruby>
+                      <ruby><span class="kanji">彼</span><rt>かれ</rt></ruby>
                     </td>
-                    <td class="romaji">amari ~masen</td>
-                    <td class="english">not often</td>
+                    <td class="romaji">kare</td>
+                    <td class="english">he / him</td>
                   </tr>
                   <tr>
                     <td class="type" data-order="0"></td>
                     <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">ぜんぜん～ません</span><rt>&nbsp;</rt></ruby>
+                      <ruby><span class="kanji">彼女</span><rt>かのじょ</rt></ruby>
                     </td>
-                    <td class="romaji">zenzen ~masen</td>
-                    <td class="english">never / not at all</td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">毎日</span><rt>まいにち</rt></ruby>
-                    </td>
-                    <td class="romaji">mainichi</td>
-                    <td class="english">every day</td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">毎朝</span><rt>まいあさ</rt></ruby>
-                    </td>
-                    <td class="romaji">maiasa</td>
-                    <td class="english">every morning</td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">毎晩</span><rt>まいばん</rt></ruby>
-                    </td>
-                    <td class="romaji">maiban</td>
-                    <td class="english">every evening</td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">毎週</span><rt>まいしゅう</rt></ruby>
-                    </td>
-                    <td class="romaji">maishū</td>
-                    <td class="english">every week</td>
-                  </tr>
-                  <tr>
-                    <td class="type" data-order="0"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">毎月</span><rt>まいつき</rt></ruby>
-                    </td>
-                    <td class="romaji">maitsuki</td>
-                    <td class="english">every month</td>
-                  </tr>
-                  <tr class="irregular">
-                    <td class="type" data-order="1"></td>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">毎年</span><rt>まいとし</rt></ruby>
-                    </td>
-                    <td class="romaji">maitoshi</td>
-                    <td class="english">every year</td>
+                    <td class="romaji">kanojo</td>
+                    <td class="english">she / her</td>
                   </tr>
                 </tbody>
               </table>
@@ -289,12 +252,59 @@
               <div class="grammar-note">
                 <h3>Grammar Note</h3>
                 <ul>
-                  <li>いつも (itsumo)・よく (yoku)・ときどき (tokidoki) usually go before the verb.</li>
-                  <li>あまり (amari) is used with a negative verb.</li>
-                  <li>ぜんぜん (zenzen) is used with a negative verb.</li>
-                  <li>毎～ (mai~) goes before a period of time (<ruby lang="ja">毎日<rt>まいにち</rt></ruby>, <ruby lang="ja">毎週<rt>まいしゅう</rt></ruby>, <ruby lang="ja">毎月<rt>まいつき</rt></ruby>, etc.).</li>
+                  <li>あなた (anata) is used far less than "you" is in English — a name + さん (~san), a title, or dropping the subject entirely is usually more natural. See Common Ways to Refer to People below.</li>
+                  <li>The subject (私, あなた, 彼…) is often left out once it's already clear from context — Japanese doesn't need to restate "I" or "you" in every sentence the way English does.</li>
+                  <li>～たち (~tachi) makes a pronoun or name plural: 私たち (watashitachi) is "we," and <ruby lang="ja">田中<rt>たなか</rt></ruby>さんたち (Tanaka-san-tachi) means "Tanaka and the others."</li>
                 </ul>
               </div>
+            </div>
+          </details>
+
+          <!-- ------------------------------------- -->
+          <!-- COMMON WAYS TO REFER TO PEOPLE TABLE -->
+          <!-- ------------------------------------- -->
+
+          <details class="toggle-section" id="referring-to-people">
+            <summary><h2>Common Ways to Refer to People</h2></summary>
+
+            <div class="toggle-body">
+              <table id="referringToPeopleTable" class="ref-table">
+                <thead>
+                  <tr>
+                    <th class="type-col">Tag</th>
+                    <th>Japanese</th>
+                    <th class="col-romaji">Romaji</th>
+                    <th class="col-english">English</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji kana-only">～さん</span><rt>&nbsp;</rt></ruby>
+                    </td>
+                    <td class="romaji">~san</td>
+                    <td class="english">Mr. / Ms. ~</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">先生</span><rt>せんせい</rt></ruby>
+                    </td>
+                    <td class="romaji">sensei</td>
+                    <td class="english">teacher</td>
+                  </tr>
+                  <tr>
+                    <td class="type" data-order="0"></td>
+                    <td class="jp" lang="ja">
+                      <ruby><span class="kanji">お名前</span><rt>おなまえ</rt></ruby>
+                    </td>
+                    <td class="romaji">onamae</td>
+                    <td class="english">name (polite)</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </details>
 
@@ -309,110 +319,110 @@
               <div class="dialogue-grid">
 
                 <article class="dialogue-card">
-                  <h3 class="dialogue-title">🔁 Always</h3>
+                  <h3 class="dialogue-title">🤝 Introducing Someone</h3>
                   <div class="dialogue-messages">
                     <div class="message message-a">
                       <span class="message-speaker">A</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">いつも<ruby>日本語<rt>にほんご</rt></ruby><span class="particle">を</span><ruby>勉強<rt>べんきょう</rt></ruby>します<span class="particle">か</span>。</p>
-                        <p class="message-romaji">Itsumo Nihongo <span class="particle">o</span> benkyō shimasu <span class="particle">ka</span>?</p>
-                        <p class="message-en">Do you always study Japanese?</p>
+                        <p class="message-jp" lang="ja">こちら<span class="particle">は</span><ruby>山田<rt>やまだ</rt></ruby>さんです。</p>
+                        <p class="message-romaji">Kochira <span class="particle">wa</span> Yamada-san desu.</p>
+                        <p class="message-en">This is Yamada-san.</p>
                       </div>
                     </div>
                     <div class="message message-b">
                       <span class="message-speaker">B</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">はい、いつも<ruby>勉強<rt>べんきょう</rt></ruby>します。</p>
-                        <p class="message-romaji">Hai, itsumo benkyō shimasu.</p>
-                        <p class="message-en">Yes, I always do.</p>
+                        <p class="message-jp" lang="ja">はじめまして、<ruby>山田<rt>やまだ</rt></ruby>さん。</p>
+                        <p class="message-romaji">Hajimemashite, Yamada-san.</p>
+                        <p class="message-en">Nice to meet you, Yamada-san.</p>
                       </div>
                     </div>
                   </div>
                 </article>
 
                 <article class="dialogue-card">
-                  <h3 class="dialogue-title">📚 Often</h3>
+                  <h3 class="dialogue-title">🙋 Asking Who Someone Is</h3>
                   <div class="dialogue-messages">
                     <div class="message message-a">
                       <span class="message-speaker">A</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">よく<ruby>本<rt>ほん</rt></ruby><span class="particle">を</span><ruby>読<rt>よ</rt></ruby>みます<span class="particle">か</span>。</p>
-                        <p class="message-romaji">Yoku hon <span class="particle">o</span> yomimasu <span class="particle">ka</span>?</p>
-                        <p class="message-en">Do you often read books?</p>
+                        <p class="message-jp" lang="ja">あの<ruby>人<rt>ひと</rt></ruby><span class="particle">は</span>だれです<span class="particle">か</span>。</p>
+                        <p class="message-romaji">Ano hito <span class="particle">wa</span> dare desu <span class="particle">ka</span>?</p>
+                        <p class="message-en">Who is that person, over there?</p>
                       </div>
                     </div>
                     <div class="message message-b">
                       <span class="message-speaker">B</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">はい、よく<ruby>読<rt>よ</rt></ruby>みます。</p>
-                        <p class="message-romaji">Hai, yoku yomimasu.</p>
-                        <p class="message-en">Yes, I often do.</p>
+                        <p class="message-jp" lang="ja"><ruby>山田<rt>やまだ</rt></ruby>さんです。<ruby>私<rt>わたし</rt></ruby><span class="particle">の</span><ruby>友達<rt>ともだち</rt></ruby>です。</p>
+                        <p class="message-romaji">Yamada-san desu. Watashi <span class="particle">no</span> tomodachi desu.</p>
+                        <p class="message-en">That's Yamada. He's my friend.</p>
                       </div>
                     </div>
                   </div>
                 </article>
 
                 <article class="dialogue-card">
-                  <h3 class="dialogue-title">🎬 Sometimes</h3>
+                  <h3 class="dialogue-title">📛 Asking for a Name</h3>
                   <div class="dialogue-messages">
                     <div class="message message-a">
                       <span class="message-speaker">A</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">ときどき<ruby>映画<rt>えいが</rt></ruby><span class="particle">を</span><ruby>見<rt>み</rt></ruby>ます<span class="particle">か</span>。</p>
-                        <p class="message-romaji">Tokidoki eiga <span class="particle">o</span> mimasu <span class="particle">ka</span>?</p>
-                        <p class="message-en">Do you sometimes watch movies?</p>
+                        <p class="message-jp" lang="ja">すみません、お<ruby>名前<rt>なまえ</rt></ruby><span class="particle">は</span><ruby>何<rt>なん</rt></ruby>です<span class="particle">か</span>。</p>
+                        <p class="message-romaji">Sumimasen, onamae <span class="particle">wa</span> nan desu <span class="particle">ka</span>?</p>
+                        <p class="message-en">Excuse me, what is your name?</p>
                       </div>
                     </div>
                     <div class="message message-b">
                       <span class="message-speaker">B</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">はい、ときどき<ruby>見<rt>み</rt></ruby>ます。</p>
-                        <p class="message-romaji">Hai, tokidoki mimasu.</p>
-                        <p class="message-en">Yes, I sometimes do.</p>
+                        <p class="message-jp" lang="ja"><ruby>田中<rt>たなか</rt></ruby>です。</p>
+                        <p class="message-romaji">Tanaka desu.</p>
+                        <p class="message-en">I'm Tanaka.</p>
                       </div>
                     </div>
                   </div>
                 </article>
 
                 <article class="dialogue-card">
-                  <h3 class="dialogue-title">📺 Not Often</h3>
+                  <h3 class="dialogue-title">🎓 Talking About Yourself</h3>
                   <div class="dialogue-messages">
                     <div class="message message-a">
                       <span class="message-speaker">A</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">テレビ<span class="particle">を</span><ruby>見<rt>み</rt></ruby>ます<span class="particle">か</span>。</p>
-                        <p class="message-romaji">Terebi <span class="particle">o</span> mimasu <span class="particle">ka</span>?</p>
-                        <p class="message-en">Do you watch TV?</p>
+                        <p class="message-jp" lang="ja"><ruby>学生<rt>がくせい</rt></ruby>です<span class="particle">か</span>。</p>
+                        <p class="message-romaji">Gakusei desu <span class="particle">ka</span>?</p>
+                        <p class="message-en">Are you a student?</p>
                       </div>
                     </div>
                     <div class="message message-b">
                       <span class="message-speaker">B</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">いいえ、あまり<ruby>見<rt>み</rt></ruby>ません。</p>
-                        <p class="message-romaji">Iie, amari mimasen.</p>
-                        <p class="message-en">No, I don't watch it very often.</p>
+                        <p class="message-jp" lang="ja">はい、<ruby>私<rt>わたし</rt></ruby><span class="particle">は</span><ruby>学生<rt>がくせい</rt></ruby>です。</p>
+                        <p class="message-romaji">Hai, watashi <span class="particle">wa</span> gakusei desu.</p>
+                        <p class="message-en">Yes, I am a student.</p>
                       </div>
                     </div>
                   </div>
                 </article>
 
                 <article class="dialogue-card">
-                  <h3 class="dialogue-title">🚭 Never</h3>
+                  <h3 class="dialogue-title">👩‍🏫 Talking About Someone Else</h3>
                   <div class="dialogue-messages">
                     <div class="message message-a">
                       <span class="message-speaker">A</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">お<ruby>酒<rt>さけ</rt></ruby><span class="particle">を</span><ruby>飲<rt>の</rt></ruby>みます<span class="particle">か</span>。</p>
-                        <p class="message-romaji">Osake <span class="particle">o</span> nomimasu <span class="particle">ka</span>?</p>
-                        <p class="message-en">Do you drink alcohol?</p>
+                        <p class="message-jp" lang="ja"><ruby>彼女<rt>かのじょ</rt></ruby><span class="particle">は</span><ruby>先生<rt>せんせい</rt></ruby>です<span class="particle">か</span>。</p>
+                        <p class="message-romaji">Kanojo <span class="particle">wa</span> sensei desu <span class="particle">ka</span>?</p>
+                        <p class="message-en">Is she a teacher?</p>
                       </div>
                     </div>
                     <div class="message message-b">
                       <span class="message-speaker">B</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">いいえ、ぜんぜん<ruby>飲<rt>の</rt></ruby>みません。</p>
-                        <p class="message-romaji">Iie, zenzen nomimasen.</p>
-                        <p class="message-en">No, I never do.</p>
+                        <p class="message-jp" lang="ja">はい、<ruby>彼女<rt>かのじょ</rt></ruby><span class="particle">は</span><ruby>先生<rt>せんせい</rt></ruby>です。</p>
+                        <p class="message-romaji">Hai, kanojo <span class="particle">wa</span> sensei desu.</p>
+                        <p class="message-en">Yes, she is a teacher.</p>
                       </div>
                     </div>
                   </div>
@@ -427,109 +437,96 @@
           <!-- ------------------------------------- -->
           <!-- One continuous back-and-forth, unlike the short single-
                exchange cards above — so it's one full-width
-               .dialogue-card holding every turn, not a grid of cards. -->
+               .dialogue-card holding every turn, not a grid of cards.
+               Kept to exactly two speakers throughout (Sakura's dialogue
+               card format doesn't support a third voice) — A and B talk
+               about a third person rather than that person speaking. -->
 
           <details class="toggle-section" id="example-dialogue">
             <summary><h2>Example Dialogue</h2></summary>
 
             <div class="toggle-body">
               <article class="dialogue-card">
-                <h3 class="dialogue-title">📖 Daily Routine</h3>
+                <h3 class="dialogue-title">👥 Who's That?</h3>
                 <div class="dialogue-messages">
                   <div class="message message-a">
                     <span class="message-speaker">A</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">こんにちは。</p>
-                      <p class="message-romaji">Konnichiwa.</p>
-                      <p class="message-en">Hello.</p>
+                      <p class="message-jp" lang="ja">あの<ruby>人<rt>ひと</rt></ruby><span class="particle">は</span><ruby>田中<rt>たなか</rt></ruby>さんです<span class="particle">か</span>。</p>
+                      <p class="message-romaji">Ano hito <span class="particle">wa</span> Tanaka-san desu <span class="particle">ka</span>?</p>
+                      <p class="message-en">Is that person, over there, Tanaka-san?</p>
                     </div>
                   </div>
                   <div class="message message-b">
                     <span class="message-speaker">B</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">こんにちは。</p>
-                      <p class="message-romaji">Konnichiwa.</p>
-                      <p class="message-en">Hello.</p>
+                      <p class="message-jp" lang="ja">いいえ、<ruby>彼<rt>かれ</rt></ruby><span class="particle">は</span><ruby>鈴木<rt>すずき</rt></ruby>さんです。</p>
+                      <p class="message-romaji">Iie, kare <span class="particle">wa</span> Suzuki-san desu.</p>
+                      <p class="message-en">No, he's Suzuki-san.</p>
                     </div>
                   </div>
                   <div class="message message-a">
                     <span class="message-speaker">A</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja"><ruby>毎日<rt>まいにち</rt></ruby><ruby>日本語<rt>にほんご</rt></ruby><span class="particle">を</span><ruby>勉強<rt>べんきょう</rt></ruby>します<span class="particle">か</span>。</p>
-                      <p class="message-romaji">Mainichi Nihongo <span class="particle">o</span> benkyō shimasu <span class="particle">ka</span>?</p>
-                      <p class="message-en">Do you study Japanese every day?</p>
+                      <p class="message-jp" lang="ja">そうです<span class="particle">か</span>。<ruby>彼女<rt>かのじょ</rt></ruby><span class="particle">は</span>だれです<span class="particle">か</span>。</p>
+                      <p class="message-romaji">Sō desu <span class="particle">ka</span>. Kanojo <span class="particle">wa</span> dare desu <span class="particle">ka</span>?</p>
+                      <p class="message-en">I see. Who is she?</p>
                     </div>
                   </div>
                   <div class="message message-b">
                     <span class="message-speaker">B</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">はい、<ruby>毎日<rt>まいにち</rt></ruby><ruby>勉強<rt>べんきょう</rt></ruby>します。</p>
-                      <p class="message-romaji">Hai, mainichi benkyō shimasu.</p>
-                      <p class="message-en">Yes, I study every day.</p>
+                      <p class="message-jp" lang="ja"><ruby>彼女<rt>かのじょ</rt></ruby><span class="particle">は</span><ruby>私<rt>わたし</rt></ruby><span class="particle">の</span><ruby>妹<rt>いもうと</rt></ruby>です。</p>
+                      <p class="message-romaji">Kanojo <span class="particle">wa</span> watashi <span class="particle">no</span> imōto desu.</p>
+                      <p class="message-en">She is my younger sister.</p>
                     </div>
                   </div>
                   <div class="message message-a">
                     <span class="message-speaker">A</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">よく<ruby>本<rt>ほん</rt></ruby><span class="particle">を</span><ruby>読<rt>よ</rt></ruby>みます<span class="particle">か</span>。</p>
-                      <p class="message-romaji">Yoku hon <span class="particle">o</span> yomimasu <span class="particle">ka</span>?</p>
-                      <p class="message-en">Do you often read books?</p>
+                      <p class="message-jp" lang="ja">そうです<span class="particle">か</span>。お<ruby>名前<rt>なまえ</rt></ruby><span class="particle">は</span><ruby>何<rt>なん</rt></ruby>です<span class="particle">か</span>。</p>
+                      <p class="message-romaji">Sō desu <span class="particle">ka</span>. Onamae <span class="particle">wa</span> nan desu <span class="particle">ka</span>?</p>
+                      <p class="message-en">I see. What is her name?</p>
                     </div>
                   </div>
                   <div class="message message-b">
                     <span class="message-speaker">B</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">はい、よく<ruby>読<rt>よ</rt></ruby>みます。でも、ときどき<ruby>漫画<rt>まんが</rt></ruby><span class="particle">も</span><ruby>読<rt>よ</rt></ruby>みます。</p>
-                      <p class="message-romaji">Hai, yoku yomimasu. Demo, tokidoki manga <span class="particle">mo</span> yomimasu.</p>
-                      <p class="message-en">Yes, I often read books. But I also sometimes read manga.</p>
+                      <p class="message-jp" lang="ja"><ruby>名前<rt>なまえ</rt></ruby><span class="particle">は</span><ruby>花子<rt>はなこ</rt></ruby>です。</p>
+                      <p class="message-romaji">Namae <span class="particle">wa</span> Hanako desu.</p>
+                      <p class="message-en">Her name is Hanako.</p>
                     </div>
                   </div>
                   <div class="message message-a">
                     <span class="message-speaker">A</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">テレビ<span class="particle">を</span><ruby>見<rt>み</rt></ruby>ます<span class="particle">か</span>。</p>
-                      <p class="message-romaji">Terebi <span class="particle">o</span> mimasu <span class="particle">ka</span>?</p>
-                      <p class="message-en">Do you watch TV?</p>
+                      <p class="message-jp" lang="ja">そうです<span class="particle">か</span>。<ruby>花子<rt>はなこ</rt></ruby>さん<span class="particle">は</span><ruby>学生<rt>がくせい</rt></ruby>です<span class="particle">か</span>。</p>
+                      <p class="message-romaji">Sō desu <span class="particle">ka</span>. Hanako-san <span class="particle">wa</span> gakusei desu <span class="particle">ka</span>?</p>
+                      <p class="message-en">I see. Is Hanako a student?</p>
                     </div>
                   </div>
                   <div class="message message-b">
                     <span class="message-speaker">B</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">いいえ、あまり<ruby>見<rt>み</rt></ruby>ません。</p>
-                      <p class="message-romaji">Iie, amari mimasen.</p>
-                      <p class="message-en">No, I don't watch it very often.</p>
+                      <p class="message-jp" lang="ja">はい、<ruby>花子<rt>はなこ</rt></ruby><span class="particle">は</span><ruby>学生<rt>がくせい</rt></ruby>です。<ruby>私<rt>わたし</rt></ruby>たち<span class="particle">は</span><ruby>同<rt>おな</rt></ruby>じ<ruby>学校<rt>がっこう</rt></ruby>です。</p>
+                      <p class="message-romaji">Hai, Hanako <span class="particle">wa</span> gakusei desu. Watashitachi <span class="particle">wa</span> onaji gakkō desu.</p>
+                      <p class="message-en">Yes, Hanako is a student. We're at the same school.</p>
                     </div>
                   </div>
                   <div class="message message-a">
                     <span class="message-speaker">A</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">お<ruby>酒<rt>さけ</rt></ruby><span class="particle">を</span><ruby>飲<rt>の</rt></ruby>みます<span class="particle">か</span>。</p>
-                      <p class="message-romaji">Osake <span class="particle">o</span> nomimasu <span class="particle">ka</span>?</p>
-                      <p class="message-en">Do you drink alcohol?</p>
+                      <p class="message-jp" lang="ja">いいです<span class="particle">ね</span>。</p>
+                      <p class="message-romaji">Ii desu ne.</p>
+                      <p class="message-en">That's nice.</p>
                     </div>
                   </div>
                   <div class="message message-b">
                     <span class="message-speaker">B</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">いいえ、ぜんぜん<ruby>飲<rt>の</rt></ruby>みません。</p>
-                      <p class="message-romaji">Iie, zenzen nomimasen.</p>
-                      <p class="message-en">No, I never do.</p>
-                    </div>
-                  </div>
-                  <div class="message message-a">
-                    <span class="message-speaker">A</span>
-                    <div class="message-bubble">
-                      <p class="message-jp" lang="ja">そうです<span class="particle">か</span>。ありがとうございます。</p>
-                      <p class="message-romaji">Sō desu <span class="particle">ka</span>. Arigatō gozaimasu.</p>
-                      <p class="message-en">I see. Thank you.</p>
-                    </div>
-                  </div>
-                  <div class="message message-b">
-                    <span class="message-speaker">B</span>
-                    <div class="message-bubble">
-                      <p class="message-jp" lang="ja">どういたしまして。では、また。</p>
-                      <p class="message-romaji">Dōitashimashite. Dewa, mata.</p>
-                      <p class="message-en">You're welcome. See you later.</p>
+                      <p class="message-jp" lang="ja">はい、<ruby>彼女<rt>かのじょ</rt></ruby><span class="particle">は</span>いい<ruby>妹<rt>いもうと</rt></ruby>です。</p>
+                      <p class="message-romaji">Hai, kanojo <span class="particle">wa</span> ii imōto desu.</p>
+                      <p class="message-en">Yes, she's a good younger sister.</p>
                     </div>
                   </div>
                 </div>
@@ -541,13 +538,17 @@
           <!-- RELATED PAGES -->
           <!-- ------------------------------------- -->
           <!-- 2-4 manually picked, not generated — see .related-pages
-               in style.css. -->
+               in style.css. Only one link for now: Demonstratives is
+               the one lesson genuinely tied to this material (あの人 /
+               だれの above lean directly on it) — Sakura's other
+               lessons don't share enough with pronouns yet to earn a
+               spot here honestly. More will be added as Family/
+               Professions ship. -->
 
           <section class="related-pages">
             <h2>Related Pages</h2>
             <div class="related-pages-list">
-              <a href="time.html">Time</a>
-              <a href="numbers.html">Numbers</a>
+              <a href="demonstratives.html">Demonstratives</a>
             </div>
           </section>
 
@@ -573,8 +574,8 @@
                no page to link to). -->
 
           <nav class="lesson-nav">
-            <a class="lesson-nav-prev" href="time.html">← Time</a>
-            <a class="lesson-nav-next" href="pronouns.html">Personal Pronouns →</a>
+            <a class="lesson-nav-prev" href="frequency.html">← Frequency</a>
+            <a class="lesson-nav-next" href="demonstratives.html">Demonstratives →</a>
           </nav>
         </div>
       </main>

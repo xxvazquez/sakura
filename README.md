@@ -8,11 +8,13 @@ The goal is to make vocabulary, grammar, and other topics quick to reference wit
 
 The home page indexes the full planned scope of the notebook as seven collapsible reference categories — Writing System, Basic Communication, Numbers & Time, People, Daily Life, Places & Travel, and Grammar — with about 30 lessons total. Lessons that don't have a page yet show up as a muted placeholder tagged "Soon" instead of a dead link, so the categories stay visible even when mostly unbuilt.
 
-Three lessons are built so far, all in Numbers & Time, and they also follow their own learning order (linked at the bottom of each lesson via Previous/Next):
+Five lessons are built so far, spread across three categories, and they also follow their own learning order (linked at the bottom of each lesson via Previous/Next):
 
 1. **Numbers** — cardinal numbers from 1 to 1,000,000, with kanji, furigana, romaji, and irregular readings marked.
 2. **Time** — Reference tables for Hours, Minutes, Time Vocabulary (今日, 朝, 午前, ～から～まで, etc.), and Counting Hours (X時間), then a Questions & Answers section of common time-related exchanges.
 3. **Frequency** — adverbs of frequency (いつも, よく, ときどき, あまり～ません, ぜんぜん～ません) and the 毎～ time-period prefix, a grammar note, short Q&A cards (one per adverb), and a full daily-routine Example Dialogue combining everything.
+4. **Personal Pronouns** — 私/あなた/彼/彼女 and their plurals, a grammar note on when pronouns are dropped or replaced by name+さん, then a Common Ways to Refer to People table, Questions & Answers, and an Example Dialogue.
+5. **Demonstratives** — the これ/それ/あれ/どれ and この/その/あの/どの series, a grammar note contrasting the two tables, Questions & Answers, and an Example Dialogue.
 
 More topics will be added as I progress through my classes.
 
@@ -21,7 +23,7 @@ More topics will be added as I progress through my classes.
 Every lesson shares the same shell, but the content sections themselves are named for their topic rather than following a fixed generic order — a page gets whatever sections its material actually needs:
 
 - **Sticky quick-jump nav** — links to every section on the page (e.g. Time's Hours / Minutes / Time Vocabulary / Counting Hours / Questions & Answers / Practice).
-- **Content sections** — one collapsible section per topic-specific table or explanation (Numbers has just one, "Numbers"; Time has four; Frequency has one reference table plus a grammar note). Grammar explanations appear inline within a section rather than as their own section.
+- **Content sections** — one collapsible section per topic-specific table or explanation (Numbers has just one, "Numbers"; Time has four; Frequency, Personal Pronouns, and Demonstratives each have one or two reference tables plus a grammar note). Grammar explanations appear inline within a section rather than as their own section.
 - **Questions & Answers** — short Q&A cards practising material already introduced earlier on the page, where the lesson has one.
 - **Example Dialogue** — a natural back-and-forth exchange combining everything on the page, where the lesson has one.
 - **Related Pages** — 2-4 manually picked links to other relevant lessons.
@@ -62,9 +64,11 @@ sakura/
 │   ├── search-index.js            Generated search index (see below) — don't hand-edit
 │   └── build-search-index.py      Regenerates search-index.js from pages/*.html
 ├── pages/
+│   ├── demonstratives.html
+│   ├── frequency.html
 │   ├── numbers.html
-│   ├── time.html
-│   └── frequency.html
+│   ├── pronouns.html
+│   └── time.html
 └── README.md
 ```
 

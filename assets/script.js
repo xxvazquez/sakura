@@ -254,8 +254,18 @@ function initGlobalSearch() {
         );
     };
 
+    // Latin queries need at least 2 characters to cut down on noise
+    // ("a" would match nearly every row), but that same floor would
+    // silently swallow every single-character Japanese search — か,
+    // に, は, を, で, と, へ, も, の, が are each a complete, meaningful
+    // query on their own (particles above all), unlike a single Latin
+    // letter. Hiragana/katakana/kanji ranges get a floor of 1 instead.
+    const hasJapanese = (s) =>
+        /[぀-ヿ㐀-鿿ｦ-ﾟ]/.test(s);
+
     const render = (query) => {
-        if (query.length < 2) {
+        const minLength = hasJapanese(query) ? 1 : 2;
+        if (query.length < minLength) {
             results.hidden = true;
             results.innerHTML = "";
             return;
@@ -358,7 +368,19 @@ function initSearchHighlight() {
     }
     if (hit) {
         hit.classList.add("search-highlight");
-        setTimeout(() => hit.classList.remove("search-highlight"), 2200);
+
+        // Stays lit rather than fading on a timer — landing from a
+        // search result and having the answer disappear in ~2s before
+        // you've finished reading it defeats the point of highlighting
+        // it. Cleared on the next real interaction instead, so it
+        // doesn't stay yellow forever once you've moved on.
+        const clear = () => {
+            hit.classList.remove("search-highlight");
+            document.removeEventListener("click", clear);
+            document.removeEventListener("keydown", clear);
+        };
+        document.addEventListener("click", clear, { once: true });
+        document.addEventListener("keydown", clear, { once: true });
     }
 
     // Strip ?q= so refreshing or bookmarking the page doesn't replay

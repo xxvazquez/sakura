@@ -117,23 +117,123 @@
 
       <main class="content">
         <div class="page">
-          <h1>Sakura Study</h1>
-          <p class="subtitle">A personal Japanese reference notebook</p>
+          <h1>Sakura</h1>
+          <p class="subtitle">A Japanese N5 reference notebook. Not a course — look things up, don't work through it.</p>
 
           <!-- ------------------------------------- -->
-          <!-- PAGE INDEX -->
+          <!-- CATEGORY INDEX -->
           <!-- ------------------------------------- -->
-          <!-- Every page on the site, flat and alphabetical by title —
-               a dictionary-style index, distinct from the sidebar (which
-               groups the same pages by category instead). Keep this in
-               sync with the sidebar's <a> entries whenever a page is
-               added: same links, different organization. -->
-          <div class="page-index-letter">F</div>
-          <a class="page-index-link" href="pages/frequency.html">Frequency</a>
-          <div class="page-index-letter">N</div>
-          <a class="page-index-link" href="pages/numbers.html">Numbers</a>
-          <div class="page-index-letter">T</div>
-          <a class="page-index-link" href="pages/time.html">Time</a>
+          <!-- Lessons grouped into fixed reference categories instead of
+               page structure or learning order — this is the index a
+               100+ lesson notebook needs to stay scannable. Each
+               category is a collapsible <details>; only the category
+               with real content open by default keeps first paint
+               calm. A lesson that doesn't have a page yet renders as a
+               plain <span class="lesson-placeholder"> (muted, no href,
+               "Soon" tag) instead of a link, so the full planned scope
+               of the notebook is visible without ever producing a
+               dead link. When a lesson page ships: swap its
+               <span class="lesson-placeholder">…<span class="soon-tag">Soon</span></span>
+               for <a class="lesson-link" href="pages/….html">…</a>
+               here, add it to the sidebar's alphabetical menu, and
+               bump this category's count in category-summary. -->
+
+          <div class="category-list">
+
+            <details class="category">
+              <summary class="category-summary">
+                <span class="category-name"><span class="category-icon" aria-hidden="true">📖</span>Writing System</span>
+                <span class="category-count">2 lessons</span>
+              </summary>
+              <div class="category-items">
+                <span class="lesson-placeholder">Hiragana<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Katakana<span class="soon-tag">Soon</span></span>
+              </div>
+            </details>
+
+            <details class="category">
+              <summary class="category-summary">
+                <span class="category-name"><span class="category-icon" aria-hidden="true">🗣️</span>Basic Communication</span>
+                <span class="category-count">3 lessons</span>
+              </summary>
+              <div class="category-items">
+                <span class="lesson-placeholder">Greetings<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Introductions<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Common Expressions<span class="soon-tag">Soon</span></span>
+              </div>
+            </details>
+
+            <details class="category" open>
+              <summary class="category-summary">
+                <span class="category-name"><span class="category-icon" aria-hidden="true">🔢</span>Numbers &amp; Time</span>
+                <span class="category-count">7 lessons</span>
+              </summary>
+              <div class="category-items">
+                <a class="lesson-link" href="pages/numbers.html">Numbers</a>
+                <span class="lesson-placeholder">Counters<span class="soon-tag">Soon</span></span>
+                <a class="lesson-link" href="pages/time.html">Time</a>
+                <span class="lesson-placeholder">Dates<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Days of the Week<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Months<span class="soon-tag">Soon</span></span>
+                <a class="lesson-link" href="pages/frequency.html">Frequency</a>
+              </div>
+            </details>
+
+            <details class="category">
+              <summary class="category-summary">
+                <span class="category-name"><span class="category-icon" aria-hidden="true">👤</span>People</span>
+                <span class="category-count">4 lessons</span>
+              </summary>
+              <div class="category-items">
+                <span class="lesson-placeholder">Pronouns<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Family<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Body<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Professions<span class="soon-tag">Soon</span></span>
+              </div>
+            </details>
+
+            <details class="category">
+              <summary class="category-summary">
+                <span class="category-name"><span class="category-icon" aria-hidden="true">🍚</span>Daily Life</span>
+                <span class="category-count">6 lessons</span>
+              </summary>
+              <div class="category-items">
+                <span class="lesson-placeholder">Daily Routine<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Food<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Drinks<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Restaurant<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Shopping<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Home<span class="soon-tag">Soon</span></span>
+              </div>
+            </details>
+
+            <details class="category">
+              <summary class="category-summary">
+                <span class="category-name"><span class="category-icon" aria-hidden="true">🗺️</span>Places &amp; Travel</span>
+                <span class="category-count">4 lessons</span>
+              </summary>
+              <div class="category-items">
+                <span class="lesson-placeholder">Places<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Transportation<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Directions<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Weather<span class="soon-tag">Soon</span></span>
+              </div>
+            </details>
+
+            <details class="category">
+              <summary class="category-summary">
+                <span class="category-name"><span class="category-icon" aria-hidden="true">📚</span>Grammar</span>
+                <span class="category-count">4 lessons</span>
+              </summary>
+              <div class="category-items">
+                <span class="lesson-placeholder">Particles<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Demonstratives<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Verbs<span class="soon-tag">Soon</span></span>
+                <span class="lesson-placeholder">Adjectives<span class="soon-tag">Soon</span></span>
+              </div>
+            </details>
+
+          </div>
         </div>
       </main>
     </div>

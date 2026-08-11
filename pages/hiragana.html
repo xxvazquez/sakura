@@ -136,30 +136,35 @@
           </div>
 
           <!-- ------------------------------------- -->
-          <!-- DISPLAY TOGGLES -->
+          <!-- PAGE TOOLBAR (sticky) -->
           <!-- ------------------------------------- -->
-          <!-- Japanese/furigana/romaji/English, on by default and
-               persisted in localStorage across the whole site — see
-               initDisplayToggles in assets/script.js. -->
+          <!-- Display toggles + table nav, stacked and pinned to the
+               viewport top together (see .page-toolbar, style.css) so
+               both stay reachable the whole time you're reading, not
+               just before the first scroll. Same two children, same
+               markup, on every lesson page. -->
 
-          <div class="display-toggles">
-            <label><input type="checkbox" id="toggleJapanese" checked /> Japanese</label>
-            <label><input type="checkbox" id="toggleFurigana" checked /> Furigana</label>
-            <label><input type="checkbox" id="toggleRomaji" checked /> Romaji</label>
-            <label><input type="checkbox" id="toggleEnglish" checked /> English</label>
+          <div class="page-toolbar">
+
+            <!-- Japanese/furigana/romaji/English, on by default and
+                 persisted in localStorage across the whole site — see
+                 initDisplayToggles in assets/script.js. -->
+
+            <div class="display-toggles">
+              <label><input type="checkbox" id="toggleJapanese" checked /> Japanese</label>
+              <label><input type="checkbox" id="toggleFurigana" checked /> Furigana</label>
+              <label><input type="checkbox" id="toggleRomaji" checked /> Romaji</label>
+              <label><input type="checkbox" id="toggleEnglish" checked /> English</label>
+            </div>
+
+            <nav class="table-nav" id="tableNav">
+              <a href="#basic-hiragana">Basic Hiragana</a>
+              <a href="#advanced-hiragana">Advanced Hiragana</a>
+              <a href="#basic-hiragana-vocabulary">Basic Vocabulary</a>
+              <a href="#advanced-hiragana-vocabulary">Advanced Vocabulary</a>
+              <a href="#notes">Notes</a>
+            </nav>
           </div>
-
-          <!-- ------------------------------------- -->
-          <!-- TABLE NAV -->
-          <!-- ------------------------------------- -->
-
-          <nav class="table-nav" id="tableNav">
-            <a href="#basic-hiragana">Basic Hiragana</a>
-            <a href="#advanced-hiragana">Advanced Hiragana</a>
-            <a href="#basic-hiragana-vocabulary">Basic Vocabulary</a>
-            <a href="#advanced-hiragana-vocabulary">Advanced Vocabulary</a>
-            <a href="#notes">Notes</a>
-          </nav>
 
           <!-- ------------------------------------- -->
           <!-- TABLE 1: BASIC HIRAGANA -->

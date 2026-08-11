@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <!-- Minimal 5-petal sakura silhouette, one color, matching the
+       site's own monochrome text color (#111827) rather than a
+       colorful/decorative mark — reads clearly at 16px favicon size
+       and doesn't clash with the reference-notebook aesthetic. -->
+  <g fill="#111827">
+    <ellipse cx="12" cy="6.2" rx="2.6" ry="5.4" transform="rotate(0 12 12)" />
+    <ellipse cx="12" cy="6.2" rx="2.6" ry="5.4" transform="rotate(72 12 12)" />
+    <ellipse cx="12" cy="6.2" rx="2.6" ry="5.4" transform="rotate(144 12 12)" />
+    <ellipse cx="12" cy="6.2" rx="2.6" ry="5.4" transform="rotate(216 12 12)" />
+    <ellipse cx="12" cy="6.2" rx="2.6" ry="5.4" transform="rotate(288 12 12)" />
+    <circle cx="12" cy="12" r="1.6" fill="#fff" />
+  </g>
+</svg>

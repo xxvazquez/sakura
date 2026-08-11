@@ -190,23 +190,39 @@ function initDisplayToggles() {
 // page, searches every lesson's actual content — not just page titles
 // the way it used to. The content it searches is
 // window.SAKURA_SEARCH_INDEX, a flat list of {page, pageTitle,
-// section, sectionTitle, text} records generated from the lesson
-// pages by assets/build-search-index.py (see assets/search-index.js;
-// regenerate that file after editing lesson content).
+// section, sectionTitle, jp, reading, romaji, en, text} records
+// generated from the lesson pages by assets/build-search-index.py (see
+// assets/search-index.js; regenerate that file after editing lesson
+// content). jp/reading/romaji/en come from a real parse of each page's
+// markup (see the build script), keyed off the same classes the page
+// already uses to style Japanese/romaji/English text — never off
+// ruby/highlight/toggle markup — so furigana, romaji and English are
+// all searchable and toggling any of them on/off never changes a
+// result.
 //
 // Results render as a dropdown under the input instead of filtering
-// anything in place, since a match can be on a different page. Each
-// result links to `${page}?q=${query}#${section}` — the query string
-// is what initSearchHighlight (below) reads on the destination page to
-// scroll to and briefly flash the specific row/card that matched,
-// after the #section hash has already opened that toggle.
+// anything in place, since a match can be on a different page.
 
 function initGlobalSearch() {
     const input = document.getElementById("sidebarSearch");
     const results = document.getElementById("searchResults");
-    const index = window.SAKURA_SEARCH_INDEX;
+    const rawIndex = window.SAKURA_SEARCH_INDEX;
 
-    if (!input || !results || !index) return;
+    if (!input || !results || !rawIndex) return;
+
+    // Standard combobox/listbox pattern (same one Algolia DocSearch,
+    // GitHub's search, etc. use): the input keeps real DOM focus the
+    // whole time, arrow keys move a "virtual" selection announced via
+    // aria-activedescendant, and each option is tabindex="-1" (set in
+    // resultCard below) so Tab moves past the whole widget in one hop
+    // instead of stopping at every result.
+    input.setAttribute("role", "combobox");
+    input.setAttribute("aria-autocomplete", "list");
+    input.setAttribute("aria-expanded", "false");
+    input.setAttribute("aria-controls", "searchResults");
+    input.setAttribute("aria-label", "Search lessons");
+    results.setAttribute("role", "listbox");
+    results.setAttribute("aria-label", "Search results");
 
     // Pages live one folder deeper than index.html, but link to each
     // other from that same folder — so the right prefix depends on
@@ -222,6 +238,96 @@ function initGlobalSearch() {
             "'": "&#39;",
         })[c]);
 
+    // --------------------------------------------------
+    // Romaji macron folding — "kohi"/"kouhii" both need to reach a
+    // field spelled "kōhī". Two ASCII variants are enough: macrons
+    // stripped to a bare vowel, and macrons expanded to the doubled
+    // vowel wāpuro typing normally uses (ō → ou, not oo — that's the
+    // form the common kana this project romanizes as ō actually take).
+    const MACRONS = { ā: "a", ī: "i", ū: "u", ē: "e", ō: "o" };
+    const foldMacrons = (s) => s.replace(/[āīūēō]/g, (c) => MACRONS[c]);
+    const expandMacrons = (s) =>
+        s
+            .replace(/ā/g, "aa")
+            .replace(/ī/g, "ii")
+            .replace(/ū/g, "uu")
+            .replace(/ē/g, "ee")
+            .replace(/ō/g, "ou");
+
+    // --------------------------------------------------
+    // Precompute once at load, not per keystroke: lowercase copies of
+    // every field plus the romaji macron variants, and one combined
+    // "haystack" per entry used as a cheap first-pass filter so the
+    // (slightly pricier) per-field tier lookup below only runs on
+    // entries that already contain the query somewhere.
+    const index = rawIndex.map((entry) => {
+        const pt = entry.pageTitle.toLowerCase();
+        const st = entry.sectionTitle.toLowerCase();
+        const jp = entry.jp.toLowerCase();
+        const reading = entry.reading.toLowerCase();
+        const romaji = entry.romaji.toLowerCase();
+        const romajiFolded = foldMacrons(romaji);
+        const romajiExpanded = expandMacrons(romaji);
+        const en = entry.en.toLowerCase();
+        const text = entry.text.toLowerCase();
+        return {
+            entry,
+            pt,
+            st,
+            jp,
+            reading,
+            romaji,
+            romajiFolded,
+            romajiExpanded,
+            en,
+            text,
+            haystack: [pt, st, jp, reading, romaji, romajiFolded, romajiExpanded, en, text].join(
+                "   "
+            ),
+        };
+    });
+
+    // --------------------------------------------------
+    // Ranking — predictable over clever. Exact matches on the things a
+    // user recognizes by name (the lesson, the section) always beat
+    // content matches; among content matches, Japanese beats romaji
+    // beats English, and an exact match beats a partial one within
+    // each of those. See the README-style rundown in the redesign
+    // notes for the full 11-tier list this encodes.
+    const classify = (row, q) => {
+        if (row.pt === q) return 1;
+        if (row.st === q) return 2;
+        if (row.jp === q || row.reading === q) return 3;
+        if (row.romaji === q || row.romajiFolded === q || row.romajiExpanded === q) return 4;
+        if (row.en === q) return 5;
+        if (row.pt.includes(q)) return 6;
+        if (row.st.includes(q)) return 7;
+        if (row.jp.includes(q) || row.reading.includes(q)) return 8;
+        if (
+            row.romaji.includes(q) ||
+            row.romajiFolded.includes(q) ||
+            row.romajiExpanded.includes(q)
+        )
+            return 9;
+        if (row.en.includes(q)) return 10;
+        return 11;
+    };
+
+    // The field a tier was decided on is also the field most likely to
+    // literally contain the match on the destination page — used to
+    // build the "m" locator param initSearchHighlight uses to find the
+    // right row/card/message there, and as a snippet fallback when the
+    // combined display text doesn't contain the query verbatim (e.g. a
+    // macron-folded romaji match).
+    const locatorFor = (row, q) => {
+        if (row.jp.includes(q)) return row.entry.jp;
+        if (row.reading.includes(q)) return row.entry.reading;
+        if (row.romaji.includes(q) || row.romajiFolded.includes(q) || row.romajiExpanded.includes(q))
+            return row.entry.romaji;
+        if (row.en.includes(q)) return row.entry.en;
+        return row.entry.text;
+    };
+
     // A row's full text can run well past what two lines of a result
     // fits — clamping to the first two lines regardless of where the
     // match falls means a hit later in the text (e.g. inside the
@@ -229,12 +335,39 @@ function initGlobalSearch() {
     // off before you ever see why it matched. Window the snippet
     // around the match instead, so what's shown is always centered on
     // the highlighted term.
+    //
+    // The window's edges are then nudged out to the nearest space
+    // (within a few characters) so a truncated snippet reads "…wa
+    // gakkō e ikimasu…" rather than lopping into the middle of a word
+    // on either side. Only worth doing for the Latin half of an entry
+    // — Japanese has no spaces to nudge to, and the fields here mostly
+    // aren't so long that clipping mid-run is even visible.
+    const nudgeToSpace = (text, start, end) => {
+        const LOOKAROUND = 12;
+        if (start > 0) {
+            const ahead = text.slice(start, start + LOOKAROUND);
+            const sp = ahead.indexOf(" ");
+            if (sp !== -1 && sp < LOOKAROUND - 1) start += sp + 1;
+        }
+        if (end < text.length) {
+            const behind = text.slice(Math.max(start, end - LOOKAROUND), end);
+            const sp = behind.lastIndexOf(" ");
+            if (sp !== -1) end = Math.max(start, end - LOOKAROUND) + sp;
+        }
+        return [start, end];
+    };
+
     const snippetAround = (text, query, contextChars) => {
         const i = text.toLowerCase().indexOf(query.toLowerCase());
-        if (i === -1) return text;
+        if (i === -1) {
+            return text.length > contextChars * 2
+                ? text.slice(0, contextChars * 2) + "…"
+                : text;
+        }
 
-        const start = Math.max(0, i - contextChars);
-        const end = Math.min(text.length, i + query.length + contextChars);
+        let start = Math.max(0, i - contextChars);
+        let end = Math.min(text.length, i + query.length + contextChars);
+        [start, end] = nudgeToSpace(text, start, end);
 
         let snippet = text.slice(start, end);
         if (start > 0) snippet = "…" + snippet;
@@ -242,16 +375,31 @@ function initGlobalSearch() {
         return snippet;
     };
 
-    const highlight = (text, query) => {
-        const i = text.toLowerCase().indexOf(query.toLowerCase());
-        if (i === -1) return escapeHtml(text);
-        return (
-            escapeHtml(text.slice(0, i)) +
-            "<mark>" +
-            escapeHtml(text.slice(i, i + query.length)) +
-            "</mark>" +
-            escapeHtml(text.slice(i + query.length))
-        );
+    // Wraps every non-overlapping occurrence of `query` in `text`, not
+    // just the first — a snippet often carries the term more than once
+    // (an example sentence and its own gloss both saying "ramen"), and
+    // a documentation search that only lights up one instance reads as
+    // half-finished. Plain indexOf scanning, never a RegExp built from
+    // user input, so nothing in the query can be interpreted as a
+    // pattern.
+    const highlightAll = (text, query) => {
+        const lowerText = text.toLowerCase();
+        const lowerQuery = query.toLowerCase();
+        if (!lowerQuery) return escapeHtml(text);
+
+        let html = "";
+        let pos = 0;
+        let i;
+        while ((i = lowerText.indexOf(lowerQuery, pos)) !== -1) {
+            html += escapeHtml(text.slice(pos, i));
+            html +=
+                '<mark class="search-mark">' +
+                escapeHtml(text.slice(i, i + query.length)) +
+                "</mark>";
+            pos = i + query.length;
+        }
+        html += escapeHtml(text.slice(pos));
+        return html;
     };
 
     // Latin queries need at least 2 characters to cut down on noise
@@ -263,65 +411,282 @@ function initGlobalSearch() {
     const hasJapanese = (s) =>
         /[぀-ヿ㐀-鿿ｦ-ﾟ]/.test(s);
 
+    // Tells "suki" landing on the actual word "suki" apart from "suki"
+    // landing mid-word inside "maitsuki" (毎月, unrelated) — both are a
+    // partial match on the same tier, but only one of them is the word
+    // someone typed. No such signal exists for Japanese (no spaces to
+    // check against), so this only ever adjusts romaji/English matches;
+    // Japanese fields always score as if already at a boundary.
+    const isWordChar = (ch) => /[a-zA-Z0-9]/.test(ch);
+    const boundaryScore = (field, q) => {
+        if (hasJapanese(field)) return 0;
+        const i = field.toLowerCase().indexOf(q);
+        if (i === -1) return 0;
+        const before = i > 0 ? field[i - 1] : "";
+        const after = i + q.length < field.length ? field[i + q.length] : "";
+        const leftOk = !before || !isWordChar(before);
+        const rightOk = !after || !isWordChar(after);
+        if (leftOk && rightOk) return 0;
+        if (leftOk || rightOk) return 1;
+        return 2;
+    };
+
+    const INITIAL_LIMIT = 8;
+    const MAX_CONSIDERED = 500;
+
+    let expanded = false;
+    let currentMatches = []; // [{ row, tier, locator }]
+    let currentQuery = "";
+    let activeIndex = -1; // virtual selection — see the combobox note above
+
+    const openResults = () => {
+        results.hidden = false;
+        input.setAttribute("aria-expanded", "true");
+    };
+
+    const closeResults = () => {
+        results.hidden = true;
+        input.setAttribute("aria-expanded", "false");
+        activeIndex = -1;
+        input.removeAttribute("aria-activedescendant");
+    };
+
+    const navItems = () =>
+        Array.from(results.querySelectorAll(".search-result, .search-results-more"));
+
+    // Paints the current activeIndex onto whichever elements exist
+    // right now — called after every render (new DOM) and after every
+    // arrow key/hover (same DOM, different index).
+    const applyActive = () => {
+        const els = navItems();
+        els.forEach((el, i) => {
+            el.setAttribute("aria-selected", i === activeIndex ? "true" : "false");
+        });
+        const activeEl = els[activeIndex];
+        if (activeEl) {
+            input.setAttribute("aria-activedescendant", activeEl.id);
+            activeEl.scrollIntoView({ block: "nearest" });
+        } else {
+            input.removeAttribute("aria-activedescendant");
+        }
+    };
+
+    const moveActive = (delta) => {
+        const count = navItems().length;
+        if (count === 0) return;
+        activeIndex =
+            activeIndex === -1
+                ? delta > 0
+                    ? 0
+                    : count - 1
+                : (activeIndex + delta + count) % count;
+        applyActive();
+    };
+
+    const resultCard = (item, id) => {
+        const { entry } = item.row;
+        const locator = item.locator;
+        let href = prefix + entry.page;
+        const params = new URLSearchParams();
+        params.set("q", currentQuery);
+        if (locator && locator !== entry.text) params.set("m", locator);
+        href += "?" + params.toString();
+        if (entry.section) href += "#" + entry.section;
+
+        // Prefer a snippet drawn from the entry's own display text; if
+        // the query only matched through a macron-folded romaji
+        // variant (see foldMacrons/expandMacrons above), that text
+        // never literally contains what was typed, so fall back to
+        // whichever field actually did match — still relevant, even
+        // without a highlighted term inside it.
+        const snippetSource = entry.text.toLowerCase().includes(currentQuery.toLowerCase())
+            ? entry.text
+            : locator;
+        const snippet = highlightAll(snippetAround(snippetSource, currentQuery, 45), currentQuery);
+
+        return (
+            '<a class="search-result" id="' +
+            id +
+            '" role="option" aria-selected="false" tabindex="-1" href="' +
+            href +
+            '"><span class="search-result-lesson">' +
+            escapeHtml(entry.pageTitle) +
+            '</span><span class="search-result-section">' +
+            escapeHtml(entry.sectionTitle) +
+            '</span><span class="search-result-snippet">' +
+            snippet +
+            "</span></a>"
+        );
+    };
+
+    const renderList = () => {
+        const shown = expanded ? currentMatches : currentMatches.slice(0, INITIAL_LIMIT);
+        let html = shown.map((item, i) => resultCard(item, "search-item-" + i)).join("");
+
+        if (!expanded && currentMatches.length > INITIAL_LIMIT) {
+            html +=
+                '<button type="button" class="search-results-more" id="search-item-more" role="option" aria-selected="false" tabindex="-1">Show all results (' +
+                currentMatches.length +
+                ")</button>";
+        }
+
+        results.innerHTML = html;
+        activeIndex = -1;
+        openResults();
+    };
+
     const render = (query) => {
         const minLength = hasJapanese(query) ? 1 : 2;
         if (query.length < minLength) {
-            results.hidden = true;
+            closeResults();
             results.innerHTML = "";
+            currentMatches = [];
+            currentQuery = "";
             return;
         }
 
         const lowerQuery = query.toLowerCase();
-        const matches = index
-            .filter((entry) => entry.text.toLowerCase().includes(lowerQuery))
-            .slice(0, 20);
-
-        if (matches.length === 0) {
-            results.innerHTML = '<p class="search-results-empty">No matches.</p>';
-        } else {
-            results.innerHTML = matches
-                .map((entry) => {
-                    const href =
-                        prefix +
-                        entry.page +
-                        "?q=" +
-                        encodeURIComponent(query) +
-                        "#" +
-                        entry.section;
-                    return (
-                        '<a class="search-result" href="' +
-                        href +
-                        '"><span class="search-result-meta">' +
-                        escapeHtml(entry.pageTitle) +
-                        " › " +
-                        escapeHtml(entry.sectionTitle) +
-                        '</span><span class="search-result-snippet">' +
-                        highlight(snippetAround(entry.text, query, 45), query) +
-                        "</span></a>"
-                    );
-                })
-                .join("");
+        const tiered = [];
+        for (const row of index) {
+            if (!row.haystack.includes(lowerQuery)) continue;
+            const tier = classify(row, lowerQuery);
+            const locator = locatorFor(row, lowerQuery);
+            const boundary = boundaryScore(locator, lowerQuery);
+            tiered.push({ row, tier, locator, boundary });
+            if (tiered.length >= MAX_CONSIDERED) break;
         }
 
-        results.hidden = false;
+        // Stable sort by tier, then by whether the match landed on a
+        // real word or just inside one, then by how specific the
+        // matched field is — a standalone vocab row's whole field
+        // equalling the query beats a full sentence that merely
+        // contains it somewhere, even inside the same tier.
+        tiered.sort(
+            (a, b) =>
+                a.tier - b.tier ||
+                a.boundary - b.boundary ||
+                a.locator.length - b.locator.length
+        );
+
+        // A handful of example sentences are deliberately reused
+        // across sections (a Core Patterns card and a Q&A card can
+        // share the exact same line) — showing the identical sentence
+        // twice in one results list reads as noise, not as two
+        // different answers, so keep only the first (best-ranked) copy
+        // of each (page, text) pair.
+        const seen = new Set();
+        currentMatches = tiered.filter((item) => {
+            const key = item.row.entry.page + "|" + item.row.entry.text;
+            if (seen.has(key)) return false;
+            seen.add(key);
+            return true;
+        });
+
+        currentQuery = query;
+        expanded = false;
+
+        if (currentMatches.length === 0) {
+            results.innerHTML =
+                '<p class="search-results-empty">No results for “' + escapeHtml(query) + '”.</p>';
+            activeIndex = -1;
+            openResults();
+            return;
+        }
+
+        renderList();
     };
 
-    input.addEventListener("input", () => render(input.value.trim()));
+    // Coalesce to one render per frame — typing faster than a frame
+    // (fast typists, paste) shouldn't trigger a redundant scan+sort
+    // for every keystroke that arrives before the next repaint.
+    let scheduled = false;
+    const scheduleRender = () => {
+        if (scheduled) return;
+        scheduled = true;
+        requestAnimationFrame(() => {
+            scheduled = false;
+            render(input.value.trim());
+        });
+    };
+
+    // While an IME is composing (typing kana via romaji input, the
+    // normal way to enter Japanese on a non-JIS keyboard), the input
+    // event fires repeatedly with not-yet-final text — searching on
+    // every one of those intermediate states means the result list
+    // flickers through nonsense until composition settles. Wait for
+    // compositionend instead.
+    let composing = false;
+    input.addEventListener("compositionstart", () => {
+        composing = true;
+    });
+    input.addEventListener("compositionend", () => {
+        composing = false;
+        scheduleRender();
+    });
+    input.addEventListener("input", () => {
+        if (composing) return;
+        scheduleRender();
+    });
+
+    results.addEventListener("click", (e) => {
+        if (e.target.closest(".search-results-more")) {
+            expanded = true;
+            renderList();
+        }
+    });
+
+    // Keeps mouse and keyboard in sync: hovering a result moves the
+    // same virtual selection arrow keys use, so switching between
+    // pointer and keyboard mid-search never leaves two different
+    // "current" items on screen at once.
+    results.addEventListener("mouseover", (e) => {
+        const item = e.target.closest(".search-result, .search-results-more");
+        if (!item) return;
+        const idx = navItems().indexOf(item);
+        if (idx !== -1 && idx !== activeIndex) {
+            activeIndex = idx;
+            applyActive();
+        }
+    });
 
     input.addEventListener("focus", () => {
-        if (input.value.trim().length >= 2) results.hidden = false;
+        if (currentMatches.length > 0) openResults();
     });
 
     document.addEventListener("click", (e) => {
         if (!results.contains(e.target) && e.target !== input) {
-            results.hidden = true;
+            closeResults();
         }
     });
 
     input.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
-            results.hidden = true;
+            closeResults();
             input.blur();
+            return;
+        }
+
+        if (results.hidden) {
+            if ((e.key === "ArrowDown" || e.key === "ArrowUp") && currentMatches.length > 0) {
+                e.preventDefault();
+                openResults();
+                moveActive(e.key === "ArrowDown" ? 1 : -1);
+            }
+            return;
+        }
+
+        if (e.key === "ArrowDown") {
+            e.preventDefault();
+            moveActive(1);
+        } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            moveActive(-1);
+        } else if (e.key === "Enter") {
+            const els = navItems();
+            if (els.length === 0) return;
+            e.preventDefault();
+            const target = activeIndex === -1 ? els[0] : els[activeIndex];
+            target.click();
         }
     });
 }
@@ -330,16 +695,24 @@ function initGlobalSearch() {
 // SEARCH RESULT HIGHLIGHT
 // --------------------------------------------------
 // Runs on every page load. If the URL has a ?q= from a search result
-// (see initGlobalSearch above), find the first row/card/note in the
-// already-hash-opened section whose text contains that query, scroll
-// to it, and flash it via .search-highlight (style.css) — otherwise a
-// search result just dumps you at the top of a big opened section
-// with no indication of what actually matched.
+// (see initGlobalSearch above), locate the specific row/message/note
+// the result card was actually about, scroll to it, and wrap the
+// matched term in the same .search-mark used in the results dropdown
+// — otherwise a search result just dumps you at the top of a big
+// opened section with no indication of what actually matched.
+//
+// Two params do different jobs: "m" (locator) is the exact field value
+// that made this entry match — used only to pick the right element out
+// of everything in the opened section — and "q" (query) is what the
+// user actually typed, which is what gets wrapped in <mark>. They're
+// often the same text, but not always (a macron-folded romaji match,
+// for instance, has a "q" that never appears verbatim on the page).
 
 function initSearchHighlight() {
     const params = new URLSearchParams(location.search);
     const query = params.get("q");
     if (!query) return;
+    const locator = params.get("m") || query;
 
     const target = location.hash
         ? document.getElementById(location.hash.slice(1))
@@ -348,42 +721,104 @@ function initSearchHighlight() {
         target.open = true;
     }
 
+    const reduceMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
     const scope = target || document;
-    const lowerQuery = query.toLowerCase();
+    const lowerLocator = locator.toLowerCase();
     const candidates = scope.querySelectorAll(
-        "tbody tr, .dialogue-card, .grammar-note"
+        "tbody tr, .message-bubble, .dialogue-card, .grammar-note li, .grammar-note p.notes, .grammar-note h3, .lesson-overview"
     );
 
+    // Several candidate selectors can legitimately contain the same
+    // text (a dialogue-card wraps its own message-bubbles), so the
+    // first match in document order isn't necessarily the right one —
+    // the smallest element that still contains the full locator is,
+    // since that's the innermost, most specific match.
     let hit = null;
-    for (const el of candidates) {
-        if (el.textContent.toLowerCase().includes(lowerQuery)) {
+    let hitLength = Infinity;
+    candidates.forEach((el) => {
+        const text = el.textContent.toLowerCase();
+        if (text.includes(lowerLocator) && text.length < hitLength) {
             hit = el;
-            break;
+            hitLength = text.length;
         }
-    }
+    });
 
     const scrollTarget = hit || target;
     if (scrollTarget) {
-        scrollTarget.scrollIntoView({ behavior: "smooth", block: "center" });
+        scrollTarget.scrollIntoView({
+            behavior: reduceMotion ? "auto" : "smooth",
+            block: "center",
+        });
     }
+
     if (hit) {
-        hit.classList.add("search-highlight");
-
-        // Stays lit rather than fading on a timer — landing from a
-        // search result and having the answer disappear in ~2s before
-        // you've finished reading it defeats the point of highlighting
-        // it. Cleared on the next real interaction instead, so it
-        // doesn't stay yellow forever once you've moved on.
-        const clear = () => {
-            hit.classList.remove("search-highlight");
-            document.removeEventListener("click", clear);
-            document.removeEventListener("keydown", clear);
-        };
-        document.addEventListener("click", clear, { once: true });
-        document.addEventListener("keydown", clear, { once: true });
+        markMatch(hit, query, reduceMotion);
     }
 
-    // Strip ?q= so refreshing or bookmarking the page doesn't replay
-    // the scroll/highlight on every visit.
+    // Strip ?q=/?m= so refreshing or bookmarking the page doesn't
+    // replay the scroll/highlight on every visit.
     history.replaceState(null, "", location.pathname + location.hash);
+}
+
+// Wraps the first occurrence of `query` inside `root` in a
+// <mark class="search-mark"> — the exact same class the results
+// dropdown uses, so a match looks identical whether you're still
+// reading the list or have already landed on the page. Fades out
+// automatically after ~4.5s: long enough to register without lingering
+// as page furniture once you've read it.
+//
+// A TreeWalker only ever sees whole text nodes, so this can only
+// highlight a match that falls entirely within one (true of virtually
+// every case here, since ruby/particle spans keep related text inside
+// a single node) — a match straddling a tag boundary falls back to
+// tinting the whole element instead of not highlighting anything.
+function markMatch(root, query, reduceMotion) {
+    const lowerQuery = query.toLowerCase();
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    let node;
+    while ((node = walker.nextNode())) {
+        const i = node.nodeValue.toLowerCase().indexOf(lowerQuery);
+        if (i === -1) continue;
+
+        const range = document.createRange();
+        range.setStart(node, i);
+        range.setEnd(node, i + query.length);
+
+        const mark = document.createElement("mark");
+        mark.className = "search-mark";
+        range.surroundContents(mark);
+
+        fadeThenUnwrap(mark, reduceMotion);
+        return;
+    }
+
+    // No single text node held the whole query — tint the element
+    // instead of highlighting nothing.
+    root.classList.add("search-highlight-fallback");
+    if (reduceMotion) {
+        setTimeout(() => root.classList.remove("search-highlight-fallback"), 4500);
+    } else {
+        setTimeout(() => root.classList.add("search-mark--fade"), 4500);
+        setTimeout(() => root.classList.remove("search-highlight-fallback", "search-mark--fade"), 4800);
+    }
+}
+
+function fadeThenUnwrap(mark, reduceMotion) {
+    const unwrap = () => {
+        const parent = mark.parentNode;
+        if (!parent) return;
+        parent.replaceChild(document.createTextNode(mark.textContent), mark);
+        parent.normalize();
+    };
+
+    if (reduceMotion) {
+        setTimeout(unwrap, 4500);
+        return;
+    }
+
+    setTimeout(() => mark.classList.add("search-mark--fade"), 4500);
+    setTimeout(unwrap, 4800);
 }

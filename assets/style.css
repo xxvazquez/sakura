@@ -250,7 +250,10 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 /* Documentation-style results dropdown, floated below the search box
    instead of pushing page content — see initGlobalSearch (script.js)
    and assets/search-index.js (the content it searches, one entry per
-   table row / dialogue card / grammar note across every lesson). */
+   table row / dialogue message / grammar-note bullet across every
+   lesson, split into Japanese/reading/romaji/English fields). Capped
+   to an initial 8 cards (see .search-results-more) so a broad query
+   stays scannable instead of dumping dozens of results at once. */
 
 .search-results {
     position: absolute;
@@ -259,21 +262,33 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
     right: 0;
     z-index: 20;
 
-    max-height: 360px;
+    max-height: 440px;
     overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 
     background: #fff;
     border: 1px solid var(--border);
     border-radius: 10px;
     box-shadow: 0 8px 24px rgba(17, 24, 39, 0.1);
 
-    padding: 6px;
+    padding: 8px;
 }
 
-.search-result {
-    display: block;
+/* Each result is a compact card, not a dense list row — lesson name,
+   section name and snippet each get their own line so the typography
+   hierarchy below (.search-result-lesson/-section/-snippet) actually
+   reads as hierarchy instead of three same-weight lines running
+   together. */
 
-    padding: 8px 10px;
+.search-result {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    padding: 10px 12px;
 
     border-radius: 8px;
 
@@ -282,30 +297,43 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 }
 
 .search-result:hover,
-.search-result:focus-visible {
+.search-result:focus-visible,
+.search-result[aria-selected="true"] {
     background: var(--hover);
     outline: none;
 }
 
-.search-result + .search-result {
-    margin-top: 2px;
+/* Largest, boldest line in the card — same size/weight as a page's own
+   section headings (.page h2) so a result reads with exactly as much
+   authority as the heading it's linking to, in the site's primary text
+   colour rather than an accent, since this is the answer to "which
+   lesson" and needs to dominate the card. */
+
+.search-result-lesson {
+    color: var(--text);
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
 }
 
-.search-result-meta {
-    display: block;
-    margin-bottom: 3px;
+/* One step down in size and weight, in the same muted steel-blue every
+   other section-level heading on the site already uses — enough
+   distinction from the lesson name above that the eye never confuses
+   "which lesson" with "which part of it". */
 
-    color: var(--muted);
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+.search-result-section {
+    color: var(--heading-accent);
+    font-size: 0.78rem;
+    font-weight: 600;
 }
 
 .search-result-snippet {
     display: -webkit-box;
     overflow: hidden;
 
+    margin-top: 2px;
+
+    color: var(--muted);
     font-size: 0.85rem;
     line-height: 1.4;
 
@@ -313,14 +341,44 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
     -webkit-box-orient: vertical;
 }
 
-.search-result-snippet mark {
-    background: none;
+.search-result-snippet .search-mark {
     color: var(--text);
-    font-weight: 700;
+}
+
+/* Trailing row in the dropdown once there are more matches than the
+   initial 8 — a plain button, not another card, so it never gets
+   mistaken for a result of its own. Clicking it re-renders the same
+   already-ranked match list in full; it never re-runs the search. */
+
+.search-results-more {
+    display: block;
+    width: 100%;
+
+    margin-top: 2px;
+    padding: 10px 12px;
+
+    background: none;
+    border: none;
+    border-radius: 8px;
+
+    color: var(--muted);
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+}
+
+.search-results-more:hover,
+.search-results-more:focus-visible,
+.search-results-more[aria-selected="true"] {
+    background: var(--hover);
+    color: var(--text);
+    outline: none;
 }
 
 .search-results-empty {
-    padding: 10px;
+    padding: 10px 12px;
 
     color: var(--muted);
     font-size: 0.85rem;
@@ -1232,21 +1290,45 @@ body.hide-english .notes .example-en {
 /*-----------------------------------------------*/
 /* SEARCH RESULT HIGHLIGHT */
 /*-----------------------------------------------*/
-/* Landing on a page from a search result (initSearchHighlight in
-   script.js) tints whichever row/card/note matched — the same pale
-   "find in page" yellow browsers use, so the convention is already
-   familiar. Stays lit (no fade timer) until the next click or
-   keypress, since the whole point is to still be visible by the time
-   you've actually found and read the match. */
+/* One highlight style shared by two places: the <mark> wrapped around
+   a snippet's matching term in the results dropdown (see
+   .search-result-snippet above), and the same class markMatch
+   (script.js) wraps around the matched term after landing on a page
+   from a search result. Pale "find in page" yellow, rounded, small
+   horizontal padding only (no vertical padding, so a highlighted word
+   never nudges its own line's height) — box-decoration-break keeps
+   that same pill shape intact even if the match happens to wrap
+   across a line. */
 
-/* tbody tr.search-highlight, not just .search-highlight, so this
-   outranks tbody tr:nth-child(even)'s zebra-stripe background — same
-   specificity, but a selector this specific has to be spelled out to
-   win the tie rather than relying on source order alone. */
-.search-highlight,
-tbody tr.search-highlight {
+.search-mark {
     background-color: #fef9c3;
-    transition: background-color 0.2s ease-out;
+    border-radius: 4px;
+    padding: 0 3px;
+
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+
+    transition: background-color 0.3s ease-out;
+}
+
+/* Added ~4.5s after landing (see fadeThenUnwrap in script.js), then
+   the <mark> itself is unwrapped once the transition finishes — long
+   enough to catch the eye without lingering as permanent page
+   furniture once you've read it. */
+.search-mark--fade {
+    background-color: transparent;
+}
+
+/* Fallback for the rare match that can't be isolated to a single text
+   node (see markMatch in script.js) — tints the whole row/card instead
+   of highlighting nothing. Same colour, same fade, just applied to a
+   bigger box. tbody tr.search-highlight-fallback outranks
+   tbody tr:nth-child(even)'s zebra-stripe at equal specificity only
+   because it's spelled out to match it, not by source order alone. */
+.search-highlight-fallback,
+tbody tr.search-highlight-fallback {
+    background-color: #fef9c3;
+    transition: background-color 0.3s ease-out;
 }
 
 /*-----------------------------------------------*/

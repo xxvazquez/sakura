@@ -17,8 +17,6 @@
     --hover: #f8f8f8;
 
     --red: #b85c5c;
-    --red-bg: #fdf4f4;
-    --red-border: #e5d0d0;
 
     /* Speaker A vs. speaker B in Dialogue Cards — pastel and muted like
        the rest of the palette, but distinct enough hues (blue vs.
@@ -726,27 +724,6 @@ h1 {
 
 .toggle-body {
     padding: 0 24px 24px;
-}
-
-/*-----------------------------------------------*/
-/* TAG */
-/*-----------------------------------------------*/
-
-.tag {
-    display: inline-block;
-
-    padding: 3px 9px;
-
-    border: 1px solid var(--red-border);
-    border-radius: var(--radius);
-
-    background: var(--red-bg);
-    color: var(--red);
-
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
 }
 
 /*-----------------------------------------------*/

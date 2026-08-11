@@ -6,6 +6,12 @@
 
     <title>Sakura Study — Numbers</title>
     <meta name="description" content="A personal Japanese reference notebook. Numbers (JLPT N5): kanji, readings, and irregular forms." />
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Sakura Study — Numbers" />
+    <meta property="og:description" content="A personal Japanese reference notebook. Numbers (JLPT N5): kanji, readings, and irregular forms." />
+    <meta property="og:url" content="https://sakura.lauramaestuv.workers.dev/pages/numbers.html" />
+    <meta name="twitter:card" content="summary" />
 
     <!-- ------------------------------------- -->
     <!-- FONT -->
@@ -27,8 +33,8 @@
     <!-- dataTables.min.js (this build) requires jQuery to already be
          defined, so jQuery has to load first. Both are loaded once
          here; do not also load either again before </body>. -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js" integrity="sha384-RZEqG156bBQSxYY9lwjUz/nKVkqYj/QNK9dEjjyJ/EVTO7ndWwk6ZWEkvaKdRm/U" crossorigin="anonymous"></script>
 
   </head>
 
@@ -67,7 +73,8 @@
         <!-- Flat and alphabetical, no category heading — every page on
              the site (regardless of folder) sorted by title into one
              .menu-group per starting letter, the same organizing idea
-             as the home page's own .page-index. To add a page: drop
+             as the home page's own .category-list (grouped by topic
+             there instead of alphabetically). To add a page: drop
              the file in its folder, then add its <a> to the matching
              (or a new) .menu-group here in alphabetical order — the
              search script and layout both work off this flat

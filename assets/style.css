@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /* ==========================================================
    Sakura Study
    Minimal Design System
@@ -162,7 +164,7 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 
     padding: 32px 20px;
 
-    background: #fff;
+    background: var(--bg);
     border-right: 1px solid var(--border);
 
     /* Thin, quiet scrollbar for the sidebar's own scroll region — visible
@@ -223,7 +225,7 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
     border: 1px solid var(--border);
     border-radius: 8px;
 
-    background-color: #fff;
+    background-color: var(--bg);
     background-image: var(--icon-search);
     background-repeat: no-repeat;
     background-position: 11px center;
@@ -269,12 +271,21 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
     flex-direction: column;
     gap: 4px;
 
-    background: #fff;
+    background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 10px;
     box-shadow: 0 8px 24px rgba(17, 24, 39, 0.1);
 
     padding: 8px;
+}
+
+/* script.js closes the dropdown by setting the native [hidden]
+   attribute, but an author display: flex beats the UA stylesheet's
+   [hidden] { display: none } no matter the specificity — without this
+   the empty, bordered, shadowed box renders under the search input on
+   every page load, before any search has been typed. */
+.search-results[hidden] {
+    display: none;
 }
 
 /* Each result is a compact card, not a dense list row — lesson name,
@@ -652,7 +663,7 @@ h1 {
     border: 1px solid var(--border);
     border-radius: 10px;
 
-    background-color: #fff;
+    background-color: var(--bg);
     background-image: var(--icon-search);
     background-repeat: no-repeat;
     background-position: 14px center;
@@ -780,8 +791,18 @@ h1 {
     border-color: var(--text);
 }
 
+/* .toggle-section's own overflow: hidden (there to clip the card's
+   rounded corners) also clips anything inside it that's wider than the
+   card — a reference table narrower than its content simply lost its
+   right-hand columns, with no way to reach them, on any viewport where
+   .content got narrow enough (phones, but also a ~950px desktop window,
+   above the 900px breakpoint). Scroll the body instead of clipping it;
+   auto means nothing changes at widths where the table already fits. */
+
 .toggle-body {
     padding: 0 24px 24px;
+
+    overflow-x: auto;
 }
 
 /*-----------------------------------------------*/
@@ -803,7 +824,7 @@ thead th {
 
     text-align: left;
 
-    background: #fff;
+    background: var(--bg);
     color: var(--muted);
 
     font-size: 0.72rem;
@@ -823,7 +844,7 @@ tbody td {
 }
 
 tbody tr {
-    transition: background-color 0.12s;
+    transition: background-color 0.15s;
 }
 
 tbody tr:last-child td {
@@ -893,11 +914,32 @@ tr.irregular .type::before {
     text-align: left;
 }
 
+/* Reading stacked above the base and left-aligned with it, via a
+   two-row grid (rt is order: 1, the kanji order: 2) rather than native
+   ruby layout.
+
+   baseline-source is what makes okurigana written outside the <ruby>
+   sit correctly — cells like
+   <ruby><span class="kanji">食</span><rt>た</rt></ruby>べる (食べる,
+   好き, 走る, 続く, 脱ぐ, 飲む, 読む, 難しい in hiragana.html's
+   vocabulary tables). An inline-grid aligns to its FIRST row's
+   baseline, which here is the furigana row, so that trailing "べる"
+   was being set on the furigana line next to the reading instead of on
+   the base line next to the kanji. "last" points the box at its final
+   row — the kanji — so following text lands on the kanji's own
+   baseline (measured: within 0.1px). Browsers without the property
+   (Chrome <111, Safari <16.4, Firefox <115) simply keep the old
+   behavior; nothing else regresses. Cells whose whole word sits inside
+   the <ruby> are unaffected apart from the ruby sitting a few px
+   higher in its row. */
+
 .jp ruby {
     display: inline-grid;
     grid-template-rows: auto auto;
     justify-items: start;
     align-items: center;
+
+    baseline-source: last;
 }
 
 .jp .kanji {
@@ -1060,7 +1102,7 @@ tr.irregular .type::before {
     border: 1px solid var(--border);
     border-radius: var(--radius);
 
-    background: #fff;
+    background: var(--bg);
 }
 
 .dialogue-title {
@@ -1568,6 +1610,16 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
         padding: 22px 18px;
     }
 
+    /* The grid's 300px minimum track is wider than the space left
+       inside .toggle-body on a ~375px phone, so every card overflowed
+       its own column (and got clipped by .toggle-section's
+       overflow: hidden). One column below this breakpoint is what
+       auto-fill already resolves to at every width down here anyway —
+       only now the card fits the column instead of overhanging it. */
+    .dialogue-grid {
+        grid-template-columns: 1fr;
+    }
+
     .dialogue-card {
         padding: 18px;
     }
@@ -1610,13 +1662,31 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
 
     /* A closed <details> hides its content via the UA stylesheet even
        when printed — force it open on paper so a collapsed toggle
-       doesn't silently drop a table from the printout. */
-    .toggle-section summary::after {
+       doesn't silently drop a table from the printout. The home page's
+       category cards are the same native <details> pattern and need the
+       same treatment, or a collapsed category prints as a bare heading
+       with its lessons missing. */
+    .toggle-section summary::after,
+    .category-summary::after {
         display: none;
     }
 
-    .toggle-section .toggle-body {
+    .toggle-section .toggle-body,
+    .category .category-items {
         display: block !important;
+    }
+
+    /* display on the child only covers browsers that hide a closed
+       <details> with display: none. Current Chrome instead hides it
+       through the ::details-content pseudo-element
+       (content-visibility: hidden), which the rule above cannot reach,
+       so collapsed sections were still dropping out of the printout.
+       Kept as its own rule: browsers that don't know the pseudo drop
+       the whole block, and grouping it above would take the working
+       selectors down with it. */
+    .toggle-section::details-content,
+    .category::details-content {
+        content-visibility: visible !important;
     }
 
     /* Same reasoning as forcing collapsed toggles open above: a
@@ -1666,7 +1736,12 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
         font-weight: 700;
     }
 
-    .jp rt {
+    /* Same furigana treatment wherever it appears, not just in a table
+       cell — .notes' own examples carry ruby too, and at #9ca3af they
+       print noticeably fainter than the identical readings in the
+       column beside them. */
+    .jp rt,
+    .notes .example-jp rt {
         color: #555;
     }
 

@@ -170,10 +170,12 @@ def strip_leading_icon(s):
 # "natural", everything else to "en" — good enough for prose that mixes
 # a Japanese term into an English sentence.
 #
-# Deliberately no artificial spaces are inserted between "natural"
-# runs — real Japanese doesn't use word spacing, and this is what lets
-# a kanji+okurigana word like 好き stay searchable as one contiguous
-# string instead of getting split around its own furigana.
+# Deliberately no artificial spaces are inserted between "natural" runs
+# that sit inside the same inline markup — real Japanese doesn't use
+# word spacing, and this is what lets a kanji+okurigana word like 好き
+# stay searchable as one contiguous string instead of getting split
+# around its own furigana. Block-level boundaries are the one exception,
+# for a reason spelled out at BLOCK_TAGS below.
 
 
 def split_runs(text):
@@ -305,11 +307,17 @@ def extract(path, url, default_title):
     h1 = find_first(tree, tag="h1")
     page_title = collapse(plain_text(h1)) if h1 is not None else default_title
 
-    overview = find_first(tree, tag="p", cls="lesson-overview")
-    if overview is not None:
-        entry = make_entry(url, page_title, "", "Overview", extract_fields(overview))
+    def add(node, section_id, section_title):
+        """Index one node, unless it turned out to hold no text at all."""
+        entry = make_entry(
+            url, page_title, section_id, section_title, extract_fields(node)
+        )
         if entry:
             entries.append(entry)
+
+    overview = find_first(tree, tag="p", cls="lesson-overview")
+    if overview is not None:
+        add(overview, "", "Overview")
 
     for details in find_all(tree, tag="details", cls="toggle-section"):
         section_id = details.attrs.get("id", "")
@@ -337,54 +345,26 @@ def extract(path, url, default_title):
         for row in find_all(details, tag="tr"):
             if find_first(row, tag="th") is not None:
                 continue
-            entry = make_entry(
-                url, page_title, section_id, section_title, extract_fields(row)
-            )
-            if entry:
-                entries.append(entry)
+            add(row, section_id, section_title)
 
         for card in find_all(details, tag="article", cls="dialogue-card"):
             messages = find_first(card, tag="div", cls="dialogue-messages")
             if messages is not None:
                 for bubble in find_all(messages, tag="div", cls="message-bubble"):
-                    entry = make_entry(
-                        url,
-                        page_title,
-                        section_id,
-                        section_title,
-                        extract_fields(bubble),
-                    )
-                    if entry:
-                        entries.append(entry)
+                    add(bubble, section_id, section_title)
             else:
-                entry = make_entry(
-                    url, page_title, section_id, section_title, extract_fields(card)
-                )
-                if entry:
-                    entries.append(entry)
+                add(card, section_id, section_title)
 
         for note in find_all(details, tag="div", cls="grammar-note"):
             h3 = find_first(note, tag="h3")
             if h3 is not None:
-                entry = make_entry(
-                    url, page_title, section_id, section_title, extract_fields(h3)
-                )
-                if entry:
-                    entries.append(entry)
+                add(h3, section_id, section_title)
 
             for li in find_all(note, tag="li"):
-                entry = make_entry(
-                    url, page_title, section_id, section_title, extract_fields(li)
-                )
-                if entry:
-                    entries.append(entry)
+                add(li, section_id, section_title)
 
             for para in find_all(note, tag="p", cls="notes"):
-                entry = make_entry(
-                    url, page_title, section_id, section_title, extract_fields(para)
-                )
-                if entry:
-                    entries.append(entry)
+                add(para, section_id, section_title)
 
     return entries
 

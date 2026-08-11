@@ -8,7 +8,7 @@ The goal is to make vocabulary, grammar, and other topics quick to reference wit
 
 The home page indexes the full planned scope of the notebook as seven collapsible reference categories — Writing System, Basic Communication, Numbers & Time, People, Daily Life, Places & Travel, and Grammar — with 31 lessons total. Lessons that don't have a page yet show up as a muted placeholder tagged "Soon" instead of a dead link, so the categories stay visible even when mostly unbuilt.
 
-Seven lessons are built so far, spread across four categories. They also follow a site-wide reading order — the homepage's categories read top to bottom, real lessons within each — linked at the bottom of each lesson via Previous/Next:
+Seven lessons are built so far, spread across five categories. They also follow a site-wide reading order — the homepage's categories read top to bottom, real lessons within each — linked at the bottom of each lesson via Previous/Next:
 
 1. **Hiragana** — the complete hiragana chart (46 basic + dakuten + handakuten + combination sounds), each character paired with a real N5 vocabulary word, plus notes on dakuten, small っ, long vowels, を, and ん.
 2. **Likes & Dislikes** — 好き/好きじゃない/大好き/嫌い and the が・は・の・も particles used to express preferences, with model sentences, a Q&A set, grammar notes, and an example dialogue.

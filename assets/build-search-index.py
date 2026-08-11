@@ -235,6 +235,17 @@ def walk(node, ctx, buckets):
     if node.tag in ("script", "style"):
         return
 
+    # A kana-grid data row opens with <th scope="row"> (a bare
+    # consonant label like "k" or "∅") ahead of its real <td> cells —
+    # unlike <rt>, it isn't its own tracked field, so with no class of
+    # its own it would otherwise fall through to the plain-text branch
+    # above and land in "en" as a stray single letter next to that
+    # row's real English content (on tables that have any). Column
+    # headers never reach here at all (their row has no <td>, so add()
+    # skips it before extract_fields ever walks it).
+    if node.tag == "th":
+        return
+
     if node.tag == "br":
         add_separator(buckets)
         return
@@ -343,7 +354,13 @@ def extract(path, url, default_title):
         )
 
         for row in find_all(details, tag="tr"):
-            if find_first(row, tag="th") is not None:
+            # A thead row (every cell a <th>) carries no content worth
+            # indexing — skip it. A kana-grid data row also opens with
+            # a <th scope="row"> (the consonant label) but still has
+            # real <td> cells after it, so "contains a th" alone isn't
+            # the right test the way it was back when every table's
+            # header was the only row with one.
+            if find_first(row, tag="td") is None:
                 continue
             add(row, section_id, section_title)
 
@@ -365,6 +382,13 @@ def extract(path, url, default_title):
 
             for para in find_all(note, tag="p", cls="notes"):
                 add(para, section_id, section_title)
+
+            # Hiragana's redesigned Notes replaced dense inline chains
+            # ("か → が (ka → ga), さ → ざ (sa → za)…") with one pill per
+            # pair (see COMPARISON PILLS, style.css) — index each pill
+            # on its own so "ga" or "が" still finds its way here.
+            for pill in find_all(note, tag="span", cls="compare-pill"):
+                add(pill, section_id, section_title)
 
     return entries
 

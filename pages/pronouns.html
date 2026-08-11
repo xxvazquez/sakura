@@ -97,34 +97,48 @@
              titles — see initGlobalSearch in assets/script.js and
              assets/search-index.js (regenerate that file after editing
              lesson content: python3 assets/build-search-index.py). -->
-        <nav class="menu" id="sidebarMenu">
-          <div class="menu-group">
-            <span class="menu-letter">D</span>
-            <a href="demonstratives.html">Demonstratives</a>
+        <nav class="menu" id="sidebarMenu" aria-label="Lessons">
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">D</button>
+            <div class="menu-popover" role="menu">
+              <a href="demonstratives.html" role="menuitem">Demonstratives</a>
+            </div>
           </div>
-          <div class="menu-group">
-            <span class="menu-letter">F</span>
-            <a href="frequency.html">Frequency</a>
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">F</button>
+            <div class="menu-popover" role="menu">
+              <a href="frequency.html" role="menuitem">Frequency</a>
+            </div>
           </div>
-          <div class="menu-group">
-            <span class="menu-letter">H</span>
-            <a href="hiragana.html">Hiragana</a>
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">H</button>
+            <div class="menu-popover" role="menu">
+              <a href="hiragana.html" role="menuitem">Hiragana</a>
+            </div>
           </div>
-          <div class="menu-group">
-            <span class="menu-letter">L</span>
-            <a href="likes-dislikes.html">Likes &amp; Dislikes</a>
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">L</button>
+            <div class="menu-popover" role="menu">
+              <a href="likes-dislikes.html" role="menuitem">Likes &amp; Dislikes</a>
+            </div>
           </div>
-          <div class="menu-group">
-            <span class="menu-letter">N</span>
-            <a href="numbers.html">Numbers</a>
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">N</button>
+            <div class="menu-popover" role="menu">
+              <a href="numbers.html" role="menuitem">Numbers</a>
+            </div>
           </div>
-          <div class="menu-group">
-            <span class="menu-letter">P</span>
-            <a class="active" href="pronouns.html">Personal Pronouns</a>
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn active" aria-haspopup="true" aria-expanded="false">P</button>
+            <div class="menu-popover" role="menu">
+              <a href="pronouns.html" class="active" aria-current="page" role="menuitem">Personal Pronouns</a>
+            </div>
           </div>
-          <div class="menu-group">
-            <span class="menu-letter">T</span>
-            <a href="time.html">Time</a>
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">T</button>
+            <div class="menu-popover" role="menu">
+              <a href="time.html" role="menuitem">Time</a>
+            </div>
           </div>
         </nav>
       </aside>
@@ -163,6 +177,7 @@
                initDisplayToggles in assets/script.js. -->
 
           <div class="display-toggles">
+            <label><input type="checkbox" id="toggleJapanese" checked /> Japanese</label>
             <label><input type="checkbox" id="toggleFurigana" checked /> Furigana</label>
             <label><input type="checkbox" id="toggleRomaji" checked /> Romaji</label>
             <label><input type="checkbox" id="toggleEnglish" checked /> English</label>

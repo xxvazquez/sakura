@@ -74,13 +74,17 @@
         <!-- ------------------------------------- -->
         <!-- Flat and alphabetical, no category heading — every page on
              the site (regardless of folder) sorted by title into one
-             .menu-group per starting letter, the same organizing idea
-             as the home page's own .category-list below (grouped by
-             topic there instead of alphabetically). To add a page:
-             drop the file in its folder, then add its <a> to the
-             matching (or a new) .menu-group here in alphabetical order
-             — the search script and layout both work off this flat
-             structure, no other markup changes needed.
+             .menu-letter-group per starting letter, the same organizing
+             idea as the home page's own .category-list below (grouped
+             by topic there instead of alphabetically). Each group is a
+             compact letter button plus a .menu-popover holding that
+             letter's lesson link(s) — see initLessonNav in
+             assets/script.js for the hover/click/keyboard behavior
+             that opens it. To add a page: drop the file in its folder,
+             then add its <a> to the matching (or a new) .menu-popover
+             here in alphabetical order — the search script and layout
+             both work off this flat structure, no other markup changes
+             needed.
 
              Links are relative, not root-absolute — this site has to keep
              working wherever it's hosted (root domain, a subpath, a
@@ -102,38 +106,54 @@
 
              Example, once /grammar/particles.html exists (P sorts
              between N and T, so it slots in as its own group there):
-             <div class="menu-group">
-               <span class="menu-letter">P</span>
-               <a href="grammar/particles.html">Particles</a>
+             <div class="menu-letter-group">
+               <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">P</button>
+               <div class="menu-popover" role="menu">
+                 <a href="grammar/particles.html" role="menuitem">Particles</a>
+               </div>
              </div> -->
-        <nav class="menu" id="sidebarMenu">
-          <div class="menu-group">
-            <span class="menu-letter">D</span>
-            <a href="pages/demonstratives.html">Demonstratives</a>
+        <nav class="menu" id="sidebarMenu" aria-label="Lessons">
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">D</button>
+            <div class="menu-popover" role="menu">
+              <a href="pages/demonstratives.html" role="menuitem">Demonstratives</a>
+            </div>
           </div>
-          <div class="menu-group">
-            <span class="menu-letter">F</span>
-            <a href="pages/frequency.html">Frequency</a>
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">F</button>
+            <div class="menu-popover" role="menu">
+              <a href="pages/frequency.html" role="menuitem">Frequency</a>
+            </div>
           </div>
-          <div class="menu-group">
-            <span class="menu-letter">H</span>
-            <a href="pages/hiragana.html">Hiragana</a>
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">H</button>
+            <div class="menu-popover" role="menu">
+              <a href="pages/hiragana.html" role="menuitem">Hiragana</a>
+            </div>
           </div>
-          <div class="menu-group">
-            <span class="menu-letter">L</span>
-            <a href="pages/likes-dislikes.html">Likes &amp; Dislikes</a>
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">L</button>
+            <div class="menu-popover" role="menu">
+              <a href="pages/likes-dislikes.html" role="menuitem">Likes &amp; Dislikes</a>
+            </div>
           </div>
-          <div class="menu-group">
-            <span class="menu-letter">N</span>
-            <a href="pages/numbers.html">Numbers</a>
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">N</button>
+            <div class="menu-popover" role="menu">
+              <a href="pages/numbers.html" role="menuitem">Numbers</a>
+            </div>
           </div>
-          <div class="menu-group">
-            <span class="menu-letter">P</span>
-            <a href="pages/pronouns.html">Personal Pronouns</a>
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">P</button>
+            <div class="menu-popover" role="menu">
+              <a href="pages/pronouns.html" role="menuitem">Personal Pronouns</a>
+            </div>
           </div>
-          <div class="menu-group">
-            <span class="menu-letter">T</span>
-            <a href="pages/time.html">Time</a>
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">T</button>
+            <div class="menu-popover" role="menu">
+              <a href="pages/time.html" role="menuitem">Time</a>
+            </div>
           </div>
         </nav>
       </aside>

@@ -19,6 +19,7 @@ $(document).ready(function () {
     initGlobalSearch();
     initSearchHighlight();
     initDisplayToggles();
+    initLessonNav();
 });
 
 // --------------------------------------------------
@@ -100,7 +101,19 @@ function initPageSearch() {
         el,
         text: el.textContent.toLowerCase(),
     }));
-    if (tableApis.length === 0 && cards.length === 0) return;
+
+    // Hiragana's kana-grid tables (see KANA GRID, style.css) aren't
+    // DataTables — a fixed consonant/vowel matrix has no meaningful
+    // sort, and hiding a whole <tr> the way tableApis does would tear
+    // a hole in the grid (a row is a consonant, not a single result).
+    // A non-matching cell dims in place instead, so the grid's shape
+    // stays intact and a match is still easy to spot at a glance.
+    const kanaCells = Array.from(document.querySelectorAll("td.kana-cell")).map((el) => ({
+        el,
+        text: el.textContent.toLowerCase(),
+    }));
+
+    if (tableApis.length === 0 && cards.length === 0 && kanaCells.length === 0) return;
 
     const sections = document.querySelectorAll(".toggle-section");
 
@@ -114,6 +127,10 @@ function initPageSearch() {
 
         cards.forEach(({ el, text }) => {
             el.style.display = text.includes(query) ? "" : "none";
+        });
+
+        kanaCells.forEach(({ el, text }) => {
+            el.classList.toggle("search-dim", query !== "" && !text.includes(query));
         });
 
         if (query !== "") {
@@ -164,19 +181,163 @@ function initTableNav() {
 }
 
 // --------------------------------------------------
-// DISPLAY TOGGLES (Furigana / Romaji / English)
+// LESSON NAV (letter + popover)
 // --------------------------------------------------
-// Three checkboxes (#toggleFurigana/#toggleRomaji/#toggleEnglish),
-// present on every lesson page, on by default. Each one's state is
-// read from and written to the same localStorage key regardless of
-// which page you're on, so turning romaji off on Time and then
-// navigating to Frequency keeps it off there too — one shared
+// The sidebar's page list (#sidebarMenu) shows only a compact letter
+// button per starting letter — see .menu-letter-group/.menu-popover in
+// style.css — and reveals that letter's lesson name(s) in a popover on
+// hover, click/tap, or keyboard focus, instead of spelling every lesson
+// name out inline at all times. Built as a plain disclosure widget
+// rather than a library: each popover's visibility: hidden (not
+// [hidden]) already keeps its links out of the tab order and
+// unclickable while closed, so there's no separate tabindex
+// bookkeeping to keep in sync with the open/closed state.
+
+function initLessonNav() {
+    const nav = document.getElementById("sidebarMenu");
+    if (!nav) return;
+
+    const groups = Array.from(nav.querySelectorAll(".menu-letter-group"));
+    if (groups.length === 0) return;
+
+    let closeTimer = null;
+
+    // Escape closes the popover and returns focus to its button — but
+    // returning focus there fires the same focusin that open()s a
+    // popover on Tab-in, which would instantly reopen the one Escape
+    // just closed. Set right before that programmatic focus() call and
+    // cleared by the very focusin it's meant to suppress, so it never
+    // affects a later, real Tab-in.
+    let suppressFocusOpen = false;
+
+    const setOpen = (group, open) => {
+        group.querySelector(".menu-letter-btn").setAttribute("aria-expanded", open ? "true" : "false");
+        group.querySelector(".menu-popover").classList.toggle("is-open", open);
+    };
+
+    const closeAll = (except) => {
+        groups.forEach((group) => {
+            if (group !== except) setOpen(group, false);
+        });
+    };
+
+    // A popover that would overflow past the right edge of the
+    // viewport (a letter near the end of the row, on a narrow screen)
+    // flips to hang from the button's right edge instead — measured
+    // fresh each time since the same popover can end up on either side
+    // depending on where its group lands after the nav reflows.
+    const position = (group) => {
+        const pop = group.querySelector(".menu-popover");
+        pop.style.left = "";
+        pop.style.right = "";
+        if (pop.getBoundingClientRect().right > window.innerWidth - 8) {
+            pop.style.left = "auto";
+            pop.style.right = "0";
+        }
+    };
+
+    const open = (group) => {
+        clearTimeout(closeTimer);
+        closeAll(group);
+        position(group);
+        setOpen(group, true);
+    };
+
+    // visibility: hidden (unlike display: none) still leaves a popover
+    // in normal layout — a group near the right edge of the row (e.g.
+    // "T" on a narrow phone width) would otherwise sit at its default
+    // left: 0 and stick out past the viewport's right edge even while
+    // fully invisible, forcing the whole page to horizontal-scroll to
+    // reach nothing. Positioning every popover up front, not only the
+    // one being opened, keeps every closed popover's box inside the
+    // viewport from first paint.
+    const positionAll = () => groups.forEach(position);
+    positionAll();
+    window.addEventListener("resize", positionAll);
+
+    // A short delay rather than closing immediately on mouseleave/
+    // focusout — moving the pointer from the letter button down into
+    // its own popover briefly leaves both elements, and an instant
+    // close would slam the popover shut before the pointer arrives.
+    const scheduleClose = (group) => {
+        clearTimeout(closeTimer);
+        closeTimer = setTimeout(() => setOpen(group, false), 150);
+    };
+
+    groups.forEach((group) => {
+        const btn = group.querySelector(".menu-letter-btn");
+        const pop = group.querySelector(".menu-popover");
+
+        group.addEventListener("mouseenter", () => open(group));
+        group.addEventListener("mouseleave", () => scheduleClose(group));
+
+        btn.addEventListener("click", () => {
+            if (btn.getAttribute("aria-expanded") === "true") {
+                setOpen(group, false);
+            } else {
+                open(group);
+            }
+        });
+
+        // focusin/focusout (not focus/blur) so moving focus from the
+        // button to a link inside its own popover — still inside
+        // `group` — doesn't read as leaving it.
+        group.addEventListener("focusin", () => {
+            if (suppressFocusOpen) {
+                suppressFocusOpen = false;
+                return;
+            }
+            open(group);
+        });
+        group.addEventListener("focusout", (e) => {
+            if (!group.contains(e.relatedTarget)) {
+                setOpen(group, false);
+            }
+        });
+
+        btn.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                setOpen(group, false);
+            } else if (e.key === "ArrowDown" && btn.getAttribute("aria-expanded") !== "true") {
+                e.preventDefault();
+                open(group);
+                const first = pop.querySelector("a");
+                if (first) first.focus();
+            }
+        });
+
+        // Escape from inside the popover itself also returns focus to
+        // the button that opened it, rather than dropping focus
+        // wherever the now-hidden link happened to sit.
+        pop.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                setOpen(group, false);
+                suppressFocusOpen = true;
+                btn.focus();
+            }
+        });
+    });
+
+    document.addEventListener("click", (e) => {
+        if (!nav.contains(e.target)) closeAll();
+    });
+}
+
+// --------------------------------------------------
+// DISPLAY TOGGLES (Japanese / Furigana / Romaji / English)
+// --------------------------------------------------
+// Four checkboxes (#toggleJapanese/#toggleFurigana/#toggleRomaji/
+// #toggleEnglish), present on every lesson page, on by default. Each
+// one's state is read from and written to the same localStorage key
+// regardless of which page you're on, so turning romaji off on Time
+// and then navigating to Frequency keeps it off there too — one shared
 // preference, not a per-page setting. Unchecking a box adds a
 // body.hide-* class; style.css does the actual hiding with
 // visibility: hidden so the layout doesn't reflow.
 
 function initDisplayToggles() {
     const layers = [
+        { id: "toggleJapanese", key: "sakura-show-japanese", bodyClass: "hide-japanese" },
         { id: "toggleFurigana", key: "sakura-show-furigana", bodyClass: "hide-furigana" },
         { id: "toggleRomaji", key: "sakura-show-romaji", bodyClass: "hide-romaji" },
         { id: "toggleEnglish", key: "sakura-show-english", bodyClass: "hide-english" },
@@ -785,7 +946,7 @@ function initSearchHighlight() {
     const scope = target || document;
     const lowerLocator = locator.toLowerCase();
     const candidates = scope.querySelectorAll(
-        "tbody tr, .message-bubble, .dialogue-card, .grammar-note li, .grammar-note p.notes, .grammar-note h3, .lesson-overview"
+        "td.kana-cell, tbody tr, .message-bubble, .dialogue-card, .grammar-note li, .grammar-note p.notes, .grammar-note h3, .lesson-overview"
     );
 
     // Several candidate selectors can legitimately contain the same

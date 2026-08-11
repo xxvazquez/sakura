@@ -32,7 +32,11 @@
     <!-- ------------------------------------- -->
     <!-- dataTables.min.js (this build) requires jQuery to already be
          defined, so jQuery has to load first. Both are loaded once
-         here; do not also load either again before </body>. -->
+         here; do not also load either again before </body>. Hiragana's
+         own kana-grid tables (the chart itself) don't use DataTables —
+         see KANA GRID in assets/style.css — but its vocabulary tables
+         still do, same as every other lesson page, so both libraries
+         stay loaded here. -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js" integrity="sha384-RZEqG156bBQSxYY9lwjUz/nKVkqYj/QNK9dEjjyJ/EVTO7ndWwk6ZWEkvaKdRm/U" crossorigin="anonymous"></script>
 
@@ -67,34 +71,48 @@
         <!-- ------------------------------------- -->
         <!-- SIDEBAR NAVIGATION -->
         <!-- ------------------------------------- -->
-        <nav class="menu" id="sidebarMenu">
-          <div class="menu-group">
-            <span class="menu-letter">D</span>
-            <a href="demonstratives.html">Demonstratives</a>
+        <nav class="menu" id="sidebarMenu" aria-label="Lessons">
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">D</button>
+            <div class="menu-popover" role="menu">
+              <a href="demonstratives.html" role="menuitem">Demonstratives</a>
+            </div>
           </div>
-          <div class="menu-group">
-            <span class="menu-letter">F</span>
-            <a href="frequency.html">Frequency</a>
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">F</button>
+            <div class="menu-popover" role="menu">
+              <a href="frequency.html" role="menuitem">Frequency</a>
+            </div>
           </div>
-          <div class="menu-group">
-            <span class="menu-letter">H</span>
-            <a class="active" href="hiragana.html">Hiragana</a>
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn active" aria-haspopup="true" aria-expanded="false">H</button>
+            <div class="menu-popover" role="menu">
+              <a href="hiragana.html" class="active" aria-current="page" role="menuitem">Hiragana</a>
+            </div>
           </div>
-          <div class="menu-group">
-            <span class="menu-letter">L</span>
-            <a href="likes-dislikes.html">Likes &amp; Dislikes</a>
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">L</button>
+            <div class="menu-popover" role="menu">
+              <a href="likes-dislikes.html" role="menuitem">Likes &amp; Dislikes</a>
+            </div>
           </div>
-          <div class="menu-group">
-            <span class="menu-letter">N</span>
-            <a href="numbers.html">Numbers</a>
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">N</button>
+            <div class="menu-popover" role="menu">
+              <a href="numbers.html" role="menuitem">Numbers</a>
+            </div>
           </div>
-          <div class="menu-group">
-            <span class="menu-letter">P</span>
-            <a href="pronouns.html">Personal Pronouns</a>
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">P</button>
+            <div class="menu-popover" role="menu">
+              <a href="pronouns.html" role="menuitem">Personal Pronouns</a>
+            </div>
           </div>
-          <div class="menu-group">
-            <span class="menu-letter">T</span>
-            <a href="time.html">Time</a>
+          <div class="menu-letter-group">
+            <button type="button" class="menu-letter-btn" aria-haspopup="true" aria-expanded="false">T</button>
+            <div class="menu-popover" role="menu">
+              <a href="time.html" role="menuitem">Time</a>
+            </div>
           </div>
         </nav>
       </aside>
@@ -102,8 +120,6 @@
       <main class="content">
         <div class="page">
           <h1>Hiragana</h1>
-          <p class="lesson-overview">📖 Hiragana is one of Japan's three writing systems, alongside katakana and kanji. It's used to write native Japanese words and grammatical elements — verb and adjective endings, particles like は and が, okurigana (the hiragana that follows a kanji's stem), and everyday words that don't have a common kanji form.</p>
-          <p class="lesson-overview">Each character represents one mora (a single beat of sound) rather than a full syllable in the English sense, and — unlike kanji — almost every hiragana has exactly one reading, making it the natural starting point for reading Japanese.</p>
 
           <!-- ------------------------------------- -->
           <!-- PAGE SEARCH -->
@@ -122,14 +138,12 @@
           <!-- ------------------------------------- -->
           <!-- DISPLAY TOGGLES -->
           <!-- ------------------------------------- -->
-          <!-- Furigana/romaji/English, on by default and persisted in
-               localStorage across the whole site — see
-               initDisplayToggles in assets/script.js. On the Chart
-               tables (no English column) the English checkbox simply
-               has nothing to hide; it still works normally on the
-               Vocabulary Reference tables below. -->
+          <!-- Japanese/furigana/romaji/English, on by default and
+               persisted in localStorage across the whole site — see
+               initDisplayToggles in assets/script.js. -->
 
           <div class="display-toggles">
+            <label><input type="checkbox" id="toggleJapanese" checked /> Japanese</label>
             <label><input type="checkbox" id="toggleFurigana" checked /> Furigana</label>
             <label><input type="checkbox" id="toggleRomaji" checked /> Romaji</label>
             <label><input type="checkbox" id="toggleEnglish" checked /> English</label>
@@ -141,1774 +155,1008 @@
 
           <nav class="table-nav" id="tableNav">
             <a href="#basic-hiragana">Basic Hiragana</a>
-            <a href="#dakuten">Dakuten</a>
-            <a href="#handakuten">Handakuten</a>
-            <a href="#combination-sounds">Combination Sounds (Yōon)</a>
-            <a href="#basic-hiragana-vocabulary">Basic Hiragana Vocabulary</a>
-            <a href="#dakuten-vocabulary">Dakuten Vocabulary</a>
-            <a href="#handakuten-vocabulary">Handakuten Vocabulary</a>
-            <a href="#combination-sounds-vocabulary">Combination Sounds Vocabulary</a>
+            <a href="#advanced-hiragana">Advanced Hiragana</a>
+            <a href="#basic-hiragana-vocabulary">Basic Vocabulary</a>
+            <a href="#advanced-hiragana-vocabulary">Advanced Vocabulary</a>
             <a href="#notes">Notes</a>
           </nav>
 
           <!-- ------------------------------------- -->
-          <!-- HIRAGANA CHART -->
+          <!-- TABLE 1: BASIC HIRAGANA -->
           <!-- ------------------------------------- -->
-          <!-- Four tables (Basic/Dakuten/Handakuten/Combination Sounds)
-               instead of one, matching the site's existing convention
-               of splitting a large reference into separate toggle-
-               sections (see Time's Hours/Minutes/Vocabulary/Counting
-               Hours) rather than one long scroll. No English column
-               here — a bare mora has no translation, and an always-
-               empty column would just be padding; Tag flags the
-               characters whose pronunciation doesn't match their
-               spelling (を, ん, ぢ, づ), the same "irr." convention Numbers
-               uses for irregular readings. Authored gojūon order is
-               kept throughout (no data-default-order) since that's the
-               order every learner expects a hiragana chart in — see
-               initReferenceTables (script.js), which falls back to
-               authored order whenever the attribute is absent. -->
+          <!-- One grid instead of a flat 46-row list: <th scope="col">
+               for the vowel columns, <th scope="row"> for the
+               consonant rows, gojūon order throughout. ん has no row or
+               column of its own (it's a syllabic nasal, not part of
+               the a/i/u/e/o grid), so it's called out in a line under
+               the table instead of forced into a cell that would
+               misrepresent it — see Notes for how it actually behaves.
+               Open by default: this chart *is* the page's primary
+               content now that the intro cards are gone, so it
+               shouldn't take an extra click to see. -->
 
-          <details class="toggle-section" id="basic-hiragana">
+          <details class="toggle-section" id="basic-hiragana" open>
             <summary><h2>📋 Basic Hiragana</h2></summary>
 
             <div class="toggle-body">
-          <table id="basicHiraganaTable" class="ref-table">
-            <thead>
-              <tr>
-                <th class="type-col">Tag</th>
-                <th>Hiragana</th>
-                <th class="col-romaji">Romaji</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">あ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">a</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">い</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">i</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">う</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">u</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">え</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">e</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">お</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">o</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">か</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ka</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">き</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ki</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">く</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ku</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">け</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ke</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">こ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ko</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">さ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">sa</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">し</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">shi</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">す</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">su</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">せ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">se</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">そ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">so</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">た</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ta</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ち</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">chi</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">つ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">tsu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">て</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">te</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">と</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">to</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">な</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">na</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">に</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ni</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぬ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">nu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ね</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ne</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">の</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">no</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">は</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ha</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ひ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">hi</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ふ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">fu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">へ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">he</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ほ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ho</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ま</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ma</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">み</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">mi</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">む</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">mu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">め</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">me</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">も</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">mo</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">や</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ya</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ゆ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">yu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">よ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">yo</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ら</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ra</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">り</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ri</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">る</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ru</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">れ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">re</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ろ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ro</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">わ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">wa</td>
-              </tr>
-              <tr class="irregular">
-                <td class="type" data-order="1"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">を</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">o</td>
-              </tr>
-              <tr class="irregular">
-                <td class="type" data-order="1"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ん</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">n</td>
-              </tr>
-            </tbody>
-          </table>
-            </div>
-          </details>
-
-          <details class="toggle-section" id="dakuten">
-            <summary><h2>📋 Dakuten</h2></summary>
-
-            <div class="toggle-body">
-          <table id="dakutenTable" class="ref-table">
-            <thead>
-              <tr>
-                <th class="type-col">Tag</th>
-                <th>Hiragana</th>
-                <th class="col-romaji">Romaji</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">が</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ga</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぎ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">gi</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぐ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">gu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">げ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ge</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ご</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">go</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ざ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">za</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">じ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ji</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ず</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">zu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぜ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ze</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぞ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">zo</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">だ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">da</td>
-              </tr>
-              <tr class="irregular">
-                <td class="type" data-order="1"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぢ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ji</td>
-              </tr>
-              <tr class="irregular">
-                <td class="type" data-order="1"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">づ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">zu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">で</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">de</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ど</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">do</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ば</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ba</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">び</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">bi</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぶ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">bu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">べ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">be</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぼ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">bo</td>
-              </tr>
-            </tbody>
-          </table>
-            </div>
-          </details>
-
-          <details class="toggle-section" id="handakuten">
-            <summary><h2>📋 Handakuten</h2></summary>
-
-            <div class="toggle-body">
-          <table id="handakutenTable" class="ref-table">
-            <thead>
-              <tr>
-                <th class="type-col">Tag</th>
-                <th>Hiragana</th>
-                <th class="col-romaji">Romaji</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぱ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">pa</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぴ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">pi</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぷ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">pu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぺ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">pe</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぽ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">po</td>
-              </tr>
-            </tbody>
-          </table>
-            </div>
-          </details>
-
-          <details class="toggle-section" id="combination-sounds">
-            <summary><h2>📋 Combination Sounds (Yōon)</h2></summary>
-
-            <div class="toggle-body">
-          <table id="combinationSoundsTable" class="ref-table">
-            <thead>
-              <tr>
-                <th class="type-col">Tag</th>
-                <th>Hiragana</th>
-                <th class="col-romaji">Romaji</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">きゃ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">kya</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">きゅ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">kyu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">きょ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">kyo</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">しゃ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">sha</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">しゅ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">shu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">しょ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">sho</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ちゃ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">cha</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ちゅ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">chu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ちょ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">cho</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">にゃ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">nya</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">にゅ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">nyu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">にょ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">nyo</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ひゃ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">hya</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ひゅ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">hyu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ひょ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">hyo</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">みゃ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">mya</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">みゅ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">myu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">みょ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">myo</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">りゃ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">rya</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">りゅ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ryu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">りょ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ryo</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぎゃ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">gya</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぎゅ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">gyu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぎょ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">gyo</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">じゃ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ja</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">じゅ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ju</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">じょ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">jo</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">びゃ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">bya</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">びゅ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">byu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">びょ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">byo</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぴゃ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">pya</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぴゅ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">pyu</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぴょ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">pyo</td>
-              </tr>
-            </tbody>
-          </table>
+              <div class="kana-grid-scroll">
+                <table class="kana-grid" id="basicHiraganaTable">
+                  <caption class="sr-only">Basic hiragana: consonant rows by vowel columns, with romaji</caption>
+                  <thead>
+                    <tr>
+                      <th scope="col" class="kana-corner"><span class="sr-only">Consonant \ vowel</span></th>
+                      <th scope="col">a</th>
+                      <th scope="col">i</th>
+                      <th scope="col">u</th>
+                      <th scope="col">e</th>
+                      <th scope="col">o</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">∅</th>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">あ</span><rt>&nbsp;</rt></ruby><span class="romaji">a</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">い</span><rt>&nbsp;</rt></ruby><span class="romaji">i</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">う</span><rt>&nbsp;</rt></ruby><span class="romaji">u</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">え</span><rt>&nbsp;</rt></ruby><span class="romaji">e</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">お</span><rt>&nbsp;</rt></ruby><span class="romaji">o</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">k</th>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">か</span><rt>&nbsp;</rt></ruby><span class="romaji">ka</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">き</span><rt>&nbsp;</rt></ruby><span class="romaji">ki</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">く</span><rt>&nbsp;</rt></ruby><span class="romaji">ku</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">け</span><rt>&nbsp;</rt></ruby><span class="romaji">ke</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">こ</span><rt>&nbsp;</rt></ruby><span class="romaji">ko</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">s</th>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">さ</span><rt>&nbsp;</rt></ruby><span class="romaji">sa</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">し</span><rt>&nbsp;</rt></ruby><span class="romaji">shi</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">す</span><rt>&nbsp;</rt></ruby><span class="romaji">su</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">せ</span><rt>&nbsp;</rt></ruby><span class="romaji">se</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">そ</span><rt>&nbsp;</rt></ruby><span class="romaji">so</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">t</th>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">た</span><rt>&nbsp;</rt></ruby><span class="romaji">ta</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ち</span><rt>&nbsp;</rt></ruby><span class="romaji">chi</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">つ</span><rt>&nbsp;</rt></ruby><span class="romaji">tsu</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">て</span><rt>&nbsp;</rt></ruby><span class="romaji">te</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">と</span><rt>&nbsp;</rt></ruby><span class="romaji">to</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">n</th>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">な</span><rt>&nbsp;</rt></ruby><span class="romaji">na</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">に</span><rt>&nbsp;</rt></ruby><span class="romaji">ni</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぬ</span><rt>&nbsp;</rt></ruby><span class="romaji">nu</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ね</span><rt>&nbsp;</rt></ruby><span class="romaji">ne</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">の</span><rt>&nbsp;</rt></ruby><span class="romaji">no</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">h</th>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">は</span><rt>&nbsp;</rt></ruby><span class="romaji">ha</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ひ</span><rt>&nbsp;</rt></ruby><span class="romaji">hi</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ふ</span><rt>&nbsp;</rt></ruby><span class="romaji">fu</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">へ</span><rt>&nbsp;</rt></ruby><span class="romaji">he</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ほ</span><rt>&nbsp;</rt></ruby><span class="romaji">ho</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">m</th>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ま</span><rt>&nbsp;</rt></ruby><span class="romaji">ma</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">み</span><rt>&nbsp;</rt></ruby><span class="romaji">mi</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">む</span><rt>&nbsp;</rt></ruby><span class="romaji">mu</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">め</span><rt>&nbsp;</rt></ruby><span class="romaji">me</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">も</span><rt>&nbsp;</rt></ruby><span class="romaji">mo</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">y</th>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">や</span><rt>&nbsp;</rt></ruby><span class="romaji">ya</span></td>
+                      <td class="kana-empty" aria-hidden="true"></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ゆ</span><rt>&nbsp;</rt></ruby><span class="romaji">yu</span></td>
+                      <td class="kana-empty" aria-hidden="true"></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">よ</span><rt>&nbsp;</rt></ruby><span class="romaji">yo</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">r</th>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ら</span><rt>&nbsp;</rt></ruby><span class="romaji">ra</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">り</span><rt>&nbsp;</rt></ruby><span class="romaji">ri</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">る</span><rt>&nbsp;</rt></ruby><span class="romaji">ru</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">れ</span><rt>&nbsp;</rt></ruby><span class="romaji">re</span></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ろ</span><rt>&nbsp;</rt></ruby><span class="romaji">ro</span></td>
+                    </tr>
+                    <tr>
+                      <th scope="row">w</th>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">わ</span><rt>&nbsp;</rt></ruby><span class="romaji">wa</span></td>
+                      <td class="kana-empty" aria-hidden="true"></td>
+                      <td class="kana-empty" aria-hidden="true"></td>
+                      <td class="kana-empty" aria-hidden="true"></td>
+                      <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">を</span><rt>&nbsp;</rt></ruby><span class="romaji">o</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="kana-grid-note"><span class="kanji" lang="ja">ん</span><span class="romaji">n</span> — a syllabic nasal that doesn't belong to any row or column of the grid; see <a href="#notes">Notes</a>.</p>
             </div>
           </details>
 
           <!-- ------------------------------------- -->
-          <!-- VOCABULARY REFERENCE -->
+          <!-- TABLE 2: ADVANCED HIRAGANA -->
           <!-- ------------------------------------- -->
-          <!-- Mirrors the four Chart tables above 1:1, so every single
-               hiragana on the page has a real N5 word attached. Most
-               rows show a word that starts with the target character;
-               where no useful N5 word starts with it, the closest
-               useful N5 word that contains it is used instead, with
-               only that one character picked out via .kana-highlight
-               (style.css) — never the whole word. A small number of
-               yōon combinations (みゅ, びゅ, ぴゅ) genuinely have no
-               native Japanese word at all — rather than force an
-               obscure or invented example into those rows, the English
-               column says so directly and points to the loanword
-               they're used in instead. -->
+          <!-- One cohesive section, five labeled subsections, instead
+               of four separate top-level tables — Dakuten, Handakuten
+               and Yōon are still full consonant/vowel (or consonant/ゃ
+               ゅょ) grids, same component as Table 1 above; Small っ and
+               Long Vowels aren't new characters so much as a spelling
+               mechanic, so they get a compact illustrative table
+               instead of a grid that would have no real columns to
+               show. The mechanic itself (why っ doubles a consonant,
+               why a vowel lengthens) is explained in Notes — this
+               table is the quick-reference chart, not the explanation. -->
+
+          <details class="toggle-section" id="advanced-hiragana" open>
+            <summary><h2>📋 Advanced Hiragana</h2></summary>
+
+            <div class="toggle-body">
+
+              <div class="kana-subsection" id="dakuten">
+                <h3>Dakuten (゛)</h3>
+                <div class="kana-grid-scroll">
+                  <table class="kana-grid" id="dakutenTable">
+                    <caption class="sr-only">Dakuten hiragana: voiced consonant rows by vowel columns, with romaji</caption>
+                    <thead>
+                      <tr>
+                        <th scope="col" class="kana-corner"><span class="sr-only">Consonant \ vowel</span></th>
+                        <th scope="col">a</th>
+                        <th scope="col">i</th>
+                        <th scope="col">u</th>
+                        <th scope="col">e</th>
+                        <th scope="col">o</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">g</th>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">が</span><rt>&nbsp;</rt></ruby><span class="romaji">ga</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぎ</span><rt>&nbsp;</rt></ruby><span class="romaji">gi</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぐ</span><rt>&nbsp;</rt></ruby><span class="romaji">gu</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">げ</span><rt>&nbsp;</rt></ruby><span class="romaji">ge</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ご</span><rt>&nbsp;</rt></ruby><span class="romaji">go</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">z</th>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ざ</span><rt>&nbsp;</rt></ruby><span class="romaji">za</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">じ</span><rt>&nbsp;</rt></ruby><span class="romaji">ji</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ず</span><rt>&nbsp;</rt></ruby><span class="romaji">zu</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぜ</span><rt>&nbsp;</rt></ruby><span class="romaji">ze</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぞ</span><rt>&nbsp;</rt></ruby><span class="romaji">zo</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">d</th>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">だ</span><rt>&nbsp;</rt></ruby><span class="romaji">da</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぢ</span><rt>&nbsp;</rt></ruby><span class="romaji">ji</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">づ</span><rt>&nbsp;</rt></ruby><span class="romaji">zu</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">で</span><rt>&nbsp;</rt></ruby><span class="romaji">de</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ど</span><rt>&nbsp;</rt></ruby><span class="romaji">do</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">b</th>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ば</span><rt>&nbsp;</rt></ruby><span class="romaji">ba</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">び</span><rt>&nbsp;</rt></ruby><span class="romaji">bi</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぶ</span><rt>&nbsp;</rt></ruby><span class="romaji">bu</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">べ</span><rt>&nbsp;</rt></ruby><span class="romaji">be</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぼ</span><rt>&nbsp;</rt></ruby><span class="romaji">bo</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="kana-subsection" id="handakuten">
+                <h3>Handakuten (゜)</h3>
+                <div class="kana-grid-scroll">
+                  <table class="kana-grid" id="handakutenTable">
+                    <caption class="sr-only">Handakuten hiragana: the p row by vowel columns, with romaji</caption>
+                    <thead>
+                      <tr>
+                        <th scope="col" class="kana-corner"><span class="sr-only">Consonant \ vowel</span></th>
+                        <th scope="col">a</th>
+                        <th scope="col">i</th>
+                        <th scope="col">u</th>
+                        <th scope="col">e</th>
+                        <th scope="col">o</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">p</th>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぱ</span><rt>&nbsp;</rt></ruby><span class="romaji">pa</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぴ</span><rt>&nbsp;</rt></ruby><span class="romaji">pi</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぷ</span><rt>&nbsp;</rt></ruby><span class="romaji">pu</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぺ</span><rt>&nbsp;</rt></ruby><span class="romaji">pe</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぽ</span><rt>&nbsp;</rt></ruby><span class="romaji">po</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="kana-subsection" id="combination-sounds">
+                <h3>Yōon (Combination Sounds)</h3>
+                <div class="kana-grid-scroll">
+                  <table class="kana-grid" id="combinationSoundsTable">
+                    <caption class="sr-only">Yōon hiragana: consonant rows by ゃ/ゅ/ょ columns, with romaji</caption>
+                    <thead>
+                      <tr>
+                        <th scope="col" class="kana-corner"><span class="sr-only">Consonant \ combination</span></th>
+                        <th scope="col">ya</th>
+                        <th scope="col">yu</th>
+                        <th scope="col">yo</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">k</th>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">きゃ</span><rt>&nbsp;</rt></ruby><span class="romaji">kya</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">きゅ</span><rt>&nbsp;</rt></ruby><span class="romaji">kyu</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">きょ</span><rt>&nbsp;</rt></ruby><span class="romaji">kyo</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">s</th>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">しゃ</span><rt>&nbsp;</rt></ruby><span class="romaji">sha</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">しゅ</span><rt>&nbsp;</rt></ruby><span class="romaji">shu</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">しょ</span><rt>&nbsp;</rt></ruby><span class="romaji">sho</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">t</th>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ちゃ</span><rt>&nbsp;</rt></ruby><span class="romaji">cha</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ちゅ</span><rt>&nbsp;</rt></ruby><span class="romaji">chu</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ちょ</span><rt>&nbsp;</rt></ruby><span class="romaji">cho</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">n</th>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">にゃ</span><rt>&nbsp;</rt></ruby><span class="romaji">nya</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">にゅ</span><rt>&nbsp;</rt></ruby><span class="romaji">nyu</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">にょ</span><rt>&nbsp;</rt></ruby><span class="romaji">nyo</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">h</th>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ひゃ</span><rt>&nbsp;</rt></ruby><span class="romaji">hya</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ひゅ</span><rt>&nbsp;</rt></ruby><span class="romaji">hyu</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ひょ</span><rt>&nbsp;</rt></ruby><span class="romaji">hyo</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">m</th>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">みゃ</span><rt>&nbsp;</rt></ruby><span class="romaji">mya</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">みゅ</span><rt>&nbsp;</rt></ruby><span class="romaji">myu</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">みょ</span><rt>&nbsp;</rt></ruby><span class="romaji">myo</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">r</th>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">りゃ</span><rt>&nbsp;</rt></ruby><span class="romaji">rya</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">りゅ</span><rt>&nbsp;</rt></ruby><span class="romaji">ryu</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">りょ</span><rt>&nbsp;</rt></ruby><span class="romaji">ryo</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">g</th>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぎゃ</span><rt>&nbsp;</rt></ruby><span class="romaji">gya</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぎゅ</span><rt>&nbsp;</rt></ruby><span class="romaji">gyu</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぎょ</span><rt>&nbsp;</rt></ruby><span class="romaji">gyo</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">j</th>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">じゃ</span><rt>&nbsp;</rt></ruby><span class="romaji">ja</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">じゅ</span><rt>&nbsp;</rt></ruby><span class="romaji">ju</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">じょ</span><rt>&nbsp;</rt></ruby><span class="romaji">jo</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">b</th>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">びゃ</span><rt>&nbsp;</rt></ruby><span class="romaji">bya</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">びゅ</span><rt>&nbsp;</rt></ruby><span class="romaji">byu</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">びょ</span><rt>&nbsp;</rt></ruby><span class="romaji">byo</span></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">p</th>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぴゃ</span><rt>&nbsp;</rt></ruby><span class="romaji">pya</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぴゅ</span><rt>&nbsp;</rt></ruby><span class="romaji">pyu</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">ぴょ</span><rt>&nbsp;</rt></ruby><span class="romaji">pyo</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="kana-subsection" id="small-tsu">
+                <h3>Small っ (Sokuon)</h3>
+                <p>Doubles the consonant right after it. Shown here before the four consonants it most commonly doubles — see Notes for how it's actually pronounced.</p>
+                <div class="kana-grid-scroll">
+                  <table class="kana-grid">
+                    <caption class="sr-only">Small tsu (sokuon) before k, s, t and p, with romaji</caption>
+                    <thead>
+                      <tr>
+                        <th scope="col" class="kana-corner"><span class="sr-only">っ + consonant</span></th>
+                        <th scope="col">k</th>
+                        <th scope="col">s</th>
+                        <th scope="col">t</th>
+                        <th scope="col">p</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">っ</th>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">っか</span><rt>&nbsp;</rt></ruby><span class="romaji">kka</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">っさ</span><rt>&nbsp;</rt></ruby><span class="romaji">ssa</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">った</span><rt>&nbsp;</rt></ruby><span class="romaji">tta</span></td>
+                        <td class="jp kana-cell" lang="ja"><ruby><span class="kanji kana-only">っぱ</span><rt>&nbsp;</rt></ruby><span class="romaji">ppa</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="kana-subsection" id="long-vowels">
+                <h3>Long Vowels</h3>
+                <p>Which kana lengthens a vowel depends on the row it follows — three patterns, one exception.</p>
+                <table class="ref-table vocab-table">
+                  <thead>
+                    <tr>
+                      <th>Pattern</th>
+                      <th>Japanese</th>
+                      <th class="col-romaji">Romaji</th>
+                      <th class="col-english">English</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="notes">あ-row + あ</td>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">お<span class="kana-highlight">母</span>さん</span><rt>お<span class="kana-highlight">かあ</span>さん</rt></ruby></td>
+                      <td class="romaji">okāsan</td>
+                      <td class="english">mother</td>
+                    </tr>
+                    <tr>
+                      <td class="notes">い/え-row + い</td>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">先生</span><rt>せん<span class="kana-highlight">せい</span></rt></ruby></td>
+                      <td class="romaji">sensei</td>
+                      <td class="english">teacher</td>
+                    </tr>
+                    <tr>
+                      <td class="notes">う/お-row + う</td>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">東京</span><rt>と<span class="kana-highlight">う</span>きょ<span class="kana-highlight">う</span></rt></ruby></td>
+                      <td class="romaji">Tōkyō</td>
+                      <td class="english">Tokyo</td>
+                    </tr>
+                    <tr>
+                      <td class="notes">exception: え-row + い stays "ei"</td>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">先生</span><rt>せん<span class="kana-highlight">せい</span></rt></ruby></td>
+                      <td class="romaji">sensei, <em>not</em> sensē</td>
+                      <td class="english">teacher</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </details>
+
+          <!-- ------------------------------------- -->
+          <!-- TABLE 3: BASIC HIRAGANA VOCABULARY -->
+          <!-- ------------------------------------- -->
+          <!-- Mirrors Table 1 above 1:1, so every character on the
+               basic grid has a real N5 word attached. Most rows show a
+               word that starts with the target character; where no
+               useful N5 word starts with it, the closest useful N5
+               word that contains it is used instead, with only that
+               one character picked out via .kana-highlight — never the
+               whole word. -->
 
           <details class="toggle-section" id="basic-hiragana-vocabulary">
             <summary><h2>📚 Basic Hiragana Vocabulary</h2></summary>
 
             <div class="toggle-body">
-          <table id="basicHiraganaVocabTable" class="ref-table">
-            <thead>
-              <tr>
-                <th class="type-col">Tag</th>
-                <th>Japanese</th>
-                <th class="col-romaji">Romaji</th>
-                <th class="col-english">English</th>
-              </tr>
-            </thead>
+              <table class="ref-table vocab-table" id="basicHiraganaVocabTable">
+                <thead>
+                  <tr>
+                    <th>Japanese</th>
+                    <th class="col-romaji">Romaji</th>
+                    <th class="col-english">English</th>
+                  </tr>
+                </thead>
 
-            <tbody>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">朝</span><rt>あさ</rt></ruby>
-                </td>
-                <td class="romaji">asa</td>
-                <td class="english">morning</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">犬</span><rt>いぬ</rt></ruby>
-                </td>
-                <td class="romaji">inu</td>
-                <td class="english">dog</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">海</span><rt>うみ</rt></ruby>
-                </td>
-                <td class="romaji">umi</td>
-                <td class="english">sea</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">駅</span><rt>えき</rt></ruby>
-                </td>
-                <td class="romaji">eki</td>
-                <td class="english">station</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">弟</span><rt>おとうと</rt></ruby>
-                </td>
-                <td class="romaji">otōto</td>
-                <td class="english">younger brother</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">傘</span><rt>かさ</rt></ruby>
-                </td>
-                <td class="romaji">kasa</td>
-                <td class="english">umbrella</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">木</span><rt>き</rt></ruby>
-                </td>
-                <td class="romaji">ki</td>
-                <td class="english">tree</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">車</span><rt>くるま</rt></ruby>
-                </td>
-                <td class="romaji">kuruma</td>
-                <td class="english">car</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">今朝</span><rt>けさ</rt></ruby>
-                </td>
-                <td class="romaji">kesa</td>
-                <td class="english">this morning</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">公園</span><rt>こうえん</rt></ruby>
-                </td>
-                <td class="romaji">kōen</td>
-                <td class="english">park</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">魚</span><rt>さかな</rt></ruby>
-                </td>
-                <td class="romaji">sakana</td>
-                <td class="english">fish</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">白</span><rt>しろ</rt></ruby>
-                </td>
-                <td class="romaji">shiro</td>
-                <td class="english">white</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">好</span><rt>す</rt></ruby>き
-                </td>
-                <td class="romaji">suki</td>
-                <td class="english">to like</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">先生</span><rt>せんせい</rt></ruby>
-                </td>
-                <td class="romaji">sensei</td>
-                <td class="english">teacher</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">空</span><rt>そら</rt></ruby>
-                </td>
-                <td class="romaji">sora</td>
-                <td class="english">sky</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">食</span><rt>た</rt></ruby>べる
-                </td>
-                <td class="romaji">taberu</td>
-                <td class="english">to eat</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">地図</span><rt>ちず</rt></ruby>
-                </td>
-                <td class="romaji">chizu</td>
-                <td class="english">map</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">机</span><rt>つくえ</rt></ruby>
-                </td>
-                <td class="romaji">tsukue</td>
-                <td class="english">desk</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">天気</span><rt>てんき</rt></ruby>
-                </td>
-                <td class="romaji">tenki</td>
-                <td class="english">weather</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">友達</span><rt>ともだち</rt></ruby>
-                </td>
-                <td class="romaji">tomodachi</td>
-                <td class="english">friend</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">夏</span><rt>なつ</rt></ruby>
-                </td>
-                <td class="romaji">natsu</td>
-                <td class="english">summer</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">肉</span><rt>にく</rt></ruby>
-                </td>
-                <td class="romaji">niku</td>
-                <td class="english">meat</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">脱</span><rt>ぬ</rt></ruby>ぐ
-                </td>
-                <td class="romaji">nugu</td>
-                <td class="english">to take off (clothes)</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">猫</span><rt>ねこ</rt></ruby>
-                </td>
-                <td class="romaji">neko</td>
-                <td class="english">cat</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">飲</span><rt>の</rt></ruby>む
-                </td>
-                <td class="romaji">nomu</td>
-                <td class="english">to drink</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">花</span><rt>はな</rt></ruby>
-                </td>
-                <td class="romaji">hana</td>
-                <td class="english">flower</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">昼</span><rt>ひる</rt></ruby>
-                </td>
-                <td class="romaji">hiru</td>
-                <td class="english">daytime / noon</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">冬</span><rt>ふゆ</rt></ruby>
-                </td>
-                <td class="romaji">fuyu</td>
-                <td class="english">winter</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">部屋</span><rt>へや</rt></ruby>
-                </td>
-                <td class="romaji">heya</td>
-                <td class="english">room</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">本</span><rt>ほん</rt></ruby>
-                </td>
-                <td class="romaji">hon</td>
-                <td class="english">book</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">毎日</span><rt>まいにち</rt></ruby>
-                </td>
-                <td class="romaji">mainichi</td>
-                <td class="english">every day</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">水</span><rt>みず</rt></ruby>
-                </td>
-                <td class="romaji">mizu</td>
-                <td class="english">water</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">難</span><rt>むずか</rt></ruby>しい
-                </td>
-                <td class="romaji">muzukashii</td>
-                <td class="english">difficult</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">眼鏡</span><rt>めがね</rt></ruby>
-                </td>
-                <td class="romaji">megane</td>
-                <td class="english">glasses</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">桃</span><rt>もも</rt></ruby>
-                </td>
-                <td class="romaji">momo</td>
-                <td class="english">peach</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">山</span><rt>やま</rt></ruby>
-                </td>
-                <td class="romaji">yama</td>
-                <td class="english">mountain</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">雪</span><rt>ゆき</rt></ruby>
-                </td>
-                <td class="romaji">yuki</td>
-                <td class="english">snow</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">読</span><rt>よ</rt></ruby>む
-                </td>
-                <td class="romaji">yomu</td>
-                <td class="english">to read</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">来週</span><rt>らいしゅう</rt></ruby>
-                </td>
-                <td class="romaji">raishū</td>
-                <td class="english">next week</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">旅行</span><rt>りょこう</rt></ruby>
-                </td>
-                <td class="romaji">ryokō</td>
-                <td class="english">travel / trip</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">走</span><rt>はし</rt></ruby><span class="kana-highlight">る</span>
-                </td>
-                <td class="romaji">hashiru</td>
-                <td class="english">to run</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">練習</span><rt>れんしゅう</rt></ruby>
-                </td>
-                <td class="romaji">renshū</td>
-                <td class="english">practice</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">六</span><rt>ろく</rt></ruby>
-                </td>
-                <td class="romaji">roku</td>
-                <td class="english">six</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">私</span><rt>わたし</rt></ruby>
-                </td>
-                <td class="romaji">watashi</td>
-                <td class="english">I / me</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">本</span><rt>ほん</rt></ruby><span class="kana-highlight">を</span><ruby><span class="kanji">読</span><rt>よ</rt></ruby>みます
-                </td>
-                <td class="romaji">hon o yomimasu</td>
-                <td class="english">to read a book</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">元</span><rt>げ<span class="kana-highlight">ん</span></rt></ruby><ruby><span class="kanji">気</span><rt>き</rt></ruby>
-                </td>
-                <td class="romaji">genki</td>
-                <td class="english">energetic / fine</td>
-              </tr>
-            </tbody>
-          </table>
+                <tbody>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">朝</span><rt>あさ</rt></ruby></td>
+                    <td class="romaji">asa</td>
+                    <td class="english">morning</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">犬</span><rt>いぬ</rt></ruby></td>
+                    <td class="romaji">inu</td>
+                    <td class="english">dog</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">海</span><rt>うみ</rt></ruby></td>
+                    <td class="romaji">umi</td>
+                    <td class="english">sea</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">駅</span><rt>えき</rt></ruby></td>
+                    <td class="romaji">eki</td>
+                    <td class="english">station</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">弟</span><rt>おとうと</rt></ruby></td>
+                    <td class="romaji">otōto</td>
+                    <td class="english">younger brother</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">傘</span><rt>かさ</rt></ruby></td>
+                    <td class="romaji">kasa</td>
+                    <td class="english">umbrella</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">木</span><rt>き</rt></ruby></td>
+                    <td class="romaji">ki</td>
+                    <td class="english">tree</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">車</span><rt>くるま</rt></ruby></td>
+                    <td class="romaji">kuruma</td>
+                    <td class="english">car</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">今朝</span><rt>けさ</rt></ruby></td>
+                    <td class="romaji">kesa</td>
+                    <td class="english">this morning</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">公園</span><rt>こうえん</rt></ruby></td>
+                    <td class="romaji">kōen</td>
+                    <td class="english">park</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">魚</span><rt>さかな</rt></ruby></td>
+                    <td class="romaji">sakana</td>
+                    <td class="english">fish</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">白</span><rt>しろ</rt></ruby></td>
+                    <td class="romaji">shiro</td>
+                    <td class="english">white</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">好</span><rt>す</rt></ruby>き</td>
+                    <td class="romaji">suki</td>
+                    <td class="english">to like</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">先生</span><rt>せんせい</rt></ruby></td>
+                    <td class="romaji">sensei</td>
+                    <td class="english">teacher</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">空</span><rt>そら</rt></ruby></td>
+                    <td class="romaji">sora</td>
+                    <td class="english">sky</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">食</span><rt>た</rt></ruby>べる</td>
+                    <td class="romaji">taberu</td>
+                    <td class="english">to eat</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">地図</span><rt>ちず</rt></ruby></td>
+                    <td class="romaji">chizu</td>
+                    <td class="english">map</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">机</span><rt>つくえ</rt></ruby></td>
+                    <td class="romaji">tsukue</td>
+                    <td class="english">desk</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">天気</span><rt>てんき</rt></ruby></td>
+                    <td class="romaji">tenki</td>
+                    <td class="english">weather</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">友達</span><rt>ともだち</rt></ruby></td>
+                    <td class="romaji">tomodachi</td>
+                    <td class="english">friend</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">夏</span><rt>なつ</rt></ruby></td>
+                    <td class="romaji">natsu</td>
+                    <td class="english">summer</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">肉</span><rt>にく</rt></ruby></td>
+                    <td class="romaji">niku</td>
+                    <td class="english">meat</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">脱</span><rt>ぬ</rt></ruby>ぐ</td>
+                    <td class="romaji">nugu</td>
+                    <td class="english">to take off (clothes)</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">猫</span><rt>ねこ</rt></ruby></td>
+                    <td class="romaji">neko</td>
+                    <td class="english">cat</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">飲</span><rt>の</rt></ruby>む</td>
+                    <td class="romaji">nomu</td>
+                    <td class="english">to drink</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">花</span><rt>はな</rt></ruby></td>
+                    <td class="romaji">hana</td>
+                    <td class="english">flower</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">昼</span><rt>ひる</rt></ruby></td>
+                    <td class="romaji">hiru</td>
+                    <td class="english">daytime / noon</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">冬</span><rt>ふゆ</rt></ruby></td>
+                    <td class="romaji">fuyu</td>
+                    <td class="english">winter</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">部屋</span><rt>へや</rt></ruby></td>
+                    <td class="romaji">heya</td>
+                    <td class="english">room</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">本</span><rt>ほん</rt></ruby></td>
+                    <td class="romaji">hon</td>
+                    <td class="english">book</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">毎日</span><rt>まいにち</rt></ruby></td>
+                    <td class="romaji">mainichi</td>
+                    <td class="english">every day</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">水</span><rt>みず</rt></ruby></td>
+                    <td class="romaji">mizu</td>
+                    <td class="english">water</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">難</span><rt>むずか</rt></ruby>しい</td>
+                    <td class="romaji">muzukashii</td>
+                    <td class="english">difficult</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">眼鏡</span><rt>めがね</rt></ruby></td>
+                    <td class="romaji">megane</td>
+                    <td class="english">glasses</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">桃</span><rt>もも</rt></ruby></td>
+                    <td class="romaji">momo</td>
+                    <td class="english">peach</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">山</span><rt>やま</rt></ruby></td>
+                    <td class="romaji">yama</td>
+                    <td class="english">mountain</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">雪</span><rt>ゆき</rt></ruby></td>
+                    <td class="romaji">yuki</td>
+                    <td class="english">snow</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">読</span><rt>よ</rt></ruby>む</td>
+                    <td class="romaji">yomu</td>
+                    <td class="english">to read</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">来週</span><rt>らいしゅう</rt></ruby></td>
+                    <td class="romaji">raishū</td>
+                    <td class="english">next week</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">旅行</span><rt>りょこう</rt></ruby></td>
+                    <td class="romaji">ryokō</td>
+                    <td class="english">travel / trip</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">走</span><rt>はし</rt></ruby><span class="kana-highlight">る</span></td>
+                    <td class="romaji">hashiru</td>
+                    <td class="english">to run</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">練習</span><rt>れんしゅう</rt></ruby></td>
+                    <td class="romaji">renshū</td>
+                    <td class="english">practice</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">六</span><rt>ろく</rt></ruby></td>
+                    <td class="romaji">roku</td>
+                    <td class="english">six</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">私</span><rt>わたし</rt></ruby></td>
+                    <td class="romaji">watashi</td>
+                    <td class="english">I / me</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">本</span><rt>ほん</rt></ruby><span class="kana-highlight">を</span><ruby><span class="kanji">読</span><rt>よ</rt></ruby>みます</td>
+                    <td class="romaji">hon o yomimasu</td>
+                    <td class="english">to read a book</td>
+                  </tr>
+                  <tr>
+                    <td class="jp" lang="ja"><ruby><span class="kanji">元</span><rt>げ<span class="kana-highlight">ん</span></rt></ruby><ruby><span class="kanji">気</span><rt>き</rt></ruby></td>
+                    <td class="romaji">genki</td>
+                    <td class="english">energetic / fine</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </details>
 
-          <details class="toggle-section" id="dakuten-vocabulary">
-            <summary><h2>📚 Dakuten Vocabulary</h2></summary>
+          <!-- ------------------------------------- -->
+          <!-- TABLE 4: ADVANCED HIRAGANA VOCABULARY -->
+          <!-- ------------------------------------- -->
+          <!-- Mirrors Table 2 above: one section, three labeled
+               subsections (Small っ and Long Vowels have their worked
+               examples in Notes instead — 学校/おかあさん etc. are
+               already there, so repeating them here would just be the
+               same three words twice). -->
+
+          <details class="toggle-section" id="advanced-hiragana-vocabulary">
+            <summary><h2>📚 Advanced Hiragana Vocabulary</h2></summary>
 
             <div class="toggle-body">
-          <table id="dakutenVocabTable" class="ref-table">
-            <thead>
-              <tr>
-                <th class="type-col">Tag</th>
-                <th>Japanese</th>
-                <th class="col-romaji">Romaji</th>
-                <th class="col-english">English</th>
-              </tr>
-            </thead>
 
-            <tbody>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">学校</span><rt>がっこう</rt></ruby>
-                </td>
-                <td class="romaji">gakkō</td>
-                <td class="english">school</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">銀行</span><rt>ぎんこう</rt></ruby>
-                </td>
-                <td class="romaji">ginkō</td>
-                <td class="english">bank</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">家</span><rt>か</rt></ruby><ruby><span class="kanji">具</span><rt><span class="kana-highlight">ぐ</span></rt></ruby>
-                </td>
-                <td class="romaji">kagu</td>
-                <td class="english">furniture</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">月曜日</span><rt>げつようび</rt></ruby>
-                </td>
-                <td class="romaji">getsuyōbi</td>
-                <td class="english">Monday</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">五</span><rt>ご</rt></ruby>
-                </td>
-                <td class="romaji">go</td>
-                <td class="english">five</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">雑誌</span><rt>ざっし</rt></ruby>
-                </td>
-                <td class="romaji">zasshi</td>
-                <td class="english">magazine</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">時間</span><rt>じかん</rt></ruby>
-                </td>
-                <td class="romaji">jikan</td>
-                <td class="english">time / hours</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ずっと</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">zutto</td>
-                <td class="english">the whole time / by far</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">全部</span><rt>ぜんぶ</rt></ruby>
-                </td>
-                <td class="romaji">zenbu</td>
-                <td class="english">all / everything</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">象</span><rt>ぞう</rt></ruby>
-                </td>
-                <td class="romaji">zō</td>
-                <td class="english">elephant</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">大丈夫</span><rt>だいじょうぶ</rt></ruby>
-                </td>
-                <td class="romaji">daijōbu</td>
-                <td class="english">okay / alright</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">鼻</span><rt>はな</rt></ruby><ruby><span class="kanji">血</span><rt><span class="kana-highlight">ぢ</span></rt></ruby>
-                </td>
-                <td class="romaji">hanaji</td>
-                <td class="english">nosebleed</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">続</span><rt>つ<span class="kana-highlight">づ</span></rt></ruby>く
-                </td>
-                <td class="romaji">tsuzuku</td>
-                <td class="english">to continue</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">電車</span><rt>でんしゃ</rt></ruby>
-                </td>
-                <td class="romaji">densha</td>
-                <td class="english">train</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">動物</span><rt>どうぶつ</rt></ruby>
-                </td>
-                <td class="romaji">dōbutsu</td>
-                <td class="english">animal</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">場所</span><rt>ばしょ</rt></ruby>
-                </td>
-                <td class="romaji">basho</td>
-                <td class="english">place / location</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">火曜日</span><rt>かよう<span class="kana-highlight">び</span></rt></ruby>
-                </td>
-                <td class="romaji">kayōbi</td>
-                <td class="english">Tuesday</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぶどう</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">budō</td>
-                <td class="english">grapes</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">勉強</span><rt>べんきょう</rt></ruby>
-                </td>
-                <td class="romaji">benkyō</td>
-                <td class="english">study</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">帽子</span><rt>ぼうし</rt></ruby>
-                </td>
-                <td class="romaji">bōshi</td>
-                <td class="english">hat / cap</td>
-              </tr>
-            </tbody>
-          </table>
-            </div>
-          </details>
+              <div class="kana-subsection" id="dakuten-vocabulary">
+                <h3>Dakuten Vocabulary</h3>
+                <table class="ref-table vocab-table" id="dakutenVocabTable">
+                  <thead>
+                    <tr>
+                      <th>Japanese</th>
+                      <th class="col-romaji">Romaji</th>
+                      <th class="col-english">English</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">学校</span><rt>がっこう</rt></ruby></td>
+                      <td class="romaji">gakkō</td>
+                      <td class="english">school</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">銀行</span><rt>ぎんこう</rt></ruby></td>
+                      <td class="romaji">ginkō</td>
+                      <td class="english">bank</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">家</span><rt>か</rt></ruby><ruby><span class="kanji">具</span><rt><span class="kana-highlight">ぐ</span></rt></ruby></td>
+                      <td class="romaji">kagu</td>
+                      <td class="english">furniture</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">月曜日</span><rt>げつようび</rt></ruby></td>
+                      <td class="romaji">getsuyōbi</td>
+                      <td class="english">Monday</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">五</span><rt>ご</rt></ruby></td>
+                      <td class="romaji">go</td>
+                      <td class="english">five</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">雑誌</span><rt>ざっし</rt></ruby></td>
+                      <td class="romaji">zasshi</td>
+                      <td class="english">magazine</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">時間</span><rt>じかん</rt></ruby></td>
+                      <td class="romaji">jikan</td>
+                      <td class="english">time / hours</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji kana-only">ずっと</span><rt>&nbsp;</rt></ruby></td>
+                      <td class="romaji">zutto</td>
+                      <td class="english">the whole time / by far</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">全部</span><rt>ぜんぶ</rt></ruby></td>
+                      <td class="romaji">zenbu</td>
+                      <td class="english">all / everything</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">象</span><rt>ぞう</rt></ruby></td>
+                      <td class="romaji">zō</td>
+                      <td class="english">elephant</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">大丈夫</span><rt>だいじょうぶ</rt></ruby></td>
+                      <td class="romaji">daijōbu</td>
+                      <td class="english">okay / alright</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">鼻</span><rt>はな</rt></ruby><ruby><span class="kanji">血</span><rt><span class="kana-highlight">ぢ</span></rt></ruby></td>
+                      <td class="romaji">hanaji</td>
+                      <td class="english">nosebleed</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">続</span><rt>つ<span class="kana-highlight">づ</span></rt></ruby>く</td>
+                      <td class="romaji">tsuzuku</td>
+                      <td class="english">to continue</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">電車</span><rt>でんしゃ</rt></ruby></td>
+                      <td class="romaji">densha</td>
+                      <td class="english">train</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">動物</span><rt>どうぶつ</rt></ruby></td>
+                      <td class="romaji">dōbutsu</td>
+                      <td class="english">animal</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">場所</span><rt>ばしょ</rt></ruby></td>
+                      <td class="romaji">basho</td>
+                      <td class="english">place / location</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">火曜日</span><rt>かよう<span class="kana-highlight">び</span></rt></ruby></td>
+                      <td class="romaji">kayōbi</td>
+                      <td class="english">Tuesday</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji kana-only">ぶどう</span><rt>&nbsp;</rt></ruby></td>
+                      <td class="romaji">budō</td>
+                      <td class="english">grapes</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">勉強</span><rt>べんきょう</rt></ruby></td>
+                      <td class="romaji">benkyō</td>
+                      <td class="english">study</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">帽子</span><rt>ぼうし</rt></ruby></td>
+                      <td class="romaji">bōshi</td>
+                      <td class="english">hat / cap</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
-          <details class="toggle-section" id="handakuten-vocabulary">
-            <summary><h2>📚 Handakuten Vocabulary</h2></summary>
+              <div class="kana-subsection" id="handakuten-vocabulary">
+                <h3>Handakuten Vocabulary</h3>
+                <table class="ref-table vocab-table" id="handakutenVocabTable">
+                  <thead>
+                    <tr>
+                      <th>Japanese</th>
+                      <th class="col-romaji">Romaji</th>
+                      <th class="col-english">English</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji kana-only">いっ<span class="kana-highlight">ぱ</span>い</span><rt>&nbsp;</rt></ruby></td>
+                      <td class="romaji">ippai</td>
+                      <td class="english">full / a lot</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">鉛筆</span><rt>えん<span class="kana-highlight">ぴ</span>つ</rt></ruby></td>
+                      <td class="romaji">enpitsu</td>
+                      <td class="english">pencil</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">天ぷら</span><rt>てん<span class="kana-highlight">ぷ</span>ら</rt></ruby></td>
+                      <td class="romaji">tenpura</td>
+                      <td class="english">tempura</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji kana-only">ぺらぺら</span><rt>&nbsp;</rt></ruby></td>
+                      <td class="romaji">perapera</td>
+                      <td class="english">fluent(ly)</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji kana-only">たん<span class="kana-highlight">ぽ</span><span class="kana-highlight">ぽ</span></span><rt>&nbsp;</rt></ruby></td>
+                      <td class="romaji">tanpopo</td>
+                      <td class="english">dandelion</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
-            <div class="toggle-body">
-          <table id="handakutenVocabTable" class="ref-table">
-            <thead>
-              <tr>
-                <th class="type-col">Tag</th>
-                <th>Japanese</th>
-                <th class="col-romaji">Romaji</th>
-                <th class="col-english">English</th>
-              </tr>
-            </thead>
+              <div class="kana-subsection" id="combination-sounds-vocabulary">
+                <h3>Yōon Vocabulary</h3>
+                <table class="ref-table vocab-table" id="combinationSoundsVocabTable">
+                  <thead>
+                    <tr>
+                      <th>Japanese</th>
+                      <th class="col-romaji">Romaji</th>
+                      <th class="col-english">English</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">客</span><rt>きゃく</rt></ruby></td>
+                      <td class="romaji">kyaku</td>
+                      <td class="english">guest / customer</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">九</span><rt>きゅう</rt></ruby></td>
+                      <td class="romaji">kyū</td>
+                      <td class="english">nine</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">今日</span><rt>きょう</rt></ruby></td>
+                      <td class="romaji">kyō</td>
+                      <td class="english">today</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">写真</span><rt>しゃしん</rt></ruby></td>
+                      <td class="romaji">shashin</td>
+                      <td class="english">photo</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">週末</span><rt>しゅうまつ</rt></ruby></td>
+                      <td class="romaji">shūmatsu</td>
+                      <td class="english">weekend</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">食堂</span><rt>しょくどう</rt></ruby></td>
+                      <td class="romaji">shokudō</td>
+                      <td class="english">cafeteria / dining hall</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">茶色</span><rt>ちゃいろ</rt></ruby></td>
+                      <td class="romaji">chairo</td>
+                      <td class="english">brown</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">中学校</span><rt>ちゅうがっこう</rt></ruby></td>
+                      <td class="romaji">chūgakkō</td>
+                      <td class="english">middle school</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji kana-only">ちょっと</span><rt>&nbsp;</rt></ruby></td>
+                      <td class="romaji">chotto</td>
+                      <td class="english">a little / a bit</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji kana-only">にゃー</span><rt>&nbsp;</rt></ruby></td>
+                      <td class="romaji">nyā</td>
+                      <td class="english">"meow" (cat sound)</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">入学</span><rt>にゅうがく</rt></ruby></td>
+                      <td class="romaji">nyūgaku</td>
+                      <td class="english">school enrollment</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">女房</span><rt>にょうぼう</rt></ruby></td>
+                      <td class="romaji">nyōbō</td>
+                      <td class="english">wife (literary)</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">百</span><rt>ひゃく</rt></ruby></td>
+                      <td class="romaji">hyaku</td>
+                      <td class="english">hundred</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji kana-only">ひゅーひゅー</span><rt>&nbsp;</rt></ruby></td>
+                      <td class="romaji">hyūhyū</td>
+                      <td class="english">whoosh (sound of wind)</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">表</span><rt>ひょう</rt></ruby></td>
+                      <td class="romaji">hyō</td>
+                      <td class="english">table / chart</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">脈</span><rt>みゃく</rt></ruby></td>
+                      <td class="romaji">myaku</td>
+                      <td class="english">pulse</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji kana-only">みゅ</span><rt>&nbsp;</rt></ruby></td>
+                      <td class="romaji">myu</td>
+                      <td class="english">no native word — used only in loanwords (e.g. ミュージック, "music")</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">名字</span><rt>みょうじ</rt></ruby></td>
+                      <td class="romaji">myōji</td>
+                      <td class="english">surname</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">略</span><rt>りゃく</rt></ruby></td>
+                      <td class="romaji">ryaku</td>
+                      <td class="english">abbreviation</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">留学</span><rt>りゅうがく</rt></ruby></td>
+                      <td class="romaji">ryūgaku</td>
+                      <td class="english">studying abroad</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">料理</span><rt>りょうり</rt></ruby></td>
+                      <td class="romaji">ryōri</td>
+                      <td class="english">cooking / cuisine</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">逆</span><rt>ぎゃく</rt></ruby></td>
+                      <td class="romaji">gyaku</td>
+                      <td class="english">opposite / reverse</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">牛乳</span><rt>ぎゅうにゅう</rt></ruby></td>
+                      <td class="romaji">gyūnyū</td>
+                      <td class="english">milk</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">金魚</span><rt>きん<span class="kana-highlight">ぎょ</span></rt></ruby></td>
+                      <td class="romaji">kingyo</td>
+                      <td class="english">goldfish</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji kana-only">じゃあ</span><rt>&nbsp;</rt></ruby></td>
+                      <td class="romaji">jā</td>
+                      <td class="english">well then / in that case</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">授業</span><rt>じゅぎょう</rt></ruby></td>
+                      <td class="romaji">jugyō</td>
+                      <td class="english">class / lesson</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">上手</span><rt>じょうず</rt></ruby></td>
+                      <td class="romaji">jōzu</td>
+                      <td class="english">skilled / good at</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">三百</span><rt>さん<span class="kana-highlight">びゃ</span>く</rt></ruby></td>
+                      <td class="romaji">sanbyaku</td>
+                      <td class="english">three hundred / 300</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji kana-only">びゅ</span><rt>&nbsp;</rt></ruby></td>
+                      <td class="romaji">byu</td>
+                      <td class="english">rare — mainly in loanwords (e.g. インタビュー, "interview")</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">病院</span><rt>びょういん</rt></ruby></td>
+                      <td class="romaji">byōin</td>
+                      <td class="english">hospital</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji">八百</span><rt>はっ<span class="kana-highlight">ぴゃ</span>く</rt></ruby></td>
+                      <td class="romaji">happyaku</td>
+                      <td class="english">eight hundred / 800</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji kana-only">ぴゅ</span><rt>&nbsp;</rt></ruby></td>
+                      <td class="romaji">pyu</td>
+                      <td class="english">rare — mainly in loanwords (e.g. コンピューター, "computer")</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja"><ruby><span class="kanji kana-only">ぴょんぴょん</span><rt>&nbsp;</rt></ruby></td>
+                      <td class="romaji">pyonpyon</td>
+                      <td class="english">hop hop (sound of jumping)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
 
-            <tbody>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">いっ<span class="kana-highlight">ぱ</span>い</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">ippai</td>
-                <td class="english">full / a lot</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">鉛筆</span><rt>えん<span class="kana-highlight">ぴ</span>つ</rt></ruby>
-                </td>
-                <td class="romaji">enpitsu</td>
-                <td class="english">pencil</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">天ぷら</span><rt>てん<span class="kana-highlight">ぷ</span>ら</rt></ruby>
-                </td>
-                <td class="romaji">tenpura</td>
-                <td class="english">tempura</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぺらぺら</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">perapera</td>
-                <td class="english">fluent(ly)</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">たん<span class="kana-highlight">ぽ</span><span class="kana-highlight">ぽ</span></span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">tanpopo</td>
-                <td class="english">dandelion</td>
-              </tr>
-            </tbody>
-          </table>
-            </div>
-          </details>
-
-          <details class="toggle-section" id="combination-sounds-vocabulary">
-            <summary><h2>📚 Combination Sounds Vocabulary</h2></summary>
-
-            <div class="toggle-body">
-          <table id="combinationSoundsVocabTable" class="ref-table">
-            <thead>
-              <tr>
-                <th class="type-col">Tag</th>
-                <th>Japanese</th>
-                <th class="col-romaji">Romaji</th>
-                <th class="col-english">English</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">客</span><rt>きゃく</rt></ruby>
-                </td>
-                <td class="romaji">kyaku</td>
-                <td class="english">guest / customer</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">九</span><rt>きゅう</rt></ruby>
-                </td>
-                <td class="romaji">kyū</td>
-                <td class="english">nine</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">今日</span><rt>きょう</rt></ruby>
-                </td>
-                <td class="romaji">kyō</td>
-                <td class="english">today</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">写真</span><rt>しゃしん</rt></ruby>
-                </td>
-                <td class="romaji">shashin</td>
-                <td class="english">photo</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">週末</span><rt>しゅうまつ</rt></ruby>
-                </td>
-                <td class="romaji">shūmatsu</td>
-                <td class="english">weekend</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">食堂</span><rt>しょくどう</rt></ruby>
-                </td>
-                <td class="romaji">shokudō</td>
-                <td class="english">cafeteria / dining hall</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">茶色</span><rt>ちゃいろ</rt></ruby>
-                </td>
-                <td class="romaji">chairo</td>
-                <td class="english">brown</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">中学校</span><rt>ちゅうがっこう</rt></ruby>
-                </td>
-                <td class="romaji">chūgakkō</td>
-                <td class="english">middle school</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ちょっと</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">chotto</td>
-                <td class="english">a little / a bit</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">にゃー</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">nyā</td>
-                <td class="english">"meow" (cat sound)</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">入学</span><rt>にゅうがく</rt></ruby>
-                </td>
-                <td class="romaji">nyūgaku</td>
-                <td class="english">school enrollment</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">女房</span><rt>にょうぼう</rt></ruby>
-                </td>
-                <td class="romaji">nyōbō</td>
-                <td class="english">wife (literary)</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">百</span><rt>ひゃく</rt></ruby>
-                </td>
-                <td class="romaji">hyaku</td>
-                <td class="english">hundred</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ひゅーひゅー</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">hyūhyū</td>
-                <td class="english">whoosh (sound of wind)</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">表</span><rt>ひょう</rt></ruby>
-                </td>
-                <td class="romaji">hyō</td>
-                <td class="english">table / chart</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">脈</span><rt>みゃく</rt></ruby>
-                </td>
-                <td class="romaji">myaku</td>
-                <td class="english">pulse</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">みゅ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">myu</td>
-                <td class="english">no native word — used only in loanwords (e.g. ミュージック, "music")</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">名字</span><rt>みょうじ</rt></ruby>
-                </td>
-                <td class="romaji">myōji</td>
-                <td class="english">surname</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">略</span><rt>りゃく</rt></ruby>
-                </td>
-                <td class="romaji">ryaku</td>
-                <td class="english">abbreviation</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">留学</span><rt>りゅうがく</rt></ruby>
-                </td>
-                <td class="romaji">ryūgaku</td>
-                <td class="english">studying abroad</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">料理</span><rt>りょうり</rt></ruby>
-                </td>
-                <td class="romaji">ryōri</td>
-                <td class="english">cooking / cuisine</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">逆</span><rt>ぎゃく</rt></ruby>
-                </td>
-                <td class="romaji">gyaku</td>
-                <td class="english">opposite / reverse</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">牛乳</span><rt>ぎゅうにゅう</rt></ruby>
-                </td>
-                <td class="romaji">gyūnyū</td>
-                <td class="english">milk</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">金魚</span><rt>きん<span class="kana-highlight">ぎょ</span></rt></ruby>
-                </td>
-                <td class="romaji">kingyo</td>
-                <td class="english">goldfish</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">じゃあ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">jā</td>
-                <td class="english">well then / in that case</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">授業</span><rt>じゅぎょう</rt></ruby>
-                </td>
-                <td class="romaji">jugyō</td>
-                <td class="english">class / lesson</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">上手</span><rt>じょうず</rt></ruby>
-                </td>
-                <td class="romaji">jōzu</td>
-                <td class="english">skilled / good at</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">三百</span><rt>さん<span class="kana-highlight">びゃ</span>く</rt></ruby>
-                </td>
-                <td class="romaji">sanbyaku</td>
-                <td class="english">three hundred / 300</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">びゅ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">byu</td>
-                <td class="english">rare — mainly in loanwords (e.g. インタビュー, "interview")</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">病院</span><rt>びょういん</rt></ruby>
-                </td>
-                <td class="romaji">byōin</td>
-                <td class="english">hospital</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji">八百</span><rt>はっ<span class="kana-highlight">ぴゃ</span>く</rt></ruby>
-                </td>
-                <td class="romaji">happyaku</td>
-                <td class="english">eight hundred / 800</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぴゅ</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">pyu</td>
-                <td class="english">rare — mainly in loanwords (e.g. コンピューター, "computer")</td>
-              </tr>
-              <tr>
-                <td class="type" data-order="0"></td>
-                <td class="jp" lang="ja">
-                  <ruby><span class="kanji kana-only">ぴょんぴょん</span><rt>&nbsp;</rt></ruby>
-                </td>
-                <td class="romaji">pyonpyon</td>
-                <td class="english">hop hop (sound of jumping)</td>
-              </tr>
-            </tbody>
-          </table>
             </div>
           </details>
 
           <!-- ------------------------------------- -->
           <!-- NOTES -->
           <!-- ------------------------------------- -->
-          <!-- Seven short .grammar-note blocks stacked in their own
-               section, same reused pattern as Likes & Dislikes'
-               Grammar Notes — each covers one mechanic of how hiragana
-               is actually read, not just how it's laid out in the
-               chart above. -->
+          <!-- Same seven mechanics as before, redesigned so a reader
+               scans a row of pills or a small table instead of parsing
+               a dense "か → が (ka → ga), さ → ざ (sa → za)…" sentence
+               character by character. -->
 
           <details class="toggle-section" id="notes">
             <summary><h2>💡 Notes</h2></summary>
@@ -1917,52 +1165,64 @@
 
               <div class="grammar-note">
                 <h3>Dakuten (゛)</h3>
-                <ul>
-                  <li>Two small strokes added to certain consonants change them from unvoiced to voiced.</li>
-                  <li>か → が (ka → ga), さ → ざ (sa → za), た → だ (ta → da), は → ば (ha → ba).</li>
-                </ul>
+                <p class="notes">Two small strokes added to certain consonants change them from unvoiced to voiced.</p>
+                <div class="compare-pills">
+                  <span class="compare-pill"><span class="compare-from" lang="ja">か</span><span class="compare-arrow">→</span><span class="compare-to" lang="ja">が</span><span class="compare-romaji">ka → ga</span></span>
+                  <span class="compare-pill"><span class="compare-from" lang="ja">さ</span><span class="compare-arrow">→</span><span class="compare-to" lang="ja">ざ</span><span class="compare-romaji">sa → za</span></span>
+                  <span class="compare-pill"><span class="compare-from" lang="ja">た</span><span class="compare-arrow">→</span><span class="compare-to" lang="ja">だ</span><span class="compare-romaji">ta → da</span></span>
+                  <span class="compare-pill"><span class="compare-from" lang="ja">は</span><span class="compare-arrow">→</span><span class="compare-to" lang="ja">ば</span><span class="compare-romaji">ha → ba</span></span>
+                </div>
               </div>
 
               <div class="grammar-note">
                 <h3>Handakuten (゜)</h3>
-                <ul>
-                  <li>A small circle added only to は-row characters changes them to a "p" sound: は → ぱ (ha → pa).</li>
-                </ul>
+                <p class="notes">A small circle added only to は-row characters changes them to a "p" sound.</p>
+                <div class="compare-pills">
+                  <span class="compare-pill"><span class="compare-from" lang="ja">は</span><span class="compare-arrow">→</span><span class="compare-to" lang="ja">ぱ</span><span class="compare-romaji">ha → pa</span></span>
+                </div>
               </div>
 
               <div class="grammar-note">
-                <h3>Combination Sounds (Yōon)</h3>
-                <ul>
-                  <li>A small ゃ, ゅ or ょ after an い-row character contracts the two into a single sound, rather than two separate syllables — きゃ (kya), しゅ (shu), りょ (ryo).</li>
-                </ul>
+                <h3>Yōon (Combination Sounds)</h3>
+                <p class="notes">A small ゃ, ゅ or ょ after an い-row character contracts the two into a single sound, rather than two separate syllables.</p>
+                <div class="compare-pills">
+                  <span class="compare-pill"><span class="compare-from" lang="ja">き + ゃ</span><span class="compare-arrow">→</span><span class="compare-to" lang="ja">きゃ</span><span class="compare-romaji">kya, not ki-ya</span></span>
+                  <span class="compare-pill"><span class="compare-from" lang="ja">し + ゅ</span><span class="compare-arrow">→</span><span class="compare-to" lang="ja">しゅ</span><span class="compare-romaji">shu, not shi-yu</span></span>
+                  <span class="compare-pill"><span class="compare-from" lang="ja">り + ょ</span><span class="compare-arrow">→</span><span class="compare-to" lang="ja">りょ</span><span class="compare-romaji">ryo, not ri-yo</span></span>
+                </div>
               </div>
 
               <div class="grammar-note">
-                <h3>Small っ (sokuon)</h3>
-                <ul>
-                  <li>A small っ has no sound of its own — it signals a brief pause that doubles the consonant right after it. <ruby lang="ja">学校<rt>がっこう</rt></ruby> (gakkō, "school") is held on the k: gak-kō, not ga-kō.</li>
-                </ul>
+                <h3>Small っ (Sokuon)</h3>
+                <p class="notes">A small っ has no sound of its own — it signals a brief pause that doubles the consonant right after it.</p>
+                <p class="notes">
+                  <span class="example-jp" lang="ja"><ruby>学校<rt>がっこう</rt></ruby></span><br>
+                  <span class="example">gak-kō, not ga-kō</span><br>
+                  <span class="example-en">school</span>
+                </p>
               </div>
 
               <div class="grammar-note">
                 <h3>Long Vowels</h3>
-                <ul>
-                  <li>Hiragana marks a long vowel differently depending on the vowel: あ-row lengthens with あ (<ruby lang="ja">お母さん<rt>おかあさん</rt></ruby>, okāsan, "mother"), い/え-row usually with い (<ruby lang="ja">先生<rt>せんせい</rt></ruby>, sensei, "teacher"), and う/お-row usually with う (<ruby lang="ja">東京<rt>とうきょう</rt></ruby>, Tōkyō) — a long あ, う or お is romanized with a macron (ā, ū, ō), while えい stays "ei".</li>
-                </ul>
+                <p class="notes">Hiragana marks a long vowel differently depending on the vowel it follows — see the table in Advanced Hiragana above for the three patterns and the えい exception.</p>
               </div>
 
               <div class="grammar-note">
                 <h3>を</h3>
-                <ul>
-                  <li>を is pronounced exactly like お ("o") in modern Japanese, even though it's written differently. It's used only as the object-marking particle and never starts a word.</li>
-                </ul>
+                <p class="notes">を is pronounced exactly like お ("o") in modern Japanese, even though it's written differently. It's used only as the object-marking particle and never starts a word.</p>
+                <div class="compare-pills">
+                  <span class="compare-pill"><span class="compare-from" lang="ja">を</span><span class="compare-arrow">=</span><span class="compare-to" lang="ja">お</span><span class="compare-romaji">both "o"</span></span>
+                </div>
               </div>
 
               <div class="grammar-note">
                 <h3>ん</h3>
-                <ul>
-                  <li>ん shifts slightly depending on the sound after it — closer to "m" before b/m/p sounds, as in <ruby lang="ja">散歩<rt>さんぽ</rt></ruby> (sanpo, "walk") — but it's always written the same way.</li>
-                </ul>
+                <p class="notes">ん shifts slightly depending on the sound after it — closer to "m" before b/m/p sounds — but it's always written the same way.</p>
+                <p class="notes">
+                  <span class="example-jp" lang="ja"><ruby>散歩<rt>さんぽ</rt></ruby></span><br>
+                  <span class="example">sanpo</span><br>
+                  <span class="example-en">walk</span>
+                </p>
               </div>
 
             </div>

@@ -18,44 +18,49 @@
     --accent: #111827;
     --hover: #f8f8f8;
 
+    /* Still red on purpose — the one color kept outside the pink family
+       below, so "irregular" / "incorrect" always reads as a warning
+       rather than blending into the site's own accent colors. */
     --red: #b85c5c;
 
-    /* Speaker A vs. speaker B in Dialogue Cards — pastel and muted like
-       the rest of the palette, but distinct enough hues (blue vs.
-       green) that who's talking is obvious from color and side alone,
-       without reading the A/B badge. -text is the accent (badge,
-       furigana); -bg is a light tint for that speaker's bubble. */
-    --dialogue-a-text: #6b7bb0;
-    --dialogue-a-bg: #f2f4fb;
-    --dialogue-b-text: #4f9271;
-    --dialogue-b-bg: #f0f8f3;
+    /* Sakura is a pink site: every accent below is a distinct shade of
+       pink/rose rather than a separate hue per meaning (no blue, no
+       green, no purple) — differentiated by depth and warmth instead,
+       the same way a cherry blossom's own petals, center and branch
+       read as one palette. Speaker A vs. speaker B in Dialogue Cards:
+       A a deeper wine-rose, B a lighter warm blush, so who's talking is
+       still obvious from color and side alone without reading the A/B
+       badge. -text is the accent (badge, furigana); -bg is a light
+       pink tint for that speaker's bubble. */
+    --dialogue-a-text: #9c3f68;
+    --dialogue-a-bg: #fdf0f5;
+    --dialogue-b-text: #c96b8a;
+    --dialogue-b-bg: #fdf3f6;
 
     /* Reserved exclusively for grammatical particles (は/が/を/に/で/と/
        も/の/から/まで/か…) wherever Japanese appears — tables, notes,
-       dialogues. An amber/ochre distinct from every other color already
-       in use (red = irregular, blue/green = dialogue speakers) so it
-       never gets confused with an unrelated grammar point. */
-    --particle: #8a5e14;
+       dialogues. A muted plum-rose, darker and less saturated than
+       every other pink here so it reads as its own shade even sitting
+       directly next to --grammar-point in the same sentence. */
+    --particle: #7a4a68;
 
     /* Reserved for whatever grammar point a lesson is actually teaching
        (これ/それ/あれ/この/その/あの for Demonstratives; a future
-       lesson's own target word/pattern otherwise) — a muted plum/violet,
-       the one hue family nothing else on this page uses, so it's never
-       mistaken for --particle even when both appear in the same
-       sentence. */
-    --grammar-point: #71498f;
+       lesson's own target word/pattern otherwise) — the most vivid,
+       saturated pink in the palette, so it pops as "the thing being
+       taught" against the calmer shades everywhere else. */
+    --grammar-point: #d13d82;
 
     /* One muted, low-saturation accent for visual hierarchy only —
-       section headings (.page h2, Grammar Note's h3) and the Overview
-       summary card. A dusty steel-blue, deliberately darker/grayer than
-       --dialogue-a-text (#6b7bb0) so it doesn't get mistaken for that
-       existing "speaker A" meaning when a heading sits near a dialogue
-       card. -soft/-border are pale tints of the same hue for the
-       Overview card's fill/border — everything traces back to this one
-       color, not a new palette. */
-    --heading-accent: #4a6b85;
-    --heading-accent-soft: #f4f6f8;
-    --heading-accent-border: #dbe1e7;
+       section headings (.page h2, Grammar Note's h3), Compare Pills,
+       kana-highlight. A dusty rose-mauve, calmer than --dialogue-a-text
+       so it doesn't read as "speaker A" when a heading sits near a
+       dialogue card. -soft/-border are pale pink tints of the same hue
+       for pill/card fills and borders — everything traces back to this
+       one pink family, not a separate palette. */
+    --heading-accent: #a15574;
+    --heading-accent-soft: #fdf2f6;
+    --heading-accent-border: #f0d9e3;
 
     --radius: 12px;
     --sidebar: 220px;
@@ -229,7 +234,9 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 }
 
 .sidebar-brand {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 
     margin-bottom: 24px;
 
@@ -243,6 +250,12 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 
 .sidebar-brand:hover {
     color: #000;
+}
+
+.sidebar-brand img {
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
 }
 
 /*-----------------------------------------------*/
@@ -335,9 +348,9 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 .search-result {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 1px;
 
-    padding: 10px 12px;
+    padding: 8px 10px;
 
     border-radius: 8px;
 
@@ -352,39 +365,41 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
     outline: none;
 }
 
-/* Largest, boldest line in the card — same size/weight as a page's own
-   section headings (.page h2) so a result reads with exactly as much
-   authority as the heading it's linking to, in the site's primary text
-   colour rather than an accent, since this is the answer to "which
-   lesson" and needs to dominate the card. */
+/* Small caption line — which lesson this result is from. Deliberately
+   smaller/quieter than the snippet below: what actually matched the
+   query is the answer to "is this the result I want," so that's what
+   should dominate the card, not the breadcrumb. */
 
 .search-result-lesson {
-    color: var(--text);
-    font-size: 1.2rem;
+    color: var(--muted);
+    font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.01em;
 }
 
-/* One step down in size and weight, in the same muted steel-blue every
-   other section-level heading on the site already uses — enough
-   distinction from the lesson name above that the eye never confuses
-   "which lesson" with "which part of it". */
+/* Same small size as the lesson name above, just the site's own
+   heading accent so "which lesson" and "which part of it" stay visibly
+   distinct from each other despite being the same scale. */
 
 .search-result-section {
     color: var(--heading-accent);
-    font-size: 0.78rem;
+    font-size: 0.68rem;
     font-weight: 600;
 }
+
+/* The dominant line in the card — this is the actual matched content,
+   so it reads in the primary text color at a size clearly larger than
+   the lesson/section caption above it. */
 
 .search-result-snippet {
     display: -webkit-box;
     overflow: hidden;
 
-    margin-top: 2px;
+    margin-top: 3px;
 
-    color: var(--muted);
-    font-size: 0.85rem;
-    line-height: 1.4;
+    color: var(--text);
+    font-size: 0.92rem;
+    line-height: 1.42;
 
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -434,124 +449,49 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 }
 
 /* Flat and alphabetical, no category heading — one .menu-letter-group
-   per starting letter, each a compact button that reveals that
-   letter's page link(s) in a popover instead of spelling every lesson
-   name out inline. Mirrors the home page's own .page-index (same
-   data, different context), so the site has exactly one organizing
-   idea for "all the pages" instead of two. A row that wraps, not a
-   tall column, so the whole nav stays a couple of lines regardless of
-   viewport width — see initLessonNav (script.js) for the hover/click/
-   keyboard interaction that opens each popover. */
+   per starting letter. At this width the sidebar has the vertical
+   room to show every letter and its lesson link(s) at once, letter as
+   a small caption sitting above its own link(s), so finding a lesson
+   never needs a click. Below 900px the sidebar becomes a horizontal
+   top bar with much less room, so there each group collapses instead
+   to a compact letter button that reveals its link(s) in a popover —
+   see the @media (max-width: 900px) block near the end of this file
+   for that version, and initLessonNav (script.js) for the hover/
+   click/keyboard interaction that drives it (harmless no-ops up here,
+   since everything's already visible).
 
-.menu {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-}
+   Rules below are split into three groups: shared (identical at every
+   width, declared once, unguarded), min-width: 901px (the always-
+   expanded list), and max-width: 900px (the compact popover, further
+   down this file) — the exact complement of 901px, so the two
+   .menu-popover position/visibility rulesets are never simultaneously
+   in scope and can't end up resolved by specificity/source-order
+   tie-breaking. Splitting shared properties out like this (rather than
+   repeating them in both media blocks) is what a previous version of
+   this got wrong — a property present in only one block quietly
+   disappears at the other width instead of erroring. */
 
 .menu-letter-group {
     position: relative;
 }
 
-.menu-letter-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 32px;
-    height: 32px;
-    padding: 0;
-
-    background: none;
-    border: 1px solid var(--border);
-    border-radius: 9px;
-
-    color: var(--text);
-    font: inherit;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-
-    cursor: pointer;
-    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
-}
-
-.menu-letter-btn:hover,
-.menu-letter-btn[aria-expanded="true"] {
-    background: var(--hover);
-    border-color: #d1d5db;
-}
-
 .menu-letter-btn:focus-visible {
     outline: 2px solid var(--text);
     outline-offset: 2px;
+    border-radius: 4px;
 }
-
-/* Current page's letter stays visibly marked even while its popover
-   is closed — the one piece of the old always-expanded nav that can't
-   be deferred to a hover/click reveal. */
-.menu-letter-btn.active {
-    background: var(--text);
-    border-color: var(--text);
-    color: #fff;
-}
-
-.menu-letter-btn.active:hover,
-.menu-letter-btn.active[aria-expanded="true"] {
-    background: #000;
-    border-color: #000;
-}
-
-/* Hidden via opacity/visibility rather than [hidden]/display so the
-   open state can fade smoothly — and, just as important, so a
-   *closed* popover's links stay outside the tab order and un-hoverable
-   automatically (visibility: hidden removes both), with no manual
-   tabindex bookkeeping in script.js. Closing is deferred to the end of
-   the transition (default UA behavior for a visibility transition
-   paired with another property) so a keyboard user tabbing out mid-
-   fade doesn't lose the link they were just on. */
 
 .menu-popover {
-    position: absolute;
-    top: calc(100% + 6px);
-    left: 0;
-    z-index: 30;
-
-    min-width: 188px;
-
     display: flex;
     flex-direction: column;
     gap: 2px;
-
-    padding: 6px;
-
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    box-shadow: 0 10px 28px rgba(17, 24, 39, 0.12);
-
-    visibility: hidden;
-    opacity: 0;
-    transform: translateY(-4px);
-
-    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
-}
-
-.menu-popover.is-open {
-    visibility: visible;
-    opacity: 1;
-    transform: translateY(0);
 }
 
 .menu-popover a {
-    padding: 8px 10px;
-
     border-radius: 7px;
 
     color: var(--text);
     text-decoration: none;
-
-    font-size: 0.87rem;
 }
 
 .menu-popover a:hover,
@@ -561,7 +501,64 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 }
 
 .menu-popover a.active {
+    color: var(--heading-accent);
     font-weight: 700;
+}
+
+@media (min-width: 901px) {
+    .menu {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .menu-letter-btn {
+        display: block;
+
+        padding: 0 0 4px;
+
+        background: none;
+        border: none;
+
+        color: var(--muted);
+        font: inherit;
+        font-size: 0.68rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+
+        cursor: default;
+    }
+
+    /* Current page's letter stays visibly marked via color alone —
+       there's no separate button chrome at this width to carry an
+       active state. */
+    .menu-letter-btn.active {
+        color: var(--heading-accent);
+    }
+
+    .menu-popover {
+        position: static;
+
+        min-width: 0;
+
+        padding: 0;
+
+        background: none;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+
+        visibility: visible;
+        opacity: 1;
+        transform: none;
+    }
+
+    .menu-popover a {
+        padding: 6px 8px;
+
+        font-size: 0.9rem;
+    }
 }
 
 /*-----------------------------------------------*/
@@ -1268,17 +1265,57 @@ tr.irregular .type::before {
     letter-spacing: -0.01em;
 }
 
-/* One-line sentence-shape label above a Pattern card's worked example
-   (e.g. "これ／それ／あれ + は + Noun + です") — structural labeling
-   like a table header, not Japanese sentence content, so it stays
-   visible even with every display toggle off. */
+/* Sentence-shape row above a Pattern card's worked example — each
+   token in the pattern (これ／それ／あれ, は, Noun, です…) gets its
+   own rounded chip instead of running together as plain text, with a
+   plain "+" joining them, so the sentence reads as assembled piece by
+   piece. Same border-radius as every card on the page (--radius), just
+   sized down to chip scale. Structural labeling like a table header,
+   not Japanese sentence content, so it stays visible even with every
+   display toggle off — see PATTERN section markup in demonstratives.html. */
 .pattern-formula {
-    margin: -8px 0 14px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+
+    margin: -8px 0 16px;
+}
+
+.formula-piece {
+    padding: 6px 12px;
+
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+
+    font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+}
+
+.formula-piece .grammar-point,
+.formula-piece .particle {
+    font-weight: 700;
+}
+
+/* A slot the speaker fills in themselves (Noun, …) rather than a fixed
+   grammatical piece — dashed instead of solid so it reads as "insert
+   here," the same distinction a form field makes from static text. */
+.formula-piece--slot {
+    border-style: dashed;
 
     color: var(--muted);
-    font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
-    font-size: 0.8rem;
-    font-weight: 600;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.formula-plus {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 700;
 }
 
 .dialogue-messages {
@@ -1617,7 +1654,11 @@ td.kana-cell.search-dim {
     letter-spacing: -0.005em;
 }
 
-.kana-subsection p {
+/* Direct child only — several kana-subsections now nest a .grammar-note
+   with its own <p class="notes"> after the table (see GRAMMAR NOTE
+   above), and this rule must never reach down into those; it's for the
+   subsection's own short intro line only. */
+.kana-subsection > p {
     margin: -4px 0 14px;
 
     color: var(--muted);
@@ -1996,13 +2037,97 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
         width: 100%;
     }
 
-    /* Larger touch targets once the pointer is (most likely) a finger
-       rather than a mouse — the same buttons/links, just roomier
-       padding so tapping the right one doesn't require precision. */
+    /* Below 900px there's no vertical room for the always-expanded
+       list above (SIDEBAR NAVIGATION LETTER MENU) — revert to the
+       original compact letter-button + popover pattern instead, in a
+       row that wraps rather than a tall column, with larger touch
+       targets since the pointer here is most likely a finger.
+       initLessonNav (script.js) already drives the hover/click/
+       keyboard open/close logic unconditionally; only the CSS
+       presentation is width-gated. */
+
+    .menu {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 6px;
+    }
 
     .menu-letter-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
         width: 36px;
         height: 36px;
+        padding: 0;
+
+        background: none;
+        border: 1px solid var(--border);
+        border-radius: 9px;
+
+        color: var(--text);
+        font: inherit;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+
+        cursor: pointer;
+        transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+    }
+
+    .menu-letter-btn:hover,
+    .menu-letter-btn[aria-expanded="true"] {
+        background: var(--hover);
+        border-color: #d1d5db;
+    }
+
+    /* Current page's letter stays visibly marked even while its
+       popover is closed — the one piece of this compact nav that
+       can't be deferred to a hover/click reveal. */
+    .menu-letter-btn.active {
+        background: var(--text);
+        border-color: var(--text);
+        color: #fff;
+    }
+
+    .menu-letter-btn.active:hover,
+    .menu-letter-btn.active[aria-expanded="true"] {
+        background: #000;
+        border-color: #000;
+    }
+
+    /* Hidden via opacity/visibility rather than [hidden]/display so the
+       open state can fade smoothly — and, just as important, so a
+       *closed* popover's links stay outside the tab order and
+       un-hoverable automatically (visibility: hidden removes both),
+       with no manual tabindex bookkeeping in script.js. */
+    .menu-popover {
+        position: absolute;
+        top: calc(100% + 6px);
+        left: 0;
+        z-index: 30;
+
+        min-width: 188px;
+
+        padding: 6px;
+
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        box-shadow: 0 10px 28px rgba(17, 24, 39, 0.12);
+
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(-4px);
+
+        transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+    }
+
+    .menu-popover.is-open {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
     }
 
     .menu-popover a {

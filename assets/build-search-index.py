@@ -27,13 +27,14 @@ furigana alone. Keeping them separate means a kanji search like 好き and
 a reading-only search like ひとり both land cleanly on the same row,
 instead of the furigana text gumming up the middle of the kanji string.
 
-Extracts one entry per table row, per dialogue message/statement, per
-grammar-note bullet or example, plus one per lesson overview and one
-per section heading (so an exact "Grammar Notes" search can jump
-straight to that section) — each tagged with the page and
-toggle-section it came from, same (page, section) pair initGlobalSearch
-(script.js) uses to build a result's link and to know which <details>
-to open.
+Extracts one entry per ref-table row, per kana-grid cell (its own mora,
+not a whole row — see the kana-grid loop below), per dialogue
+message/statement, per grammar-note bullet or example, plus one per
+lesson overview and one per section heading (so an exact "Grammar
+Notes" search can jump straight to that section) — each tagged with
+the page and toggle-section it came from, same (page, section) pair
+initGlobalSearch (script.js) uses to build a result's link and to know
+which <details> to open.
 """
 
 import json
@@ -353,16 +354,27 @@ def extract(path, url, default_title):
             }
         )
 
-        for row in find_all(details, tag="tr"):
-            # A thead row (every cell a <th>) carries no content worth
-            # indexing — skip it. A kana-grid data row also opens with
-            # a <th scope="row"> (the consonant label) but still has
-            # real <td> cells after it, so "contains a th" alone isn't
-            # the right test the way it was back when every table's
-            # header was the only row with one.
-            if find_first(row, tag="td") is None:
-                continue
-            add(row, section_id, section_title)
+        for table in find_all(details, tag="table", cls="ref-table"):
+            for row in find_all(table, tag="tr"):
+                # A thead row (every cell a <th>) carries no content
+                # worth indexing — skip it.
+                if find_first(row, tag="td") is None:
+                    continue
+                add(row, section_id, section_title)
+
+        # Hiragana's kana-grid tables (table.kana-grid) are a
+        # consonant/vowel matrix, not a list of rows — indexing a whole
+        # row the way ref-table rows are above would concatenate every
+        # mora in it (a k-row search entry reading "ka ki ku ke ko"),
+        # which buries an exact single-mora query like "ka" under a
+        # noisy multi-word romaji field instead of landing tier 4's
+        # exact-match rank in script.js's classify(). Index every real
+        # cell on its own instead: a combination that doesn't exist has
+        # no td.kana-cell (see td.kana-empty, style.css), so find_all
+        # already skips those for free.
+        for table in find_all(details, tag="table", cls="kana-grid"):
+            for cell in find_all(table, tag="td", cls="kana-cell"):
+                add(cell, section_id, section_title)
 
         for card in find_all(details, tag="article", cls="dialogue-card"):
             messages = find_first(card, tag="div", cls="dialogue-messages")

@@ -6,6 +6,12 @@
 // doesn't have it, so one script file works for every page
 // without per-page includes.
 
+// Queried at the moment a scroll/fade is about to start rather than
+// cached at load, so flipping the OS setting mid-session takes effect
+// without a reload.
+const prefersReducedMotion = () =>
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
 $(document).ready(function () {
     initReferenceTables();
     initPageSearch();
@@ -77,27 +83,41 @@ function initPageSearch() {
     const input = document.getElementById("pageSearch");
     if (!input) return;
 
-    const tables = $("table.ref-table").filter(function () {
-        return $.fn.DataTable.isDataTable(this);
+    // Everything the handler below needs is resolved once here instead
+    // of per keystroke — the DataTable API objects, the sections to
+    // force open, and each card's lowercased text, which is otherwise a
+    // full subtree read per card per keypress. Card markup is static
+    // (the only thing that ever edits it is markMatch's <mark>, which
+    // doesn't change textContent), so the cached text can't go stale.
+    const tableApis = [];
+    $("table.ref-table").each(function () {
+        if ($.fn.DataTable.isDataTable(this)) {
+            tableApis.push($(this).DataTable());
+        }
     });
-    const cards = document.querySelectorAll(".dialogue-card");
-    if (tables.length === 0 && cards.length === 0) return;
+
+    const cards = Array.from(document.querySelectorAll(".dialogue-card")).map((el) => ({
+        el,
+        text: el.textContent.toLowerCase(),
+    }));
+    if (tableApis.length === 0 && cards.length === 0) return;
+
+    const sections = document.querySelectorAll(".toggle-section");
 
     input.addEventListener("input", () => {
         const value = input.value;
         const query = value.trim().toLowerCase();
 
-        tables.each(function () {
-            $(this).DataTable().search(value).draw();
+        tableApis.forEach((api) => {
+            api.search(value).draw();
         });
 
-        cards.forEach((card) => {
-            const matches = card.textContent.toLowerCase().includes(query);
-            card.style.display = matches ? "" : "none";
+        cards.forEach(({ el, text }) => {
+            el.style.display = text.includes(query) ? "" : "none";
         });
 
-        if (value.trim() !== "") {
-            document.querySelectorAll(".toggle-section").forEach((el) => {
+        if (query !== "") {
+            sections.forEach((el) => {
                 el.open = true;
             });
         }
@@ -118,10 +138,6 @@ function initTableNav() {
     const nav = document.getElementById("tableNav");
     if (!nav) return;
 
-    const reduceMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-    ).matches;
-
     nav.querySelectorAll("a[href^='#']").forEach((link) => {
         link.addEventListener("click", (e) => {
             const target = document.getElementById(
@@ -141,7 +157,7 @@ function initTableNav() {
 
             window.scrollBy({
                 top: scrollBy,
-                behavior: reduceMotion ? "auto" : "smooth",
+                behavior: prefersReducedMotion() ? "auto" : "smooth",
             });
         });
     });
@@ -411,6 +427,13 @@ function initGlobalSearch() {
     const hasJapanese = (s) =>
         /[぀-ヿ㐀-鿿ｦ-ﾟ]/.test(s);
 
+    // The 2-character floor above blocks を and へ — の, に, で, と, か,
+    // が, も, は all romanize to 2+ letters, but hepburn romanizes を as
+    // "o" and へ as "e" (as a particle; "he" is the kana's own name),
+    // both a single letter. These two are the only single-letter romaji
+    // that are a complete, real word rather than "a" or "n" fragments.
+    const SINGLE_LETTER_PARTICLES = new Set(["o", "e"]);
+
     // Tells "suki" landing on the actual word "suki" apart from "suki"
     // landing mid-word inside "maitsuki" (毎月, unrelated) — both are a
     // partial match on the same tier, but only one of them is the word
@@ -435,7 +458,7 @@ function initGlobalSearch() {
     const MAX_CONSIDERED = 500;
 
     let expanded = false;
-    let currentMatches = []; // [{ row, tier, locator }]
+    let currentMatches = []; // [{ row, tier, locator, boundary }]
     let currentQuery = "";
     let activeIndex = -1; // virtual selection — see the combobox note above
 
@@ -444,19 +467,45 @@ function initGlobalSearch() {
         input.setAttribute("aria-expanded", "true");
     };
 
-    const closeResults = () => {
-        results.hidden = true;
-        input.setAttribute("aria-expanded", "false");
+    // Dropping the virtual selection has to drop the pointer to it as
+    // well: a leftover aria-activedescendant leaves a screen reader
+    // announcing an option that nothing on screen is selecting anymore
+    // (the ids are reused across renders, so it would still resolve).
+    const clearActive = () => {
         activeIndex = -1;
         input.removeAttribute("aria-activedescendant");
     };
 
-    const navItems = () =>
-        Array.from(results.querySelectorAll(".search-result, .search-results-more"));
+    const closeResults = () => {
+        results.hidden = true;
+        input.setAttribute("aria-expanded", "false");
+        clearActive();
+    };
+
+    // Every write to the dropdown goes through here so the cached item
+    // list below can never outlive the DOM it was read from.
+    let navItemsCache = null;
+    const setResultsHtml = (html) => {
+        results.innerHTML = html;
+        navItemsCache = null;
+    };
+
+    // Cached between renders because mouseover would otherwise re-run
+    // this query for every pointer move across the list, just to look
+    // up an index.
+    const navItems = () => {
+        if (!navItemsCache) {
+            navItemsCache = Array.from(
+                results.querySelectorAll(".search-result, .search-results-more")
+            );
+        }
+        return navItemsCache;
+    };
 
     // Paints the current activeIndex onto whichever elements exist
-    // right now — called after every render (new DOM) and after every
-    // arrow key/hover (same DOM, different index).
+    // right now — called after every arrow key/hover. A fresh render
+    // doesn't need it: the markup is emitted with aria-selected="false"
+    // already and clearActive() resets the index alongside it.
     const applyActive = () => {
         const els = navItems();
         els.forEach((el, i) => {
@@ -530,16 +579,17 @@ function initGlobalSearch() {
                 ")</button>";
         }
 
-        results.innerHTML = html;
-        activeIndex = -1;
+        setResultsHtml(html);
+        clearActive();
         openResults();
     };
 
     const render = (query) => {
-        const minLength = hasJapanese(query) ? 1 : 2;
+        const minLength =
+            hasJapanese(query) || SINGLE_LETTER_PARTICLES.has(query.toLowerCase()) ? 1 : 2;
         if (query.length < minLength) {
             closeResults();
-            results.innerHTML = "";
+            setResultsHtml("");
             currentMatches = [];
             currentQuery = "";
             return;
@@ -586,9 +636,10 @@ function initGlobalSearch() {
         expanded = false;
 
         if (currentMatches.length === 0) {
-            results.innerHTML =
-                '<p class="search-results-empty">No results for “' + escapeHtml(query) + '”.</p>';
-            activeIndex = -1;
+            setResultsHtml(
+                '<p class="search-results-empty">No results for “' + escapeHtml(query) + '”.</p>'
+            );
+            clearActive();
             openResults();
             return;
         }
@@ -660,9 +711,17 @@ function initGlobalSearch() {
     });
 
     input.addEventListener("keydown", (e) => {
+        // Two-stage, like a command palette: the first Escape only
+        // dismisses the suggestion list and leaves the cursor in place
+        // (standard combobox behavior — the field itself wasn't what
+        // the user was trying to leave), a second Escape with nothing
+        // left to dismiss blurs the field itself.
         if (e.key === "Escape") {
-            closeResults();
-            input.blur();
+            if (!results.hidden) {
+                closeResults();
+            } else {
+                input.blur();
+            }
             return;
         }
 
@@ -721,9 +780,7 @@ function initSearchHighlight() {
         target.open = true;
     }
 
-    const reduceMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-    ).matches;
+    const reduceMotion = prefersReducedMotion();
 
     const scope = target || document;
     const lowerLocator = locator.toLowerCase();
@@ -763,6 +820,15 @@ function initSearchHighlight() {
     history.replaceState(null, "", location.pathname + location.hash);
 }
 
+// Both the <mark> path and the whole-element fallback below hold the
+// highlight, then fade it, on the same clock — HOLD is the "long enough
+// to register, short enough not to become page furniture" delay, FADE
+// matches the 0.3s background-color transition .search-mark and
+// .search-highlight-fallback declare in style.css, so the cleanup only
+// runs once the fade has actually finished.
+const HIGHLIGHT_HOLD_MS = 4500;
+const HIGHLIGHT_FADE_MS = 300;
+
 // Wraps the first occurrence of `query` inside `root` in a
 // <mark class="search-mark"> — the exact same class the results
 // dropdown uses, so a match looks identical whether you're still
@@ -799,10 +865,13 @@ function markMatch(root, query, reduceMotion) {
     // instead of highlighting nothing.
     root.classList.add("search-highlight-fallback");
     if (reduceMotion) {
-        setTimeout(() => root.classList.remove("search-highlight-fallback"), 4500);
+        setTimeout(() => root.classList.remove("search-highlight-fallback"), HIGHLIGHT_HOLD_MS);
     } else {
-        setTimeout(() => root.classList.add("search-mark--fade"), 4500);
-        setTimeout(() => root.classList.remove("search-highlight-fallback", "search-mark--fade"), 4800);
+        setTimeout(() => root.classList.add("search-mark--fade"), HIGHLIGHT_HOLD_MS);
+        setTimeout(
+            () => root.classList.remove("search-highlight-fallback", "search-mark--fade"),
+            HIGHLIGHT_HOLD_MS + HIGHLIGHT_FADE_MS
+        );
     }
 }
 
@@ -815,10 +884,10 @@ function fadeThenUnwrap(mark, reduceMotion) {
     };
 
     if (reduceMotion) {
-        setTimeout(unwrap, 4500);
+        setTimeout(unwrap, HIGHLIGHT_HOLD_MS);
         return;
     }
 
-    setTimeout(() => mark.classList.add("search-mark--fade"), 4500);
-    setTimeout(unwrap, 4800);
+    setTimeout(() => mark.classList.add("search-mark--fade"), HIGHLIGHT_HOLD_MS);
+    setTimeout(unwrap, HIGHLIGHT_HOLD_MS + HIGHLIGHT_FADE_MS);
 }

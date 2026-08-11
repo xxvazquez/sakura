@@ -146,7 +146,6 @@
       <main class="content">
         <div class="page">
           <h1>Demonstratives</h1>
-          <p class="lesson-overview">📖 Learn how to point at things with <strong>これ（kore）</strong>, <strong>それ（sore）</strong>, <strong>あれ（are）</strong> and <strong>どれ（dore）</strong>, and how to describe them with <strong>この（kono）</strong>, <strong>その（sono）</strong>, <strong>あの（ano）</strong> and <strong>どの（dono）</strong>.</p>
 
           <!-- ------------------------------------- -->
           <!-- PAGE SEARCH -->
@@ -170,37 +169,40 @@
           </div>
 
           <!-- ------------------------------------- -->
-          <!-- DISPLAY TOGGLES -->
+          <!-- PAGE TOOLBAR (sticky) -->
           <!-- ------------------------------------- -->
-          <!-- Furigana/romaji/English, on by default and persisted in
-               localStorage across the whole site — see
-               initDisplayToggles in assets/script.js. -->
+          <!-- Display toggles + table nav, stacked and pinned to the
+               viewport top together (see .page-toolbar, style.css) so
+               both stay reachable the whole time you're reading, not
+               just before the first scroll. Same two children, same
+               markup, on every lesson page. -->
 
-          <div class="display-toggles">
-            <label><input type="checkbox" id="toggleJapanese" checked /> Japanese</label>
-            <label><input type="checkbox" id="toggleFurigana" checked /> Furigana</label>
-            <label><input type="checkbox" id="toggleRomaji" checked /> Romaji</label>
-            <label><input type="checkbox" id="toggleEnglish" checked /> English</label>
+          <div class="page-toolbar">
+
+            <!-- Japanese/furigana/romaji/English, on by default and
+                 persisted in localStorage across the whole site — see
+                 initDisplayToggles in assets/script.js. -->
+
+            <div class="display-toggles">
+              <label><input type="checkbox" id="toggleJapanese" checked /> Japanese</label>
+              <label><input type="checkbox" id="toggleFurigana" checked /> Furigana</label>
+              <label><input type="checkbox" id="toggleRomaji" checked /> Romaji</label>
+              <label><input type="checkbox" id="toggleEnglish" checked /> English</label>
+            </div>
+
+            <!-- Quick-jump links. Clicking one opens that section's
+                 toggle (they're collapsed by default) and scrolls to
+                 it — see initTableNav in assets/script.js. Keep this in
+                 sync with the toggle-section ids below whenever a
+                 section is added, renamed, or reordered. -->
+
+            <nav class="table-nav" id="tableNav">
+              <a href="#demonstrative-pronouns">Demonstrative Pronouns</a>
+              <a href="#demonstrative-adjectives">Demonstrative Adjectives</a>
+              <a href="#questions-answers">Questions &amp; Answers</a>
+              <a href="#example-dialogue">Example Dialogue</a>
+            </nav>
           </div>
-
-          <!-- ------------------------------------- -->
-          <!-- TABLE NAV -->
-          <!-- ------------------------------------- -->
-          <!-- Sticky quick-jump bar for pages with more than one table.
-               Stays pinned to the viewport top while scrolling (same
-               position: sticky trick as .sidebar) so switching sections
-               never requires scrolling back up. Clicking a link opens
-               that section's toggle (they're collapsed by default) and
-               scrolls to it — see initTableNav in assets/script.js.
-               Keep this in sync with the toggle-section ids below
-               whenever a section is added, renamed, or reordered. -->
-
-          <nav class="table-nav" id="tableNav">
-            <a href="#demonstrative-pronouns">Demonstrative Pronouns</a>
-            <a href="#demonstrative-adjectives">Demonstrative Adjectives</a>
-            <a href="#questions-answers">Questions &amp; Answers</a>
-            <a href="#example-dialogue">Example Dialogue</a>
-          </nav>
 
           <!-- ------------------------------------- -->
           <!-- DEMONSTRATIVE PRONOUNS TABLE -->
@@ -221,7 +223,6 @@
               <table id="demonstrativePronounsTable" class="ref-table">
                 <thead>
                   <tr>
-                    <th class="type-col">Tag</th>
                     <th>Japanese</th>
                     <th class="col-romaji">Romaji</th>
                     <th class="col-english">English</th>
@@ -230,7 +231,6 @@
 
                 <tbody>
                   <tr>
-                    <td class="type" data-order="0"></td>
                     <td class="jp" lang="ja">
                       <ruby><span class="kanji kana-only">これ</span><rt>&nbsp;</rt></ruby>
                     </td>
@@ -238,7 +238,6 @@
                     <td class="english">this (thing)</td>
                   </tr>
                   <tr>
-                    <td class="type" data-order="0"></td>
                     <td class="jp" lang="ja">
                       <ruby><span class="kanji kana-only">それ</span><rt>&nbsp;</rt></ruby>
                     </td>
@@ -246,7 +245,6 @@
                     <td class="english">that (thing)</td>
                   </tr>
                   <tr>
-                    <td class="type" data-order="0"></td>
                     <td class="jp" lang="ja">
                       <ruby><span class="kanji kana-only">あれ</span><rt>&nbsp;</rt></ruby>
                     </td>
@@ -254,7 +252,6 @@
                     <td class="english">that (thing) over there</td>
                   </tr>
                   <tr>
-                    <td class="type" data-order="0"></td>
                     <td class="jp" lang="ja">
                       <ruby><span class="kanji kana-only">どれ</span><rt>&nbsp;</rt></ruby>
                     </td>
@@ -282,7 +279,6 @@
               <table id="demonstrativeAdjectivesTable" class="ref-table">
                 <thead>
                   <tr>
-                    <th class="type-col">Tag</th>
                     <th>Japanese</th>
                     <th class="col-romaji">Romaji</th>
                     <th class="col-english">English</th>
@@ -291,7 +287,6 @@
 
                 <tbody>
                   <tr>
-                    <td class="type" data-order="0"></td>
                     <td class="jp" lang="ja">
                       <ruby><span class="kanji kana-only">この</span><rt>&nbsp;</rt></ruby>
                     </td>
@@ -299,7 +294,6 @@
                     <td class="english">this ~</td>
                   </tr>
                   <tr>
-                    <td class="type" data-order="0"></td>
                     <td class="jp" lang="ja">
                       <ruby><span class="kanji kana-only">その</span><rt>&nbsp;</rt></ruby>
                     </td>
@@ -307,7 +301,6 @@
                     <td class="english">that ~</td>
                   </tr>
                   <tr>
-                    <td class="type" data-order="0"></td>
                     <td class="jp" lang="ja">
                       <ruby><span class="kanji kana-only">あの</span><rt>&nbsp;</rt></ruby>
                     </td>
@@ -315,7 +308,6 @@
                     <td class="english">that ~ over there</td>
                   </tr>
                   <tr>
-                    <td class="type" data-order="0"></td>
                     <td class="jp" lang="ja">
                       <ruby><span class="kanji kana-only">どの</span><rt>&nbsp;</rt></ruby>
                     </td>
@@ -328,26 +320,119 @@
               <!-- ------------------------------------- -->
               <!-- GRAMMAR NOTE -->
               <!-- ------------------------------------- -->
+              <!-- Three stacked .grammar-note blocks, same redesigned
+                   shape as Hiragana's Notes section (compare-pills +
+                   worked example instead of a bare bullet list). Each
+                   one teaches something the tables above don't already
+                   say — a structural rule, a common mistake, or a
+                   nuance — rather than restating the pronoun/adjective
+                   translations. -->
 
               <div class="grammar-note">
-                <h3>🧩 Grammar Note</h3>
+                <h3>🧩 Pronoun or Adjective?</h3>
                 <ul>
-                  <li>これ・それ・あれ・どれ (kore/sore/are/dore) are used alone, without a noun.</li>
-                  <li>この・その・あの・どの (kono/sono/ano/dono) must always be followed by a noun — they can never stand alone.</li>
-                  <li>これ/この is near the speaker, それ/その is near the listener, あれ/あの is away from both, and どれ/どの asks "which."</li>
+                  <li>これ・それ・あれ・どれ replace a noun entirely — never put another noun right after one of them.</li>
+                  <li>この・その・あの・どの modify a noun and can never stand alone — always この/その/あの/どの + noun.</li>
                 </ul>
+                <p class="notes incorrect">
+                  Incorrect:<br>
+                  <span class="example-jp" lang="ja">✗ <span class="grammar-point">これ</span><ruby>本<rt>ほん</rt></ruby>です。</span><br>
+                  <span class="example"><span class="grammar-point">Kore</span> hon desu.</span><br>
+                  <span class="example-en">これ already means "this (thing)" — a noun can't follow it directly.</span>
+                </p>
+                <p class="notes">
+                  Correct:<br>
+                  <span class="example-jp" lang="ja"><span class="grammar-point">この</span><ruby>本<rt>ほん</rt></ruby>です。</span><br>
+                  <span class="example"><span class="grammar-point">Kono</span> hon desu.</span><br>
+                  <span class="example-en">This is a book.</span>
+                </p>
+              </div>
+
+              <div class="grammar-note">
+                <h3>📍 Distance Is From the Speaker's Side</h3>
+                <p class="notes">Japanese splits English's two-way "this/that" into three, based on who's standing where — not on how far away the thing actually is.</p>
+                <div class="compare-pills">
+                  <span class="compare-pill"><span class="compare-from" lang="ja"><span class="grammar-point">これ</span></span><span class="compare-arrow">↔</span><span class="compare-to" lang="ja"><span class="grammar-point">この</span></span><span class="compare-romaji">near the speaker</span></span>
+                  <span class="compare-pill"><span class="compare-from" lang="ja"><span class="grammar-point">それ</span></span><span class="compare-arrow">↔</span><span class="compare-to" lang="ja"><span class="grammar-point">その</span></span><span class="compare-romaji">near the listener</span></span>
+                  <span class="compare-pill"><span class="compare-from" lang="ja"><span class="grammar-point">あれ</span></span><span class="compare-arrow">↔</span><span class="compare-to" lang="ja"><span class="grammar-point">あの</span></span><span class="compare-romaji">far from both</span></span>
+                </div>
+                <p class="notes">A book on the listener's desk is それ/その even if it's an arm's length from the speaker too — what matters is whose side it's on, not the raw distance.</p>
+              </div>
+
+              <div class="grammar-note">
+                <h3>❓ どれ／どの Only Ask</h3>
+                <p class="notes">Unlike the other three pairs, どれ and どの never appear in a statement — they exist to ask "which one," and the answer always comes back as これ/それ/あれ or この/その/あの instead.</p>
+                <div class="compare-pills">
+                  <span class="compare-pill"><span class="compare-from" lang="ja"><span class="grammar-point">どれ</span>です<span class="particle">か</span>。</span><span class="compare-arrow">→</span><span class="compare-to" lang="ja"><span class="grammar-point">これ</span>です。</span><span class="compare-romaji">dore? → kore.</span></span>
+                </div>
               </div>
             </div>
           </details>
 
           <!-- ------------------------------------- -->
-          <!-- QUESTIONS & ANSWERS (DIALOGUE CARDS) -->
+          <!-- QUESTIONS & ANSWERS (PATTERNS + DIALOGUE CARDS) -->
           <!-- ------------------------------------- -->
+          <!-- Patterns first — the abstract sentence shapes this lesson
+               actually teaches — then the worked Q&A cards below apply
+               them. Pattern cards reuse .dialogue-card + .notes exactly
+               as Likes & Dislikes' own Core Patterns section does (see
+               .dialogue-card .notes, style.css); .pattern-formula adds
+               the plain-text sentence shape above each worked example,
+               and isn't itself display-toggle-gated (see PATTERN
+               FORMULA, style.css) since it's a structural label, not
+               Japanese content. -->
 
           <details class="toggle-section" id="questions-answers">
             <summary><h2>💬 Questions &amp; Answers</h2></summary>
 
             <div class="toggle-body">
+
+              <h3 class="subsection-label">Patterns</h3>
+              <div class="dialogue-grid">
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">📍 Pointing at Something</h3>
+                  <p class="pattern-formula"><span class="grammar-point">これ／それ／あれ</span> + は + Noun + です。</p>
+                  <p class="notes">
+                    <span class="example-jp" lang="ja"><span class="grammar-point">これ</span><span class="particle">は</span><ruby>辞書<rt>じしょ</rt></ruby>です。</span><br>
+                    <span class="example"><span class="grammar-point">Kore</span> <span class="particle">wa</span> jisho desu.</span><br>
+                    <span class="example-en">This is a dictionary.</span>
+                  </p>
+                </article>
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">📍 Describing a Noun</h3>
+                  <p class="pattern-formula"><span class="grammar-point">この／その／あの</span> + Noun + は … です。</p>
+                  <p class="notes">
+                    <span class="example-jp" lang="ja"><span class="grammar-point">この</span><ruby>本<rt>ほん</rt></ruby><span class="particle">は</span><ruby>私<rt>わたし</rt></ruby><span class="particle">の</span>です。</span><br>
+                    <span class="example"><span class="grammar-point">Kono</span> hon <span class="particle">wa</span> watashi <span class="particle">no</span> desu.</span><br>
+                    <span class="example-en">This book is mine.</span>
+                  </p>
+                </article>
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">❓ Asking What Something Is</h3>
+                  <p class="pattern-formula"><span class="grammar-point">これ／それ／あれ</span> + は + 何ですか。</p>
+                  <p class="notes">
+                    <span class="example-jp" lang="ja"><span class="grammar-point">それ</span><span class="particle">は</span><ruby>何<rt>なん</rt></ruby>です<span class="particle">か</span>。</span><br>
+                    <span class="example"><span class="grammar-point">Sore</span> <span class="particle">wa</span> nan desu <span class="particle">ka</span>?</span><br>
+                    <span class="example-en">What is that?</span>
+                  </p>
+                </article>
+
+                <article class="dialogue-card">
+                  <h3 class="dialogue-title">❓ Asking Which One</h3>
+                  <p class="pattern-formula">Noun + は + <span class="grammar-point">どれ</span> + ですか。</p>
+                  <p class="notes">
+                    <span class="example-jp" lang="ja"><ruby>山田<rt>やまだ</rt></ruby>さん<span class="particle">の</span>かさ<span class="particle">は</span><span class="grammar-point">どれ</span>です<span class="particle">か</span>。</span><br>
+                    <span class="example">Yamada-san <span class="particle">no</span> kasa <span class="particle">wa</span> <span class="grammar-point">dore</span> desu <span class="particle">ka</span>?</span><br>
+                    <span class="example-en">Which one is Yamada's umbrella?</span>
+                  </p>
+                </article>
+
+              </div>
+
+              <h3 class="subsection-label">Example Exchanges</h3>
               <div class="dialogue-grid">
 
                 <article class="dialogue-card">
@@ -356,16 +441,16 @@
                     <div class="message message-a">
                       <span class="message-speaker">A</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">これ<span class="particle">は</span><ruby>何<rt>なん</rt></ruby>です<span class="particle">か</span>。</p>
-                        <p class="message-romaji">Kore <span class="particle">wa</span> nan desu <span class="particle">ka</span>?</p>
+                        <p class="message-jp" lang="ja"><span class="grammar-point">これ</span><span class="particle">は</span><ruby>何<rt>なん</rt></ruby>です<span class="particle">か</span>。</p>
+                        <p class="message-romaji"><span class="grammar-point">Kore</span> <span class="particle">wa</span> nan desu <span class="particle">ka</span>?</p>
                         <p class="message-en">What is this?</p>
                       </div>
                     </div>
                     <div class="message message-b">
                       <span class="message-speaker">B</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">それ<span class="particle">は</span>ペンです。</p>
-                        <p class="message-romaji">Sore <span class="particle">wa</span> pen desu.</p>
+                        <p class="message-jp" lang="ja"><span class="grammar-point">それ</span><span class="particle">は</span>ペンです。</p>
+                        <p class="message-romaji"><span class="grammar-point">Sore</span> <span class="particle">wa</span> pen desu.</p>
                         <p class="message-en">That is a pen.</p>
                       </div>
                     </div>
@@ -378,16 +463,16 @@
                     <div class="message message-a">
                       <span class="message-speaker">A</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">あれ<span class="particle">は</span><ruby>何<rt>なん</rt></ruby>です<span class="particle">か</span>。</p>
-                        <p class="message-romaji">Are <span class="particle">wa</span> nan desu <span class="particle">ka</span>?</p>
+                        <p class="message-jp" lang="ja"><span class="grammar-point">あれ</span><span class="particle">は</span><ruby>何<rt>なん</rt></ruby>です<span class="particle">か</span>。</p>
+                        <p class="message-romaji"><span class="grammar-point">Are</span> <span class="particle">wa</span> nan desu <span class="particle">ka</span>?</p>
                         <p class="message-en">What is that over there?</p>
                       </div>
                     </div>
                     <div class="message message-b">
                       <span class="message-speaker">B</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">あれ<span class="particle">は</span><ruby>病院<rt>びょういん</rt></ruby>です。</p>
-                        <p class="message-romaji">Are <span class="particle">wa</span> byōin desu.</p>
+                        <p class="message-jp" lang="ja"><span class="grammar-point">あれ</span><span class="particle">は</span><ruby>病院<rt>びょういん</rt></ruby>です。</p>
+                        <p class="message-romaji"><span class="grammar-point">Are</span> <span class="particle">wa</span> byōin desu.</p>
                         <p class="message-en">That over there is a hospital.</p>
                       </div>
                     </div>
@@ -400,16 +485,16 @@
                     <div class="message message-a">
                       <span class="message-speaker">A</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja"><ruby>田中<rt>たなか</rt></ruby>さん<span class="particle">の</span>かさ<span class="particle">は</span>どれです<span class="particle">か</span>。</p>
-                        <p class="message-romaji">Tanaka-san <span class="particle">no</span> kasa <span class="particle">wa</span> dore desu <span class="particle">ka</span>?</p>
+                        <p class="message-jp" lang="ja"><ruby>田中<rt>たなか</rt></ruby>さん<span class="particle">の</span>かさ<span class="particle">は</span><span class="grammar-point">どれ</span>です<span class="particle">か</span>。</p>
+                        <p class="message-romaji">Tanaka-san <span class="particle">no</span> kasa <span class="particle">wa</span> <span class="grammar-point">dore</span> desu <span class="particle">ka</span>?</p>
                         <p class="message-en">Which one is Tanaka's umbrella?</p>
                       </div>
                     </div>
                     <div class="message message-b">
                       <span class="message-speaker">B</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">これです。</p>
-                        <p class="message-romaji">Kore desu.</p>
+                        <p class="message-jp" lang="ja"><span class="grammar-point">これ</span>です。</p>
+                        <p class="message-romaji"><span class="grammar-point">Kore</span> desu.</p>
                         <p class="message-en">This one.</p>
                       </div>
                     </div>
@@ -422,16 +507,16 @@
                     <div class="message message-a">
                       <span class="message-speaker">A</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">どの<ruby>本<rt>ほん</rt></ruby><span class="particle">が</span><ruby>山田<rt>やまだ</rt></ruby>さん<span class="particle">の</span>です<span class="particle">か</span>。</p>
-                        <p class="message-romaji">Dono hon <span class="particle">ga</span> Yamada-san <span class="particle">no</span> desu <span class="particle">ka</span>?</p>
+                        <p class="message-jp" lang="ja"><span class="grammar-point">どの</span><ruby>本<rt>ほん</rt></ruby><span class="particle">が</span><ruby>山田<rt>やまだ</rt></ruby>さん<span class="particle">の</span>です<span class="particle">か</span>。</p>
+                        <p class="message-romaji"><span class="grammar-point">Dono</span> hon <span class="particle">ga</span> Yamada-san <span class="particle">no</span> desu <span class="particle">ka</span>?</p>
                         <p class="message-en">Which book is Yamada's?</p>
                       </div>
                     </div>
                     <div class="message message-b">
                       <span class="message-speaker">B</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">この<ruby>本<rt>ほん</rt></ruby>です。</p>
-                        <p class="message-romaji">Kono hon desu.</p>
+                        <p class="message-jp" lang="ja"><span class="grammar-point">この</span><ruby>本<rt>ほん</rt></ruby>です。</p>
+                        <p class="message-romaji"><span class="grammar-point">Kono</span> hon desu.</p>
                         <p class="message-en">This book.</p>
                       </div>
                     </div>
@@ -444,8 +529,8 @@
                     <div class="message message-a">
                       <span class="message-speaker">A</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">これ<span class="particle">は</span>だれ<span class="particle">の</span><ruby>本<rt>ほん</rt></ruby>です<span class="particle">か</span>。</p>
-                        <p class="message-romaji">Kore <span class="particle">wa</span> dare <span class="particle">no</span> hon desu <span class="particle">ka</span>?</p>
+                        <p class="message-jp" lang="ja"><span class="grammar-point">これ</span><span class="particle">は</span>だれ<span class="particle">の</span><ruby>本<rt>ほん</rt></ruby>です<span class="particle">か</span>。</p>
+                        <p class="message-romaji"><span class="grammar-point">Kore</span> <span class="particle">wa</span> dare <span class="particle">no</span> hon desu <span class="particle">ka</span>?</p>
                         <p class="message-en">Whose book is this?</p>
                       </div>
                     </div>
@@ -466,8 +551,8 @@
                     <div class="message message-a">
                       <span class="message-speaker">A</span>
                       <div class="message-bubble">
-                        <p class="message-jp" lang="ja">あのかばん<span class="particle">は</span>だれ<span class="particle">の</span>です<span class="particle">か</span>。</p>
-                        <p class="message-romaji">Ano kaban <span class="particle">wa</span> dare <span class="particle">no</span> desu <span class="particle">ka</span>?</p>
+                        <p class="message-jp" lang="ja"><span class="grammar-point">あの</span>かばん<span class="particle">は</span>だれ<span class="particle">の</span>です<span class="particle">か</span>。</p>
+                        <p class="message-romaji"><span class="grammar-point">Ano</span> kaban <span class="particle">wa</span> dare <span class="particle">no</span> desu <span class="particle">ka</span>?</p>
                         <p class="message-en">Whose bag is that over there?</p>
                       </div>
                     </div>
@@ -492,7 +577,10 @@
           <!-- One continuous back-and-forth combining both demonstrative
                groups, unlike the short single-exchange cards above — so
                it's one full-width .dialogue-card holding every turn,
-               not a grid of cards. -->
+               not a grid of cards. Includes both a はい (affirmative)
+               and multiple いいえ (negative) answers to yes/no
+               questions, so the dialogue models both polarities rather
+               than only ever confirming or only ever correcting. -->
 
           <details class="toggle-section" id="example-dialogue">
             <summary><h2>🗨️ Example Dialogue</h2></summary>
@@ -504,96 +592,112 @@
                   <div class="message message-a">
                     <span class="message-speaker">A</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">すみません、これ<span class="particle">は</span><ruby>何<rt>なん</rt></ruby>です<span class="particle">か</span>。</p>
-                      <p class="message-romaji">Sumimasen, kore <span class="particle">wa</span> nan desu <span class="particle">ka</span>?</p>
+                      <p class="message-jp" lang="ja">すみません、<span class="grammar-point">これ</span><span class="particle">は</span><ruby>何<rt>なん</rt></ruby>です<span class="particle">か</span>。</p>
+                      <p class="message-romaji">Sumimasen, <span class="grammar-point">kore</span> <span class="particle">wa</span> nan desu <span class="particle">ka</span>?</p>
                       <p class="message-en">Excuse me, what is this?</p>
                     </div>
                   </div>
                   <div class="message message-b">
                     <span class="message-speaker">B</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">それ<span class="particle">は</span><ruby>辞書<rt>じしょ</rt></ruby>です。</p>
-                      <p class="message-romaji">Sore <span class="particle">wa</span> jisho desu.</p>
+                      <p class="message-jp" lang="ja"><span class="grammar-point">それ</span><span class="particle">は</span><ruby>辞書<rt>じしょ</rt></ruby>です。</p>
+                      <p class="message-romaji"><span class="grammar-point">Sore</span> <span class="particle">wa</span> jisho desu.</p>
                       <p class="message-en">That is a dictionary.</p>
                     </div>
                   </div>
                   <div class="message message-a">
                     <span class="message-speaker">A</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">そうです<span class="particle">か</span>。あれ<span class="particle">も</span><ruby>辞書<rt>じしょ</rt></ruby>です<span class="particle">か</span>。</p>
-                      <p class="message-romaji">Sō desu <span class="particle">ka</span>. Are <span class="particle">mo</span> jisho desu <span class="particle">ka</span>?</p>
-                      <p class="message-en">I see. Is that over there a dictionary too?</p>
+                      <p class="message-jp" lang="ja">そうです<span class="particle">か</span>。<span class="grammar-point">これ</span><span class="particle">は</span>あなた<span class="particle">の</span><ruby>辞書<rt>じしょ</rt></ruby>です<span class="particle">か</span>。</p>
+                      <p class="message-romaji">Sō desu <span class="particle">ka</span>. <span class="grammar-point">Kore</span> <span class="particle">wa</span> anata <span class="particle">no</span> jisho desu <span class="particle">ka</span>?</p>
+                      <p class="message-en">I see. Is this your dictionary?</p>
                     </div>
                   </div>
                   <div class="message message-b">
                     <span class="message-speaker">B</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">いいえ、あれ<span class="particle">は</span><ruby>地図<rt>ちず</rt></ruby>です。</p>
-                      <p class="message-romaji">Iie, are <span class="particle">wa</span> chizu desu.</p>
+                      <p class="message-jp" lang="ja">はい、<span class="grammar-point">それ</span><span class="particle">は</span><ruby>私<rt>わたし</rt></ruby><span class="particle">の</span>です。</p>
+                      <p class="message-romaji">Hai, <span class="grammar-point">sore</span> <span class="particle">wa</span> watashi <span class="particle">no</span> desu.</p>
+                      <p class="message-en">Yes, that's mine.</p>
+                    </div>
+                  </div>
+                  <div class="message message-a">
+                    <span class="message-speaker">A</span>
+                    <div class="message-bubble">
+                      <p class="message-jp" lang="ja"><span class="grammar-point">あれ</span><span class="particle">も</span><ruby>辞書<rt>じしょ</rt></ruby>です<span class="particle">か</span>。</p>
+                      <p class="message-romaji"><span class="grammar-point">Are</span> <span class="particle">mo</span> jisho desu <span class="particle">ka</span>?</p>
+                      <p class="message-en">Is that over there a dictionary too?</p>
+                    </div>
+                  </div>
+                  <div class="message message-b">
+                    <span class="message-speaker">B</span>
+                    <div class="message-bubble">
+                      <p class="message-jp" lang="ja">いいえ、<span class="grammar-point">あれ</span><span class="particle">は</span><ruby>地図<rt>ちず</rt></ruby>です。</p>
+                      <p class="message-romaji">Iie, <span class="grammar-point">are</span> <span class="particle">wa</span> chizu desu.</p>
                       <p class="message-en">No, that over there is a map.</p>
                     </div>
                   </div>
                   <div class="message message-a">
                     <span class="message-speaker">A</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">この<ruby>本<rt>ほん</rt></ruby><span class="particle">は</span><ruby>山田<rt>やまだ</rt></ruby>さん<span class="particle">の</span>です<span class="particle">か</span>。</p>
-                      <p class="message-romaji">Kono hon <span class="particle">wa</span> Yamada-san <span class="particle">no</span> desu <span class="particle">ka</span>?</p>
+                      <p class="message-jp" lang="ja"><span class="grammar-point">この</span><ruby>本<rt>ほん</rt></ruby><span class="particle">は</span><ruby>山田<rt>やまだ</rt></ruby>さん<span class="particle">の</span>です<span class="particle">か</span>。</p>
+                      <p class="message-romaji"><span class="grammar-point">Kono</span> hon <span class="particle">wa</span> Yamada-san <span class="particle">no</span> desu <span class="particle">ka</span>?</p>
                       <p class="message-en">Is this book Yamada's?</p>
                     </div>
                   </div>
                   <div class="message message-b">
                     <span class="message-speaker">B</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">いいえ、その<ruby>本<rt>ほん</rt></ruby><span class="particle">は</span><ruby>私<rt>わたし</rt></ruby><span class="particle">の</span>です。<ruby>山田<rt>やまだ</rt></ruby>さん<span class="particle">の</span><span class="particle">は</span>あの<ruby>本<rt>ほん</rt></ruby>です。</p>
-                      <p class="message-romaji">Iie, sono hon <span class="particle">wa</span> watashi <span class="particle">no</span> desu. Yamada-san <span class="particle">no</span> <span class="particle">wa</span> ano hon desu.</p>
+                      <p class="message-jp" lang="ja">いいえ、<span class="grammar-point">その</span><ruby>本<rt>ほん</rt></ruby><span class="particle">は</span><ruby>私<rt>わたし</rt></ruby><span class="particle">の</span>です。<ruby>山田<rt>やまだ</rt></ruby>さん<span class="particle">の</span><span class="particle">は</span><span class="grammar-point">あの</span><ruby>本<rt>ほん</rt></ruby>です。</p>
+                      <p class="message-romaji">Iie, <span class="grammar-point">sono</span> hon <span class="particle">wa</span> watashi <span class="particle">no</span> desu. Yamada-san <span class="particle">no</span> <span class="particle">wa</span> <span class="grammar-point">ano</span> hon desu.</p>
                       <p class="message-en">No, that book is mine. Yamada's is that book over there.</p>
                     </div>
                   </div>
                   <div class="message message-a">
                     <span class="message-speaker">A</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">じゃあ、そのかばん<span class="particle">は</span>だれ<span class="particle">の</span>です<span class="particle">か</span>。</p>
-                      <p class="message-romaji">Jā, sono kaban <span class="particle">wa</span> dare <span class="particle">no</span> desu <span class="particle">ka</span>?</p>
+                      <p class="message-jp" lang="ja">じゃあ、<span class="grammar-point">その</span>かばん<span class="particle">は</span>だれ<span class="particle">の</span>です<span class="particle">か</span>。</p>
+                      <p class="message-romaji">Jā, <span class="grammar-point">sono</span> kaban <span class="particle">wa</span> dare <span class="particle">no</span> desu <span class="particle">ka</span>?</p>
                       <p class="message-en">Then, whose bag is that near you?</p>
                     </div>
                   </div>
                   <div class="message message-b">
                     <span class="message-speaker">B</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">このかばん<span class="particle">は</span><ruby>田中<rt>たなか</rt></ruby>さん<span class="particle">の</span>です。</p>
-                      <p class="message-romaji">Kono kaban <span class="particle">wa</span> Tanaka-san <span class="particle">no</span> desu.</p>
+                      <p class="message-jp" lang="ja"><span class="grammar-point">この</span>かばん<span class="particle">は</span><ruby>田中<rt>たなか</rt></ruby>さん<span class="particle">の</span>です。</p>
+                      <p class="message-romaji"><span class="grammar-point">Kono</span> kaban <span class="particle">wa</span> Tanaka-san <span class="particle">no</span> desu.</p>
                       <p class="message-en">This bag is Tanaka's.</p>
                     </div>
                   </div>
                   <div class="message message-a">
                     <span class="message-speaker">A</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">そうです<span class="particle">か</span>。どのかばん<span class="particle">が</span><ruby>山田<rt>やまだ</rt></ruby>さん<span class="particle">の</span>です<span class="particle">か</span>。</p>
-                      <p class="message-romaji">Sō desu <span class="particle">ka</span>. Dono kaban <span class="particle">ga</span> Yamada-san <span class="particle">no</span> desu <span class="particle">ka</span>?</p>
+                      <p class="message-jp" lang="ja">そうです<span class="particle">か</span>。<span class="grammar-point">どの</span>かばん<span class="particle">が</span><ruby>山田<rt>やまだ</rt></ruby>さん<span class="particle">の</span>です<span class="particle">か</span>。</p>
+                      <p class="message-romaji">Sō desu <span class="particle">ka</span>. <span class="grammar-point">Dono</span> kaban <span class="particle">ga</span> Yamada-san <span class="particle">no</span> desu <span class="particle">ka</span>?</p>
                       <p class="message-en">I see. Which bag is Yamada's?</p>
                     </div>
                   </div>
                   <div class="message message-b">
                     <span class="message-speaker">B</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">あのかばんです。</p>
-                      <p class="message-romaji">Ano kaban desu.</p>
+                      <p class="message-jp" lang="ja"><span class="grammar-point">あの</span>かばんです。</p>
+                      <p class="message-romaji"><span class="grammar-point">Ano</span> kaban desu.</p>
                       <p class="message-en">That bag over there.</p>
                     </div>
                   </div>
                   <div class="message message-a">
                     <span class="message-speaker">A</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">わかりました。<ruby>田中<rt>たなか</rt></ruby>さん<span class="particle">の</span>かさ<span class="particle">は</span>どれです<span class="particle">か</span>。</p>
-                      <p class="message-romaji">Wakarimashita. Tanaka-san <span class="particle">no</span> kasa <span class="particle">wa</span> dore desu <span class="particle">ka</span>?</p>
+                      <p class="message-jp" lang="ja">わかりました。<ruby>田中<rt>たなか</rt></ruby>さん<span class="particle">の</span>かさ<span class="particle">は</span><span class="grammar-point">どれ</span>です<span class="particle">か</span>。</p>
+                      <p class="message-romaji">Wakarimashita. Tanaka-san <span class="particle">no</span> kasa <span class="particle">wa</span> <span class="grammar-point">dore</span> desu <span class="particle">ka</span>?</p>
                       <p class="message-en">I understand. Which one is Tanaka's umbrella?</p>
                     </div>
                   </div>
                   <div class="message message-b">
                     <span class="message-speaker">B</span>
                     <div class="message-bubble">
-                      <p class="message-jp" lang="ja">これです。</p>
-                      <p class="message-romaji">Kore desu.</p>
+                      <p class="message-jp" lang="ja"><span class="grammar-point">これ</span>です。</p>
+                      <p class="message-romaji"><span class="grammar-point">Kore</span> desu.</p>
                       <p class="message-en">This one.</p>
                     </div>
                   </div>

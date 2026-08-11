@@ -170,36 +170,39 @@
           </div>
 
           <!-- ------------------------------------- -->
-          <!-- DISPLAY TOGGLES -->
+          <!-- PAGE TOOLBAR (sticky) -->
           <!-- ------------------------------------- -->
-          <!-- Furigana/romaji/English, on by default and persisted in
-               localStorage across the whole site — see
-               initDisplayToggles in assets/script.js. -->
+          <!-- Display toggles + table nav, stacked and pinned to the
+               viewport top together (see .page-toolbar, style.css) so
+               both stay reachable the whole time you're reading, not
+               just before the first scroll. Same two children, same
+               markup, on every lesson page. -->
 
-          <div class="display-toggles">
-            <label><input type="checkbox" id="toggleJapanese" checked /> Japanese</label>
-            <label><input type="checkbox" id="toggleFurigana" checked /> Furigana</label>
-            <label><input type="checkbox" id="toggleRomaji" checked /> Romaji</label>
-            <label><input type="checkbox" id="toggleEnglish" checked /> English</label>
+          <div class="page-toolbar">
+
+            <!-- Japanese/furigana/romaji/English, on by default and
+                 persisted in localStorage across the whole site — see
+                 initDisplayToggles in assets/script.js. -->
+
+            <div class="display-toggles">
+              <label><input type="checkbox" id="toggleJapanese" checked /> Japanese</label>
+              <label><input type="checkbox" id="toggleFurigana" checked /> Furigana</label>
+              <label><input type="checkbox" id="toggleRomaji" checked /> Romaji</label>
+              <label><input type="checkbox" id="toggleEnglish" checked /> English</label>
+            </div>
+
+            <!-- Quick-jump links. Clicking one opens that section's
+                 toggle (they're collapsed by default) and scrolls to
+                 it — see initTableNav in assets/script.js. Keep this in
+                 sync with the toggle-section ids below whenever a
+                 section is added, renamed, or reordered. -->
+
+            <nav class="table-nav" id="tableNav">
+              <a href="#frequency">Frequency</a>
+              <a href="#questions-answers">Questions &amp; Answers</a>
+              <a href="#example-dialogue">Example Dialogue</a>
+            </nav>
           </div>
-
-          <!-- ------------------------------------- -->
-          <!-- TABLE NAV -->
-          <!-- ------------------------------------- -->
-          <!-- Sticky quick-jump bar for pages with more than one table.
-               Stays pinned to the viewport top while scrolling (same
-               position: sticky trick as .sidebar) so switching sections
-               never requires scrolling back up. Clicking a link opens
-               that section's toggle (they're collapsed by default) and
-               scrolls to it — see initTableNav in assets/script.js.
-               Keep this in sync with the toggle-section ids below
-               whenever a section is added, renamed, or reordered. -->
-
-          <nav class="table-nav" id="tableNav">
-            <a href="#frequency">Frequency</a>
-            <a href="#questions-answers">Questions &amp; Answers</a>
-            <a href="#example-dialogue">Example Dialogue</a>
-          </nav>
 
           <!-- ------------------------------------- -->
           <!-- FREQUENCY TABLE -->

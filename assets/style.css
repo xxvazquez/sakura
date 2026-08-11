@@ -37,6 +37,14 @@
        never gets confused with an unrelated grammar point. */
     --particle: #8a5e14;
 
+    /* Reserved for whatever grammar point a lesson is actually teaching
+       (これ/それ/あれ/この/その/あの for Demonstratives; a future
+       lesson's own target word/pattern otherwise) — a muted plum/violet,
+       the one hue family nothing else on this page uses, so it's never
+       mistaken for --particle even when both appear in the same
+       sentence. */
+    --grammar-point: #71498f;
+
     /* One muted, low-saturation accent for visual hierarchy only —
        section headings (.page h2, Grammar Note's h3) and the Overview
        summary card. A dusty steel-blue, deliberately darker/grayer than
@@ -799,29 +807,53 @@ h1 {
 }
 
 /*-----------------------------------------------*/
-/* TABLE NAV (multi-table pages) */
+/* PAGE TOOLBAR (sticky) */
 /*-----------------------------------------------*/
-/* Quick-jump bar for a page with more than one table (e.g. Time).
-   position: sticky top: 0 is the same trick .sidebar uses to stay
-   pinned to the viewport — this stays visible the whole time you
-   scroll, since every table below starts collapsed and this is the
-   fastest way back to one of them. Own opaque background so content
-   scrolling underneath doesn't show through once it's stuck. */
+/* Wraps the display toggles and the table quick-jump nav into one
+   persistent strip beneath the page title, instead of controls that
+   scroll out of reach after the first screen. position: sticky top: 0
+   is the same trick .sidebar uses to stay pinned to the viewport — own
+   opaque background so content scrolling underneath doesn't show
+   through once it's stuck. One rule, reused as-is on every lesson page
+   (same two children, same markup) rather than each page styling its
+   own toolbar. */
 
-.table-nav {
+.page-toolbar {
     position: sticky;
     top: 0;
-    z-index: 5;
-
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-
-    margin: 0 0 28px;
-    padding: 14px 0;
+    z-index: 6;
 
     background: var(--bg);
     border-bottom: 1px solid var(--border);
+
+    margin: 0 0 28px;
+}
+
+/* Reset the standalone spacing both children carry when used outside
+   the toolbar, and stack them as two rows separated by a hairline
+   instead of each keeping its own bottom margin/border. */
+.page-toolbar .display-toggles {
+    margin: 0;
+    padding: 14px 0 12px;
+}
+
+.page-toolbar .table-nav {
+    margin: 0;
+    padding: 12px 0 14px;
+    border-top: 1px solid var(--border);
+}
+
+/*-----------------------------------------------*/
+/* TABLE NAV (multi-table pages) */
+/*-----------------------------------------------*/
+/* Quick-jump bar for a page with more than one table (e.g. Time). Lives
+   inside .page-toolbar above, which handles the sticky/background
+   behavior — this is just the row of links now. */
+
+.table-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .table-nav a {
@@ -1116,6 +1148,17 @@ tr.irregular .type::before {
     font-weight: 600;
 }
 
+/* Marks the word/pattern a lesson is actually teaching (これ/それ/あれ/
+   この/その/あの for Demonstratives), in examples, patterns and
+   dialogues — never in a reference table, where the whole row already
+   is the word. Same mechanic as .particle (color + weight, applied to
+   Japanese and romaji alike) but its own hue, so the two highlights
+   stay visually distinct wherever they appear together. */
+.grammar-point {
+    color: var(--grammar-point);
+    font-weight: 600;
+}
+
 /* Marks a single hiragana inside an otherwise-plain vocabulary word —
    Hiragana's Vocabulary Reference tables use this when the example
    word doesn't start with the target character but contains it
@@ -1223,6 +1266,19 @@ tr.irregular .type::before {
     font-size: 1rem;
     font-weight: 700;
     letter-spacing: -0.01em;
+}
+
+/* One-line sentence-shape label above a Pattern card's worked example
+   (e.g. "これ／それ／あれ + は + Noun + です") — structural labeling
+   like a table header, not Japanese sentence content, so it stays
+   visible even with every display toggle off. */
+.pattern-formula {
+    margin: -8px 0 14px;
+
+    color: var(--muted);
+    font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
 }
 
 .dialogue-messages {
@@ -1566,6 +1622,30 @@ td.kana-cell.search-dim {
 
     color: var(--muted);
     font-size: 0.88rem;
+}
+
+/* Small uppercase label marking an internal subsection of a toggle-
+   section that mixes more than one kind of content (e.g. Patterns
+   above the worked Q&A examples in Questions & Answers) — same visual
+   treatment as .grammar-note h3 and .kana-subsection h3, generic
+   enough to reuse anywhere a details needs a label without a full h2
+   section of its own. */
+.subsection-label {
+    margin: 0 0 16px;
+
+    color: var(--heading-accent);
+
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.subsection-label:not(:first-child) {
+    margin-top: 32px;
+    padding-top: 28px;
+
+    border-top: 1px solid var(--border);
 }
 
 /*-----------------------------------------------*/
@@ -2021,8 +2101,7 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
     .sidebar,
     .sidebar-search,
     .page-search,
-    .table-nav,
-    .display-toggles,
+    .page-toolbar,
     .lesson-nav {
         display: none !important;
     }
@@ -2109,8 +2188,10 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
     }
 
     /* Same ink-efficient treatment as irregular rows above: on paper,
-       particles read from weight, not color ink. */
-    .particle {
+       particles and the lesson's own grammar point both read from
+       weight, not color ink. */
+    .particle,
+    .grammar-point {
         color: #000;
         font-weight: 700;
     }
@@ -2132,6 +2213,7 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
     .page h2,
     .grammar-note h3,
     .kana-subsection h3,
+    .subsection-label,
     .kana-highlight {
         color: #000;
     }

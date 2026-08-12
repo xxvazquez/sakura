@@ -534,6 +534,27 @@ function initGlobalSearch() {
         return row.entry.text;
     };
 
+    // boundaryScore (below) needs the actual string that contains the
+    // match — NOT necessarily the same string locatorFor returns. A
+    // macron-folded/expanded romaji hit (お母さん's "okāsan" matching
+    // query "ka" only via its folded form "okasan") means the raw
+    // display field ("okāsan") never literally contains "ka" at all —
+    // indexOf against it returns -1, and boundaryScore's "not found"
+    // fallback silently scores that as a perfect (0) boundary instead
+    // of the mid-word match it actually is. That let a coincidental
+    // substring hit like お母さん outrank real word-boundary matches
+    // (です**か**) for a query like "ka". Always score against the
+    // pre-lowercased field variant that was actually searched.
+    const matchedFieldFor = (row, q) => {
+        if (row.jp.includes(q)) return row.jp;
+        if (row.reading.includes(q)) return row.reading;
+        if (row.romaji.includes(q)) return row.romaji;
+        if (row.romajiFolded.includes(q)) return row.romajiFolded;
+        if (row.romajiExpanded.includes(q)) return row.romajiExpanded;
+        if (row.en.includes(q)) return row.en;
+        return row.text;
+    };
+
     // A row's full text can run well past what two lines of a result
     // fits — clamping to the first two lines regardless of where the
     // match falls means a hit later in the text (e.g. inside the
@@ -775,6 +796,12 @@ function initGlobalSearch() {
     };
 
     const render = (query) => {
+        // A fresh search makes any highlight still sitting on this page
+        // from an earlier search-result visit stale — see PERSISTENT
+        // HIGHLIGHT STATE below for why that highlight no longer clears
+        // itself on a timer.
+        clearActiveHighlight();
+
         const minLength =
             hasJapanese(query) || SINGLE_LETTER_PARTICLES.has(query.toLowerCase()) ? 1 : 2;
         if (query.length < minLength) {
@@ -791,7 +818,7 @@ function initGlobalSearch() {
             if (!row.haystack.includes(lowerQuery)) continue;
             const tier = classify(row, lowerQuery);
             const locator = locatorFor(row, lowerQuery);
-            const boundary = boundaryScore(locator, lowerQuery);
+            const boundary = boundaryScore(matchedFieldFor(row, lowerQuery), lowerQuery);
             tiered.push({ row, tier, locator, boundary });
             if (tiered.length >= MAX_CONSIDERED) break;
         }
@@ -1002,7 +1029,8 @@ function initSearchHighlight() {
     }
 
     if (hit) {
-        markMatch(hit, query, reduceMotion);
+        markMatch(hit, query);
+        bindHighlightDismissal();
     }
 
     // Strip ?q=/?m= so refreshing or bookmarking the page doesn't
@@ -1010,28 +1038,66 @@ function initSearchHighlight() {
     history.replaceState(null, "", location.pathname + location.hash);
 }
 
-// Both the <mark> path and the whole-element fallback below hold the
-// highlight, then fade it, on the same clock — HOLD is the "long enough
-// to register, short enough not to become page furniture" delay, FADE
-// matches the 0.3s background-color transition .search-mark and
-// .search-highlight-fallback declare in style.css, so the cleanup only
-// runs once the fade has actually finished.
-const HIGHLIGHT_HOLD_MS = 4500;
-const HIGHLIGHT_FADE_MS = 300;
+// --------------------------------------------------
+// PERSISTENT HIGHLIGHT STATE
+// --------------------------------------------------
+// A search result lands you somewhere in a long, mostly-collapsed page
+// — losing the highlight to a fixed timer (the old ~4.5s auto-fade)
+// meant the one visual cue for "this is what matched" could disappear
+// before you'd even finished reading the surrounding row, especially
+// after a `smooth` scrollIntoView eats part of that budget. The
+// highlight now stays until you deliberately move on: click anywhere,
+// press Escape, or start a fresh search — never on a clock.
+//
+// Only one highlight is ever tracked at a time (this is a single-page,
+// non-SPA site — a fresh page load already clears everything by
+// construction), so a plain module-level slot is enough; no need for a
+// list.
+let activeHighlight = null; // { unwrap: () => void } | null
+
+function clearActiveHighlight() {
+    if (!activeHighlight) return;
+    const { unwrap } = activeHighlight;
+    activeHighlight = null;
+    unwrap();
+}
+
+let highlightDismissalBound = false;
+function bindHighlightDismissal() {
+    if (highlightDismissalBound) return;
+    highlightDismissalBound = true;
+
+    // Any click is "the user moved on," including a click that lands
+    // back inside the highlighted text itself — there's no partial
+    // state to preserve, so there's no reason to special-case that.
+    document.addEventListener("click", () => clearActiveHighlight());
+
+    // Keyboard-only parity for the same "dismiss and move on" action a
+    // click provides — without this, a keyboard user has no way to
+    // clear the highlight short of navigating away entirely.
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") clearActiveHighlight();
+    });
+}
 
 // Wraps the first occurrence of `query` inside `root` in a
 // <mark class="search-mark"> — the exact same class the results
 // dropdown uses, so a match looks identical whether you're still
-// reading the list or have already landed on the page. Fades out
-// automatically after ~4.5s: long enough to register without lingering
-// as page furniture once you've read it.
+// reading the list or have already landed on the page. Stays until
+// clearActiveHighlight runs (see PERSISTENT HIGHLIGHT STATE above),
+// never on its own timer.
 //
 // A TreeWalker only ever sees whole text nodes, so this can only
 // highlight a match that falls entirely within one (true of virtually
 // every case here, since ruby/particle spans keep related text inside
 // a single node) — a match straddling a tag boundary falls back to
 // tinting the whole element instead of not highlighting anything.
-function markMatch(root, query, reduceMotion) {
+function markMatch(root, query) {
+    // Guarantees only one highlight ever exists at a time, even if
+    // something on the page manages to call this twice in one load —
+    // stale <mark>s never accumulate.
+    clearActiveHighlight();
+
     const lowerQuery = query.toLowerCase();
     const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
     let node;
@@ -1047,37 +1113,21 @@ function markMatch(root, query, reduceMotion) {
         mark.className = "search-mark";
         range.surroundContents(mark);
 
-        fadeThenUnwrap(mark, reduceMotion);
+        activeHighlight = {
+            unwrap: () => {
+                const parent = mark.parentNode;
+                if (!parent) return;
+                parent.replaceChild(document.createTextNode(mark.textContent), mark);
+                parent.normalize();
+            },
+        };
         return;
     }
 
     // No single text node held the whole query — tint the element
     // instead of highlighting nothing.
     root.classList.add("search-highlight-fallback");
-    if (reduceMotion) {
-        setTimeout(() => root.classList.remove("search-highlight-fallback"), HIGHLIGHT_HOLD_MS);
-    } else {
-        setTimeout(() => root.classList.add("search-mark--fade"), HIGHLIGHT_HOLD_MS);
-        setTimeout(
-            () => root.classList.remove("search-highlight-fallback", "search-mark--fade"),
-            HIGHLIGHT_HOLD_MS + HIGHLIGHT_FADE_MS
-        );
-    }
-}
-
-function fadeThenUnwrap(mark, reduceMotion) {
-    const unwrap = () => {
-        const parent = mark.parentNode;
-        if (!parent) return;
-        parent.replaceChild(document.createTextNode(mark.textContent), mark);
-        parent.normalize();
+    activeHighlight = {
+        unwrap: () => root.classList.remove("search-highlight-fallback"),
     };
-
-    if (reduceMotion) {
-        setTimeout(unwrap, HIGHLIGHT_HOLD_MS);
-        return;
-    }
-
-    setTimeout(() => mark.classList.add("search-mark--fade"), HIGHLIGHT_HOLD_MS);
-    setTimeout(unwrap, HIGHLIGHT_HOLD_MS + HIGHLIGHT_FADE_MS);
 }

@@ -11,17 +11,36 @@
 /*-----------------------------------------------*/
 
 :root {
-    --bg: #ffffff;
-    --text: #111827;
-    --muted: #6b7280;
-    --border: #ececec;
-    --accent: #111827;
-    --hover: #f8f8f8;
+    /* Warm paper, not sterile screen-white — the page itself reads as a
+       cream/ivory background (--bg); every card, table and toolbar
+       sits on a --surface just a shade lighter/whiter than that, so
+       content reads as paper laid on a desk rather than everything
+       being one flat white plane. Text is warm near-black rather than
+       cool slate, to match. */
+    --bg: #fbf7f3;
+    --surface: #fffdfb;
+    --text: #2a2420;
+    --muted: #6f6259;
+    --border: #e8e0d8;
+    --accent: #2a2420;
+    --hover: #f4ede6;
 
     /* Still red on purpose — the one color kept outside the pink family
        below, so "irregular" / "incorrect" always reads as a warning
        rather than blending into the site's own accent colors. */
     --red: #b85c5c;
+
+    /* The one non-pink, non-red functional color: a muted moss/sage
+       reserved for Grammar Notes specifically, so "this block is an
+       explanation" is visible at a glance and distinct from "this is
+       reference material" (pink) without adding a fourth hue anywhere
+       else. Section headings (h2) stay pink everywhere, including the
+       Grammar section's own — this only touches the individual
+       .grammar-note blocks inside it, so the section-level pattern
+       stays identical across every lesson page. */
+    --sage: #6b7a5e;
+    --sage-soft: #f3f5ee;
+    --sage-border: #dde3d0;
 
     /* Sakura is a pink site: every accent below is a distinct shade of
        pink/rose rather than a separate hue per meaning (no blue, no
@@ -71,7 +90,7 @@
     /* Minimal inline SVG magnifier, reused by every search input so the
        affordance reads as one deliberate pattern rather than a plugin
        default. Colour matches --muted. */
-    --icon-search: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+    --icon-search: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236f6259' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
 }
 
 /*-----------------------------------------------*/
@@ -230,7 +249,7 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 }
 
 .sidebar::-webkit-scrollbar-thumb:hover {
-    background-color: #d1d5db;
+    background-color: #d6c9bb;
 }
 
 .sidebar-brand {
@@ -249,7 +268,7 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 }
 
 .sidebar-brand:hover {
-    color: #000;
+    color: #1c1712;
 }
 
 .sidebar-brand img {
@@ -276,7 +295,7 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
     border: 1px solid var(--border);
     border-radius: 8px;
 
-    background-color: var(--bg);
+    background-color: var(--surface);
     background-image: var(--icon-search);
     background-repeat: no-repeat;
     background-position: 11px center;
@@ -296,8 +315,8 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 .sidebar-search input:focus {
     outline: none;
 
-    border-color: #d1d5db;
-    box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.05);
+    border-color: #d6c9bb;
+    box-shadow: 0 0 0 3px rgba(42, 36, 32, 0.05);
 }
 
 /* Documentation-style results dropdown, floated below the search box
@@ -322,10 +341,10 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
     flex-direction: column;
     gap: 4px;
 
-    background: var(--bg);
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 10px;
-    box-shadow: 0 8px 24px rgba(17, 24, 39, 0.1);
+    box-shadow: 0 8px 24px rgba(42, 36, 32, 0.1);
 
     padding: 8px;
 }
@@ -634,6 +653,7 @@ h1 {
 }
 
 .category {
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
 
@@ -780,7 +800,7 @@ h1 {
     border: 1px solid var(--border);
     border-radius: 10px;
 
-    background-color: var(--bg);
+    background-color: var(--surface);
     background-image: var(--icon-search);
     background-repeat: no-repeat;
     background-position: 14px center;
@@ -799,8 +819,8 @@ h1 {
 .page-search input:focus {
     outline: none;
 
-    border-color: #d1d5db;
-    box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.05);
+    border-color: #d6c9bb;
+    box-shadow: 0 0 0 3px rgba(42, 36, 32, 0.05);
 }
 
 /*-----------------------------------------------*/
@@ -902,6 +922,7 @@ h1 {
 .toggle-section {
     margin-bottom: 24px;
 
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
 
@@ -971,6 +992,7 @@ h1 {
 table {
     width: 100%;
 
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
 
@@ -983,7 +1005,7 @@ thead th {
 
     text-align: left;
 
-    background: var(--bg);
+    background: var(--surface);
     color: var(--muted);
 
     font-size: 0.72rem;
@@ -994,8 +1016,11 @@ thead th {
     border-bottom: 1px solid var(--border);
 }
 
+/* A little taller than before — the old 7px vertical padding read as
+   dense/spreadsheet-like; a scannable reference table needs enough air
+   between rows that the eye can land on one at a time. */
 tbody td {
-    padding: 7px 18px;
+    padding: 11px 18px;
 
     vertical-align: middle;
 
@@ -1010,8 +1035,12 @@ tbody tr:last-child td {
     border-bottom: none;
 }
 
+/* Zebra striping reuses the same two paper tones the rest of the page
+   is built from (--surface for odd rows, the page's own --bg for
+   even) instead of a one-off gray, so a table reads as part of the
+   same system rather than its own component with its own palette. */
 tbody tr:nth-child(even) {
-    background: #fcfcfd;
+    background: var(--bg);
 }
 
 tbody tr:hover {
@@ -1114,14 +1143,20 @@ tr.irregular .type::before {
     baseline-source: last;
 }
 
+/* The Japanese word is the one thing in a reference row a beginner's
+   eye should land on first — full-strength text color (not a softened
+   gray, the way this used to read) plus a bumped weight, so it's
+   unambiguously the loudest of the four layers (Japanese > furigana >
+   romaji > English) instead of nearly tying with plain body text at a
+   glance. */
 .jp .kanji {
     order: 2;
     display: block;
 
-    color: #374151;
+    color: var(--text);
 
     font-size: 1.25rem;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1;
 }
 
@@ -1145,7 +1180,7 @@ tr.irregular .type::before {
 
     margin-bottom: 4px;
 
-    color: #9ca3af;
+    color: #a89b8e;
 
     font-size: 0.7rem;
     font-weight: 500;
@@ -1155,10 +1190,35 @@ tr.irregular .type::before {
 /*-----------------------------------------------*/
 /* ROMAJI */
 /*-----------------------------------------------*/
+/* Secondary tier: the reading aid you check once you've already looked
+   at the Japanese, not the thing you read first. Italic is what marks
+   it as "secondary" here rather than a second, lower-contrast gray —
+   two similar grays sitting a few pixels apart from Japanese/English
+   are hard to tell apart at a glance, and this site's own reader
+   already has trouble with dense, low-contrast interfaces. Same muted
+   color as English below, differentiated by style/size instead. */
 
 .romaji {
     color: var(--muted);
     font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    font-style: italic;
+}
+
+/*-----------------------------------------------*/
+/* ENGLISH */
+/*-----------------------------------------------*/
+/* Tertiary tier — supporting translation, read last. Previously had no
+   rule of its own at all, so it silently inherited full-strength body
+   text color: in a reference row it was reading as loud as a heading,
+   which flattened the whole Japanese > romaji > English hierarchy this
+   site is supposed to have. Same muted gray as romaji (see above,
+   same accessibility reasoning) but upright and a touch smaller, so
+   English is clearly the quietest of the three without dropping
+   contrast low enough to become hard to read. */
+
+td.english {
+    color: var(--muted);
+    font-size: 0.94em;
 }
 
 /*-----------------------------------------------*/
@@ -1222,19 +1282,20 @@ tr.irregular .type::before {
 
     color: var(--text);
     font-size: 0.95rem;
+    font-weight: 600;
 }
 
 .notes .example-jp rt {
     font-size: 0.55em;
     font-weight: 400;
-    color: #9ca3af;
+    color: #a89b8e;
 }
 
 .notes .example {
     display: inline-block;
     margin-top: 3px;
 
-    color: var(--text);
+    color: var(--muted);
     font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
     font-style: italic;
 }
@@ -1285,7 +1346,7 @@ tr.irregular .type::before {
     border: 1px solid var(--border);
     border-radius: var(--radius);
 
-    background: var(--bg);
+    background: var(--surface);
 }
 
 .dialogue-title {
@@ -1318,7 +1379,7 @@ tr.irregular .type::before {
 
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    background: var(--bg);
+    background: var(--surface);
 
     font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
     font-size: 0.85rem;
@@ -1424,6 +1485,7 @@ tr.irregular .type::before {
 
 .message-jp {
     font-size: 1.05rem;
+    font-weight: 600;
     color: var(--text);
 }
 
@@ -1431,11 +1493,16 @@ tr.irregular .type::before {
     color: var(--muted);
     font-family: system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
     font-size: 0.85rem;
+    font-style: italic;
 }
 
+/* Same hierarchy fix as td.english (see ENGLISH, style.css) — this
+   used to sit at full text color, same weight as the Japanese line
+   right above it, instead of reading as the supporting translation it
+   actually is. */
 .message-en {
-    color: var(--text);
-    font-size: 0.85rem;
+    color: var(--muted);
+    font-size: 0.82rem;
 }
 
 /*-----------------------------------------------*/
@@ -1446,11 +1513,20 @@ tr.irregular .type::before {
    Separated from the table by a hairline rule instead of its own
    bordered box — supplementary reading, not another primary block. */
 
+/* Left border in --sage rather than the site's pink — the one place
+   this palette adds a second functional hue. Section headings (h2)
+   stay pink everywhere including "Grammar" itself, so the page-level
+   pattern never changes lesson to lesson; this stripe just flags, at
+   the individual block level, "this is an explanation, not reference
+   material" — a beginner should be able to tell a grammar note from a
+   table row without reading either. */
 .grammar-note {
     margin-top: 24px;
+    padding: 2px 0 2px 16px;
     padding-top: 20px;
 
     border-top: 1px solid var(--border);
+    border-left: 3px solid var(--sage-border);
 }
 
 /* Grammar Notes can also be its own top-level section made of several
@@ -1459,17 +1535,19 @@ tr.irregular .type::before {
    very first one in that stack has nothing above it but the section
    heading, so the hairline rule that normally separates it from a
    table above would just be a stray line under the heading; drop it
-   only there, same pattern as .page h2:first-of-type. */
+   only there, same pattern as .page h2:first-of-type. The left border
+   stays even here — it's marking the block's own kind, not its
+   position in a stack. */
 .grammar-note:first-child {
     margin-top: 0;
-    padding-top: 0;
+    padding-top: 2px;
     border-top: none;
 }
 
 .grammar-note h3 {
     margin: 0 0 12px;
 
-    color: var(--heading-accent);
+    color: var(--sage);
 
     font-size: 0.72rem;
     font-weight: 700;
@@ -1582,7 +1660,7 @@ table.kana-grid th[scope="row"] {
 }
 
 table.kana-grid .kana-corner {
-    background: var(--bg);
+    background: var(--surface);
 }
 
 td.kana-cell {
@@ -1800,12 +1878,20 @@ td.kana-cell.search-dim {
     margin-bottom: 24px;
 }
 
+/* Styled as a small pill/chip rather than a bare checkbox + label, so
+   which layers are currently showing reads as a shape (four chips, lit
+   or not) instead of something you have to check each tiny box to
+   confirm. Same pink-tinted fill the rest of the site already uses for
+   "this is active/selected" (--heading-accent-soft), not a new color. */
 .display-toggles label {
     display: inline-flex;
     align-items: center;
     gap: 7px;
 
-    padding: 4px 2px;
+    padding: 6px 12px;
+
+    border: 1px solid var(--border);
+    border-radius: 999px;
 
     color: var(--muted);
     font-size: 0.82rem;
@@ -1813,13 +1899,20 @@ td.kana-cell.search-dim {
 
     cursor: pointer;
     user-select: none;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.display-toggles label:has(input:checked) {
+    background: var(--heading-accent-soft);
+    border-color: var(--heading-accent-border);
+    color: var(--text);
 }
 
 .display-toggles input[type="checkbox"] {
     width: 15px;
     height: 15px;
 
-    accent-color: var(--text);
+    accent-color: var(--grammar-point);
     cursor: pointer;
 }
 
@@ -1859,7 +1952,14 @@ body.hide-english .notes .example-en {
    horizontal padding only (no vertical padding, so a highlighted word
    never nudges its own line's height) — box-decoration-break keeps
    that same pill shape intact even if the match happens to wrap
-   across a line. */
+   across a line.
+
+   Persists until clearActiveHighlight (script.js) runs — a click
+   anywhere, Escape, or the start of a fresh search — never on a timer.
+   Losing this to a fixed-length fade meant the one visual cue for
+   "this is what you searched for" could disappear before you'd
+   finished reading it, especially on a long page landed on via a
+   smooth scroll. */
 
 .search-mark {
     background-color: #fef9c3;
@@ -1868,28 +1968,17 @@ body.hide-english .notes .example-en {
 
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
-
-    transition: background-color 0.3s ease-out;
-}
-
-/* Added ~4.5s after landing (see fadeThenUnwrap in script.js), then
-   the <mark> itself is unwrapped once the transition finishes — long
-   enough to catch the eye without lingering as permanent page
-   furniture once you've read it. */
-.search-mark--fade {
-    background-color: transparent;
 }
 
 /* Fallback for the rare match that can't be isolated to a single text
    node (see markMatch in script.js) — tints the whole row/card instead
-   of highlighting nothing. Same colour, same fade, just applied to a
-   bigger box. tbody tr.search-highlight-fallback outranks
+   of highlighting nothing. Same colour, same persistence rule as
+   .search-mark above. tbody tr.search-highlight-fallback outranks
    tbody tr:nth-child(even)'s zebra-stripe at equal specificity only
    because it's spelled out to match it, not by source order alone. */
 .search-highlight-fallback,
 tbody tr.search-highlight-fallback {
     background-color: #fef9c3;
-    transition: background-color 0.3s ease-out;
 }
 
 /*-----------------------------------------------*/
@@ -2129,7 +2218,7 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
     .menu-letter-btn:hover,
     .menu-letter-btn[aria-expanded="true"] {
         background: var(--hover);
-        border-color: #d1d5db;
+        border-color: #d6c9bb;
     }
 
     /* Current page's letter stays visibly marked even while its
@@ -2143,8 +2232,8 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
 
     .menu-letter-btn.active:hover,
     .menu-letter-btn.active[aria-expanded="true"] {
-        background: #000;
-        border-color: #000;
+        background: #1c1712;
+        border-color: #1c1712;
     }
 
     /* Hidden via opacity/visibility rather than [hidden]/display so the
@@ -2162,10 +2251,10 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
 
         padding: 6px;
 
-        background: var(--bg);
+        background: var(--surface);
         border: 1px solid var(--border);
         border-radius: 10px;
-        box-shadow: 0 10px 28px rgba(17, 24, 39, 0.12);
+        box-shadow: 0 10px 28px rgba(42, 36, 32, 0.12);
 
         visibility: hidden;
         opacity: 0;
@@ -2372,9 +2461,9 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
     }
 
     /* Same furigana treatment wherever it appears, not just in a table
-       cell — .notes' own examples carry ruby too, and at #9ca3af they
-       print noticeably fainter than the identical readings in the
-       column beside them. */
+       cell — .notes' own examples carry ruby too, and at their pale
+       on-screen gray they print noticeably fainter than the identical
+       readings in the column beside them. */
     .jp rt,
     .notes .example-jp rt {
         color: #555;

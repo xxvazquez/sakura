@@ -568,7 +568,7 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 h1 {
     margin-bottom: 6px;
 
-    font-size: 2.3rem;
+    font-size: 1.7rem;
     font-weight: 700;
     letter-spacing: -0.03em;
 }
@@ -813,11 +813,16 @@ h1 {
    opaque background so content scrolling underneath doesn't show
    through once it's stuck. One rule, reused as-is on every lesson page
    (same two children, same markup) rather than each page styling its
-   own toolbar. */
+   own toolbar. top uses --topbar-h (set by initStickyOffset,
+   script.js) instead of a bare 0 — below the 900px breakpoint .sidebar
+   becomes a horizontal bar stacked above .content rather than a side
+   column, and without this offset the toolbar's own sticky point would
+   land underneath/behind it instead of below it. Above 900px the var
+   is unset and falls back to the literal 0px. */
 
 .page-toolbar {
     position: sticky;
-    top: 0;
+    top: var(--topbar-h, 0px);
     z-index: 6;
 
     background: var(--bg);
@@ -826,9 +831,22 @@ h1 {
     margin: 0 0 28px;
 }
 
-/* Reset the standalone spacing both children carry when used outside
-   the toolbar, and stack them as two rows separated by a hairline
-   instead of each keeping its own bottom margin/border. */
+/* Reset the standalone spacing these children carry when used outside
+   the toolbar, and stack them as rows separated by a hairline instead
+   of each keeping its own bottom margin/border. .page-search is
+   optional — only Hiragana nests it here (see hiragana.html); other
+   lesson pages keep it standalone above the toolbar and never match
+   this selector. */
+.page-toolbar .page-search {
+    margin: 0;
+    padding: 14px 0 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.page-toolbar .page-search input {
+    width: 100%;
+}
+
 .page-toolbar .display-toggles {
     margin: 0;
     padding: 14px 0 12px;
@@ -854,7 +872,7 @@ h1 {
 }
 
 .table-nav a {
-    padding: 9px 16px;
+    padding: 7px 13px;
 
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -862,7 +880,7 @@ h1 {
     color: var(--text);
     text-decoration: none;
 
-    font-size: 0.82rem;
+    font-size: 0.76rem;
     font-weight: 600;
 
     transition: 0.15s;
@@ -1053,6 +1071,19 @@ tr.irregular .type::before {
 .jp {
     width: 170px;
     text-align: left;
+}
+
+/* Long Vowels' Example column sits at 170px same as every other .jp
+   cell, but three of its five words (お母さん, おじいさん, 東京/先生
+   are 2 chars but お母さん/おじいさん run 4-5) are wide enough to wrap
+   there — a wrapped row reads as visibly "bigger" than a one-line row
+   even though the font-size is identical, since row height and the
+   proportion of the cell the word fills both jump. Keeping every
+   example on one line (the table already scrolls horizontally via
+   .toggle-body if a phone-width column gets tight) makes all five rows
+   read as the same scale instead of some looking blown up. */
+#long-vowels .jp .kanji {
+    white-space: nowrap;
 }
 
 /* Reading stacked above the base and left-aligned with it, via a
@@ -1469,6 +1500,14 @@ tr.irregular .type::before {
     margin-top: 10px;
 }
 
+/* Hiragana's ん/を notes sit directly under a full-width kana grid, so
+   the .notes 320px cap (sized for a table cell) makes them look cut
+   off short of the grid's own width — let them use the full column
+   width instead, same reasoning as .dialogue-card .notes above. */
+#basic-hiragana .grammar-note .notes {
+    max-width: none;
+}
+
 .dialogue-card .notes {
     max-width: none;
 }
@@ -1521,13 +1560,14 @@ table.kana-grid th[scope="col"] {
     width: 66px;
     padding: 10px 4px;
 
-    background: var(--bg);
-    color: var(--muted);
+    background: var(--heading-accent-soft);
+    color: var(--heading-accent);
 
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-align: center;
+    text-transform: none;
 }
 
 table.kana-grid th[scope="row"] {
@@ -1714,7 +1754,7 @@ td.kana-cell.search-dim {
 
     background: var(--heading-accent-soft);
     border: 1px solid var(--heading-accent-border);
-    border-radius: 999px;
+    border-radius: var(--radius);
 }
 
 .compare-pill .compare-from,
@@ -1995,10 +2035,17 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
        of a tall left column it becomes one horizontal bar along the
        top — brand, search, and the page menu all flow left-to-right
        and wrap, so a phone gets a compact nav strip instead of a
-       full-height block pushing the actual content down. */
+       full-height block pushing the actual content down. Kept sticky
+       (rather than the old static bar) so the search box and lesson
+       menu stay reachable while scrolling a long page, same reasoning
+       as .page-toolbar below it — initStickyOffset (script.js) reads
+       this bar's own rendered height so .page-toolbar's sticky point
+       can sit right below it instead of underneath it. */
 
     .sidebar {
-        position: relative;
+        position: sticky;
+        top: 0;
+        z-index: 10;
 
         width: 100%;
         height: auto;

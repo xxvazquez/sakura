@@ -146,7 +146,7 @@
       <main class="content">
         <div class="page">
           <h1>Personal Pronouns</h1>
-          <p class="lesson-overview">📖 Learn the common N5 personal pronouns — <strong>私（わたし, watashi）</strong>, <strong>私たち（わたしたち, watashitachi）</strong>, <strong>あなた（anata）</strong>, <strong>彼（かれ, kare）</strong> and <strong>彼女（かのじょ, kanojo）</strong> — and the more natural ways Japanese speakers refer to people instead.</p>
+          <p class="lesson-overview">📖 Learn the common N5 personal pronouns — <strong><ruby>私<rt>わたし</rt></ruby> (watashi)</strong>, <strong><ruby>私たち<rt>わたしたち</rt></ruby> (watashitachi)</strong>, <strong>あなた (anata)</strong>, <strong><ruby>彼<rt>かれ</rt></ruby> (kare)</strong> and <strong><ruby>彼女<rt>かのじょ</rt></ruby> (kanojo)</strong> — and the more natural ways Japanese speakers refer to people instead.</p>
 
           <!-- ------------------------------------- -->
           <!-- PAGE SEARCH -->
@@ -199,134 +199,138 @@
 
             <nav class="table-nav" id="tableNav">
               <a href="#personal-pronouns">Personal Pronouns</a>
-              <a href="#referring-to-people">Common Ways to Refer to People</a>
+              <a href="#grammar">Grammar</a>
               <a href="#questions-answers">Questions &amp; Answers</a>
               <a href="#example-dialogue">Example Dialogue</a>
             </nav>
           </div>
 
           <!-- ------------------------------------- -->
-          <!-- PERSONAL PRONOUNS TABLE -->
+          <!-- PERSONAL PRONOUNS (+ REFERRING TO PEOPLE) -->
           <!-- ------------------------------------- -->
-          <!-- No data-default-order here on purpose, same reasoning as
-               Demonstratives' tables: script.js's initReferenceTables
-               falls back to authored order when the attribute is
-               absent, and this list is authored singular-first-person →
+          <!-- One core section with two labeled sub-tables (see
+               .table-subsection, style.css) instead of two unrelated
+               top-level sections — same template every multi-table
+               lesson page now follows. No data-default-order on either
+               table on purpose: script.js's initReferenceTables falls
+               back to authored order when the attribute is absent, and
+               the Pronouns list is authored singular-first-person →
                plural-first-person → second-person → third-person,
                which teaches better than an alphabetical-by-English
-               reshuffle (he/him, I/me, she/her, we/us, you) would. The
-               grammar note lives here rather than after the second
-               table, since it's about the pronouns themselves, not
-               about contrasting the two tables. -->
+               reshuffle (he/him, I/me, she/her, we/us, you) would. -->
 
           <details class="toggle-section" id="personal-pronouns">
             <summary><h2>📋 Personal Pronouns</h2></summary>
 
             <div class="toggle-body">
-              <table id="personalPronounsTable" class="ref-table">
-                <thead>
-                  <tr>
-                    <th>Japanese</th>
-                    <th class="col-romaji">Romaji</th>
-                    <th class="col-english">English</th>
-                  </tr>
-                </thead>
 
-                <tbody>
-                  <tr>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">私</span><rt>わたし</rt></ruby>
-                    </td>
-                    <td class="romaji">watashi</td>
-                    <td class="english">I / me</td>
-                  </tr>
-                  <tr>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">私たち</span><rt>わたしたち</rt></ruby>
-                    </td>
-                    <td class="romaji">watashitachi</td>
-                    <td class="english">we / us</td>
-                  </tr>
-                  <tr>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">あなた</span><rt>&nbsp;</rt></ruby>
-                    </td>
-                    <td class="romaji">anata</td>
-                    <td class="english">you</td>
-                  </tr>
-                  <tr>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">彼</span><rt>かれ</rt></ruby>
-                    </td>
-                    <td class="romaji">kare</td>
-                    <td class="english">he / him</td>
-                  </tr>
-                  <tr>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">彼女</span><rt>かのじょ</rt></ruby>
-                    </td>
-                    <td class="romaji">kanojo</td>
-                    <td class="english">she / her</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="table-subsection" id="pronouns-table">
+                <h3>Pronouns</h3>
+                <table id="personalPronounsTable" class="ref-table">
+                  <thead>
+                    <tr>
+                      <th>Japanese</th>
+                      <th class="col-romaji">Romaji</th>
+                      <th class="col-english">English</th>
+                    </tr>
+                  </thead>
 
-              <!-- ------------------------------------- -->
-              <!-- GRAMMAR NOTE -->
-              <!-- ------------------------------------- -->
-
-              <div class="grammar-note">
-                <h3>🧩 Grammar Note</h3>
-                <ul>
-                  <li>あなた (anata) is used far less than "you" is in English — a name + さん (~san), a title, or dropping the subject entirely is usually more natural. See Common Ways to Refer to People below.</li>
-                  <li>The subject (私, あなた, 彼…) is often left out once it's already clear from context — Japanese doesn't need to restate "I" or "you" in every sentence the way English does.</li>
-                  <li>～たち (~tachi) makes a pronoun or name plural: 私たち (watashitachi) is "we," and <ruby lang="ja">田中<rt>たなか</rt></ruby>さんたち (Tanaka-san-tachi) means "Tanaka and the others."</li>
-                </ul>
+                  <tbody>
+                    <tr>
+                      <td class="jp" lang="ja">
+                        <ruby><span class="kanji">私</span><rt>わたし</rt></ruby>
+                      </td>
+                      <td class="romaji">watashi</td>
+                      <td class="english">I / me</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja">
+                        <ruby><span class="kanji">私たち</span><rt>わたしたち</rt></ruby>
+                      </td>
+                      <td class="romaji">watashitachi</td>
+                      <td class="english">we / us</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja">
+                        <ruby><span class="kanji kana-only">あなた</span><rt>&nbsp;</rt></ruby>
+                      </td>
+                      <td class="romaji">anata</td>
+                      <td class="english">you</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja">
+                        <ruby><span class="kanji">彼</span><rt>かれ</rt></ruby>
+                      </td>
+                      <td class="romaji">kare</td>
+                      <td class="english">he / him</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja">
+                        <ruby><span class="kanji">彼女</span><rt>かのじょ</rt></ruby>
+                      </td>
+                      <td class="romaji">kanojo</td>
+                      <td class="english">she / her</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
+
+              <div class="table-subsection" id="referring-to-people">
+                <h3>Common Ways to Refer to People</h3>
+                <table id="referringToPeopleTable" class="ref-table">
+                  <thead>
+                    <tr>
+                      <th>Japanese</th>
+                      <th class="col-romaji">Romaji</th>
+                      <th class="col-english">English</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td class="jp" lang="ja">
+                        <ruby><span class="kanji kana-only">～さん</span><rt>&nbsp;</rt></ruby>
+                      </td>
+                      <td class="romaji">~san</td>
+                      <td class="english">Mr. / Ms. ~</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja">
+                        <ruby><span class="kanji">先生</span><rt>せんせい</rt></ruby>
+                      </td>
+                      <td class="romaji">sensei</td>
+                      <td class="english">teacher</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja">
+                        <ruby><span class="kanji">お名前</span><rt>おなまえ</rt></ruby>
+                      </td>
+                      <td class="romaji">onamae</td>
+                      <td class="english">name (polite)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
             </div>
           </details>
 
           <!-- ------------------------------------- -->
-          <!-- COMMON WAYS TO REFER TO PEOPLE TABLE -->
+          <!-- GRAMMAR -->
           <!-- ------------------------------------- -->
 
-          <details class="toggle-section" id="referring-to-people">
-            <summary><h2>📋 Common Ways to Refer to People</h2></summary>
+          <details class="toggle-section" id="grammar">
+            <summary><h2>🧩 Grammar</h2></summary>
 
             <div class="toggle-body">
-              <table id="referringToPeopleTable" class="ref-table">
-                <thead>
-                  <tr>
-                    <th>Japanese</th>
-                    <th class="col-romaji">Romaji</th>
-                    <th class="col-english">English</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <tr>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">～さん</span><rt>&nbsp;</rt></ruby>
-                    </td>
-                    <td class="romaji">~san</td>
-                    <td class="english">Mr. / Ms. ~</td>
-                  </tr>
-                  <tr>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">先生</span><rt>せんせい</rt></ruby>
-                    </td>
-                    <td class="romaji">sensei</td>
-                    <td class="english">teacher</td>
-                  </tr>
-                  <tr>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji">お名前</span><rt>おなまえ</rt></ruby>
-                    </td>
-                    <td class="romaji">onamae</td>
-                    <td class="english">name (polite)</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="grammar-note">
+                <h3>🧩 Using Pronouns Naturally</h3>
+                <ul>
+                  <li>あなた (anata) is used far less than "you" is in English — a name + さん (~san), a title, or dropping the subject entirely is usually more natural. See Common Ways to Refer to People above.</li>
+                  <li>The subject (<ruby lang="ja">私<rt>わたし</rt></ruby>, あなた, <ruby lang="ja">彼<rt>かれ</rt></ruby>…) is often left out once it's already clear from context — Japanese doesn't need to restate "I" or "you" in every sentence the way English does.</li>
+                  <li>～たち (~tachi) makes a pronoun or name plural: <ruby lang="ja">私たち<rt>わたしたち</rt></ruby> (watashitachi) is "we," and <ruby lang="ja">田中<rt>たなか</rt></ruby>さんたち (Tanaka-san-tachi) means "Tanaka and the others."</li>
+                </ul>
+              </div>
             </div>
           </details>
 

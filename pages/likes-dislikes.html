@@ -202,15 +202,15 @@
                  section is added, renamed, or reordered. -->
 
             <nav class="table-nav" id="tableNav">
-              <a href="#core-patterns">Core Patterns</a>
+              <a href="#patterns">Patterns</a>
+              <a href="#grammar">Grammar</a>
               <a href="#questions-answers">Questions &amp; Answers</a>
-              <a href="#grammar-notes">Grammar Notes</a>
               <a href="#example-dialogue">Example Dialogue</a>
             </nav>
           </div>
 
           <!-- ------------------------------------- -->
-          <!-- CORE PATTERNS -->
+          <!-- PATTERNS -->
           <!-- ------------------------------------- -->
           <!-- Four model sentences (not a table — this page has nothing
                that's genuinely tabular data), each reusing the same
@@ -222,10 +222,14 @@
                .example/.example-en classes — the exact styling already
                built for a table cell's usage example — just without
                the max-width cap that made sense for a narrow column
-               (see .dialogue-card .notes in style.css). -->
+               (see .dialogue-card .notes in style.css). This page has
+               no core vocabulary table, so Patterns is its first
+               section — same Core → Patterns → Grammar → Q&A → Dialogue
+               template every lesson page follows, just starting one
+               slot in since there's no Core here. -->
 
-          <details class="toggle-section" id="core-patterns">
-            <summary><h2>📋 Core Patterns</h2></summary>
+          <details class="toggle-section" id="patterns">
+            <summary><h2>📋 Patterns</h2></summary>
 
             <div class="toggle-body">
               <div class="dialogue-grid">
@@ -267,21 +271,129 @@
                 </article>
 
               </div>
+            </div>
+          </details>
 
-              <!-- ------------------------------------- -->
-              <!-- NOTE -->
-              <!-- ------------------------------------- -->
-              <!-- Named "Note" rather than "Grammar Note" specifically
-                   to avoid sitting right next to the page's own
-                   "Grammar Notes" section further down with near-
-                   identical text. -->
+          <!-- ------------------------------------- -->
+          <!-- GRAMMAR -->
+          <!-- ------------------------------------- -->
+          <!-- Six .grammar-note blocks stacked in one section instead of
+               scattered across the page (the kirai/suki janai note used
+               to sit inside Patterns) — every grammar-note on the page
+               now lives in this one place, same rule every lesson page
+               follows. The first note's leading hairline rule is
+               suppressed by .grammar-note:first-child (style.css) since
+               there's nothing above it but the section heading. -->
+
+          <details class="toggle-section" id="grammar">
+            <summary><h2>🧩 Grammar</h2></summary>
+
+            <div class="toggle-body">
 
               <div class="grammar-note">
-                <h3>Note</h3>
+                <h3>⚠️ <ruby>嫌<rt>きら</rt></ruby>い vs <ruby>好<rt>す</rt></ruby>きじゃない</h3>
                 <ul>
-                  <li><ruby>嫌<rt>きら</rt></ruby>い (kirai) is grammatically correct, but stronger than <ruby>好<rt>す</rt></ruby>きじゃない (suki janai) — beginners will hear and use 好きじゃない more often.</li>
+                  <li><ruby>嫌<rt>きら</rt></ruby>い (kirai) is grammatically correct, but stronger than <ruby>好<rt>す</rt></ruby>きじゃない (suki janai) — beginners will hear and use <ruby>好<rt>す</rt></ruby>きじゃない more often.</li>
                 </ul>
               </div>
+
+              <div class="grammar-note">
+                <h3><ruby>好<rt>す</rt></ruby>き (suki)</h3>
+                <ul>
+                  <li><ruby>好<rt>す</rt></ruby>き is a な-adjective (na-adjective), not a verb — it describes the thing liked rather than an action.</li>
+                  <li>Because it's an adjective, the thing that is liked is normally marked with が (ga), not を.</li>
+                </ul>
+              </div>
+
+              <div class="grammar-note">
+                <h3>が (ga) vs は (wa)</h3>
+                <ul>
+                  <li>Japanese commonly switches from が to は in negative sentences, to draw a contrast with what isn't liked.</li>
+                </ul>
+                <p class="notes">
+                  Positive:<br>
+                  <span class="example-jp" lang="ja">ラーメン<span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです。</span><br>
+                  <span class="example">Rāmen <span class="particle">ga</span> suki desu.</span><br>
+                  <span class="example-en">I like ramen.</span>
+                </p>
+                <p class="notes">
+                  Negative:<br>
+                  <span class="example-jp" lang="ja">ラーメン<span class="particle">は</span><ruby>好<rt>す</rt></ruby>きじゃないです。</span><br>
+                  <span class="example">Rāmen <span class="particle">wa</span> suki janai desu.</span><br>
+                  <span class="example-en">I don't like ramen.</span>
+                </p>
+              </div>
+
+              <div class="grammar-note">
+                <h3>Using の (no)</h3>
+                <ul>
+                  <li>の links a general category to a more specific subtype — similar to "'s" or "of" in English.</li>
+                </ul>
+                <p class="notes">
+                  <span class="example-jp" lang="ja">えび<span class="particle">の</span>すし</span><br>
+                  <span class="example">ebi <span class="particle">no</span> sushi</span><br>
+                  <span class="example-en">shrimp sushi</span>
+                </p>
+                <p class="notes">
+                  <span class="example-jp" lang="ja"><ruby>日本<rt>にほん</rt></ruby><span class="particle">の</span><ruby>料理<rt>りょうり</rt></ruby></span><br>
+                  <span class="example">Nihon <span class="particle">no</span> ryōri</span><br>
+                  <span class="example-en">Japanese food</span>
+                </p>
+                <p class="notes">
+                  <span class="example-jp" lang="ja">チョコレート<span class="particle">の</span>ケーキ</span><br>
+                  <span class="example">chokorēto <span class="particle">no</span> kēki</span><br>
+                  <span class="example-en">chocolate cake</span>
+                </p>
+              </div>
+
+              <div class="grammar-note">
+                <h3>Using も (mo)</h3>
+                <ul>
+                  <li>も replaces が or は when adding something to a list of things already liked.</li>
+                </ul>
+                <p class="notes">
+                  <span class="example-jp" lang="ja"><ruby>私<rt>わたし</rt></ruby><span class="particle">は</span>ラーメン<span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです。</span><br>
+                  <span class="example">Watashi <span class="particle">wa</span> rāmen <span class="particle">ga</span> suki desu.</span><br>
+                  <span class="example-en">I like ramen.</span>
+                </p>
+                <p class="notes">
+                  <span class="example-jp" lang="ja">ピザ<span class="particle">も</span><ruby>好<rt>す</rt></ruby>きです。</span><br>
+                  <span class="example">Piza <span class="particle">mo</span> suki desu.</span><br>
+                  <span class="example-en">I like pizza too.</span>
+                </p>
+              </div>
+
+              <div class="grammar-note">
+                <h3>⚠️ Common Mistake</h3>
+                <ul>
+                  <li>Don't add の between two nouns that already mean the same thing.</li>
+                </ul>
+                <p class="notes">
+                  Correct:<br>
+                  <span class="example-jp" lang="ja">ケチャップ<span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです。</span><br>
+                  <span class="example">Kechappu <span class="particle">ga</span> suki desu.</span><br>
+                  <span class="example-en">I like ketchup.</span>
+                </p>
+                <p class="notes incorrect">
+                  Incorrect:<br>
+                  <span class="example-jp" lang="ja">✗ ケチャップ<span class="particle">の</span>ソース</span><br>
+                  <span class="example">kechappu <span class="particle">no</span> sōsu</span><br>
+                  <span class="example-en">"ketchup's sauce" — ケチャップ is already a sauce</span>
+                </p>
+                <p class="notes">
+                  Correct:<br>
+                  <span class="example-jp" lang="ja">みそ<ruby>汁<rt>しる</rt></ruby><span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです。</span><br>
+                  <span class="example">Misoshiru <span class="particle">ga</span> suki desu.</span><br>
+                  <span class="example-en">I like miso soup.</span>
+                </p>
+                <p class="notes incorrect">
+                  Incorrect:<br>
+                  <span class="example-jp" lang="ja">✗ みそ<ruby>汁<rt>しる</rt></ruby><span class="particle">の</span>スープ</span><br>
+                  <span class="example">misoshiru <span class="particle">no</span> sūpu</span><br>
+                  <span class="example-en">"miso soup's soup" — みそ<ruby>汁<rt>しる</rt></ruby> already means "miso soup"</span>
+                </p>
+              </div>
+
             </div>
           </details>
 
@@ -384,122 +496,6 @@
                 </article>
 
               </div>
-            </div>
-          </details>
-
-          <!-- ------------------------------------- -->
-          <!-- GRAMMAR NOTES -->
-          <!-- ------------------------------------- -->
-          <!-- Five .grammar-note blocks stacked in its own section
-               instead of one attached to a table — same component,
-               repeated, since this lesson has more grammar ground to
-               cover than a single table+note pairing fits. The first
-               note's leading hairline rule is suppressed by
-               .grammar-note:first-child (style.css) since there's
-               nothing above it but the section heading. -->
-
-          <details class="toggle-section" id="grammar-notes">
-            <summary><h2>🧩 Grammar Notes</h2></summary>
-
-            <div class="toggle-body">
-
-              <div class="grammar-note">
-                <h3><ruby>好<rt>す</rt></ruby>き (suki)</h3>
-                <ul>
-                  <li>好き is a な-adjective (na-adjective), not a verb — it describes the thing liked rather than an action.</li>
-                  <li>Because it's an adjective, the thing that is liked is normally marked with が (ga), not を.</li>
-                </ul>
-              </div>
-
-              <div class="grammar-note">
-                <h3>が (ga) vs は (wa)</h3>
-                <ul>
-                  <li>Japanese commonly switches from が to は in negative sentences, to draw a contrast with what isn't liked.</li>
-                </ul>
-                <p class="notes">
-                  Positive:<br>
-                  <span class="example-jp" lang="ja">ラーメン<span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです。</span><br>
-                  <span class="example">Rāmen <span class="particle">ga</span> suki desu.</span><br>
-                  <span class="example-en">I like ramen.</span>
-                </p>
-                <p class="notes">
-                  Negative:<br>
-                  <span class="example-jp" lang="ja">ラーメン<span class="particle">は</span><ruby>好<rt>す</rt></ruby>きじゃないです。</span><br>
-                  <span class="example">Rāmen <span class="particle">wa</span> suki janai desu.</span><br>
-                  <span class="example-en">I don't like ramen.</span>
-                </p>
-              </div>
-
-              <div class="grammar-note">
-                <h3>Using の (no)</h3>
-                <ul>
-                  <li>の links a general category to a more specific subtype — similar to "'s" or "of" in English.</li>
-                </ul>
-                <p class="notes">
-                  <span class="example-jp" lang="ja">えび<span class="particle">の</span>すし</span><br>
-                  <span class="example">ebi <span class="particle">no</span> sushi</span><br>
-                  <span class="example-en">shrimp sushi</span>
-                </p>
-                <p class="notes">
-                  <span class="example-jp" lang="ja"><ruby>日本<rt>にほん</rt></ruby><span class="particle">の</span><ruby>料理<rt>りょうり</rt></ruby></span><br>
-                  <span class="example">Nihon <span class="particle">no</span> ryōri</span><br>
-                  <span class="example-en">Japanese food</span>
-                </p>
-                <p class="notes">
-                  <span class="example-jp" lang="ja">チョコレート<span class="particle">の</span>ケーキ</span><br>
-                  <span class="example">chokorēto <span class="particle">no</span> kēki</span><br>
-                  <span class="example-en">chocolate cake</span>
-                </p>
-              </div>
-
-              <div class="grammar-note">
-                <h3>Using も (mo)</h3>
-                <ul>
-                  <li>も replaces が or は when adding something to a list of things already liked.</li>
-                </ul>
-                <p class="notes">
-                  <span class="example-jp" lang="ja"><ruby>私<rt>わたし</rt></ruby><span class="particle">は</span>ラーメン<span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです。</span><br>
-                  <span class="example">Watashi <span class="particle">wa</span> rāmen <span class="particle">ga</span> suki desu.</span><br>
-                  <span class="example-en">I like ramen.</span>
-                </p>
-                <p class="notes">
-                  <span class="example-jp" lang="ja">ピザ<span class="particle">も</span><ruby>好<rt>す</rt></ruby>きです。</span><br>
-                  <span class="example">Piza <span class="particle">mo</span> suki desu.</span><br>
-                  <span class="example-en">I like pizza too.</span>
-                </p>
-              </div>
-
-              <div class="grammar-note">
-                <h3>⚠️ Common Mistake</h3>
-                <ul>
-                  <li>Don't add の between two nouns that already mean the same thing.</li>
-                </ul>
-                <p class="notes">
-                  Correct:<br>
-                  <span class="example-jp" lang="ja">ケチャップ<span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです。</span><br>
-                  <span class="example">Kechappu <span class="particle">ga</span> suki desu.</span><br>
-                  <span class="example-en">I like ketchup.</span>
-                </p>
-                <p class="notes incorrect">
-                  Incorrect:<br>
-                  <span class="example-jp" lang="ja">✗ ケチャップ<span class="particle">の</span>ソース</span><br>
-                  <span class="example">kechappu <span class="particle">no</span> sōsu</span><br>
-                  <span class="example-en">"ketchup's sauce" — ケチャップ is already a sauce</span>
-                </p>
-                <p class="notes">
-                  Correct:<br>
-                  <span class="example-jp" lang="ja">みそ<ruby>汁<rt>しる</rt></ruby><span class="particle">が</span><ruby>好<rt>す</rt></ruby>きです。</span><br>
-                  <span class="example">Misoshiru <span class="particle">ga</span> suki desu.</span><br>
-                  <span class="example-en">I like miso soup.</span>
-                </p>
-                <p class="notes incorrect">
-                  Incorrect:<br>
-                  <span class="example-jp" lang="ja">✗ みそ<ruby>汁<rt>しる</rt></ruby><span class="particle">の</span>スープ</span><br>
-                  <span class="example">misoshiru <span class="particle">no</span> sūpu</span><br>
-                  <span class="example-en">"miso soup's soup" — みそ汁 already means "miso soup"</span>
-                </p>
-              </div>
-
             </div>
           </details>
 

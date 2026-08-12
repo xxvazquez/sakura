@@ -197,22 +197,26 @@
                  table is added, renamed, or reordered. -->
 
             <nav class="table-nav" id="tableNav">
-              <a href="#hours">Hours</a>
-              <a href="#minutes">Minutes</a>
-              <a href="#vocabulary">Time Vocabulary</a>
-              <a href="#counting-hours">Counting Hours</a>
+              <a href="#time">Time</a>
               <a href="#questions-answers">Questions &amp; Answers</a>
             </nav>
           </div>
 
           <!-- ------------------------------------- -->
-          <!-- HOURS TABLE -->
+          <!-- TIME (HOURS + MINUTES + VOCABULARY + COUNTING HOURS) -->
           <!-- ------------------------------------- -->
+          <!-- One core section with four labeled sub-tables (see
+               .table-subsection, style.css) instead of four unrelated
+               top-level sections — same template every multi-table
+               lesson page now follows. -->
 
-          <details class="toggle-section" id="hours">
-            <summary><h2>📋 Hours</h2></summary>
+          <details class="toggle-section" id="time">
+            <summary><h2>📋 Time</h2></summary>
 
             <div class="toggle-body">
+
+              <div class="table-subsection" id="hours">
+                <h3>Hours</h3>
               <table id="hoursTable" class="ref-table" data-default-order="3,asc">
                 <thead>
                   <tr>
@@ -322,17 +326,10 @@
                   </tr>
                 </tbody>
               </table>
-            </div>
-          </details>
+              </div>
 
-          <!-- ------------------------------------- -->
-          <!-- MINUTES TABLE -->
-          <!-- ------------------------------------- -->
-
-          <details class="toggle-section" id="minutes">
-            <summary><h2>📋 Minutes</h2></summary>
-
-            <div class="toggle-body">
+              <div class="table-subsection" id="minutes">
+                <h3>Minutes</h3>
               <table id="minutesTable" class="ref-table" data-default-order="3,asc">
                 <thead>
                   <tr>
@@ -498,17 +495,10 @@
                   </tr>
                 </tbody>
               </table>
-            </div>
-          </details>
+              </div>
 
-          <!-- ------------------------------------- -->
-          <!-- TIME VOCABULARY TABLE -->
-          <!-- ------------------------------------- -->
-
-          <details class="toggle-section" id="vocabulary">
-            <summary><h2>📚 Time Vocabulary</h2></summary>
-
-            <div class="toggle-body">
+              <div class="table-subsection" id="vocabulary">
+                <h3>Time Vocabulary</h3>
               <table id="vocabularyTable" class="ref-table" data-default-order="3,asc">
                 <thead>
                   <tr>
@@ -803,18 +793,11 @@
                   </tr>
                 </tbody>
               </table>
-            </div>
-          </details>
+              </div>
 
-          <!-- ------------------------------------- -->
-          <!-- COUNTING HOURS TABLE -->
-          <!-- ------------------------------------- -->
-
-          <details class="toggle-section" id="counting-hours">
-            <summary><h2>📋 Counting Hours</h2></summary>
-
-            <div class="toggle-body">
-              <table id="durationTable" class="ref-table" data-default-order="3,asc">
+              <div class="table-subsection" id="counting-hours">
+                <h3>Counting Hours</h3>
+                <table id="durationTable" class="ref-table" data-default-order="3,asc">
                 <thead>
                   <tr>
                     <th class="type-col">Tag</th>
@@ -939,6 +922,8 @@
                   </tr>
                 </tbody>
               </table>
+              </div>
+
             </div>
           </details>
 

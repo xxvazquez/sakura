@@ -197,197 +197,148 @@
                  section is added, renamed, or reordered. -->
 
             <nav class="table-nav" id="tableNav">
-              <a href="#demonstrative-pronouns">Demonstrative Pronouns</a>
-              <a href="#demonstrative-adjectives">Demonstrative Adjectives</a>
+              <a href="#demonstratives">Demonstratives</a>
+              <a href="#patterns">Patterns</a>
+              <a href="#grammar">Grammar</a>
               <a href="#questions-answers">Questions &amp; Answers</a>
               <a href="#example-dialogue">Example Dialogue</a>
             </nav>
           </div>
 
           <!-- ------------------------------------- -->
-          <!-- DEMONSTRATIVE PRONOUNS TABLE -->
+          <!-- DEMONSTRATIVES (PRONOUNS + ADJECTIVES) -->
           <!-- ------------------------------------- -->
-          <!-- これ/それ/あれ/どれ stand alone, with no noun following —
-               no data-default-order here on purpose: this table's whole
-               teaching value is the near/far/question sequence, and
-               script.js's initReferenceTables already falls back to
-               authored order when the attribute is absent, so sorting
-               it alphabetically by English (this / that / that over
-               there / which one) would scramble exactly the order a
-               learner needs to see first. -->
+          <!-- これ/それ/あれ/どれ (stand alone) and この/その/あの/どの
+               (always attach to a noun) are two tables of one lesson,
+               not two lessons — one core section with two labeled
+               sub-tables (see .table-subsection, style.css) instead of
+               two unrelated top-level sections, same template every
+               multi-table page now follows. No data-default-order on
+               either table on purpose: each one's whole teaching value
+               is the near/far/question sequence, and script.js's
+               initReferenceTables already falls back to authored order
+               when the attribute is absent, so sorting alphabetically
+               by English (this / that / that over there / which one)
+               would scramble exactly the order a learner needs to see
+               first. -->
 
-          <details class="toggle-section" id="demonstrative-pronouns">
-            <summary><h2>📋 Demonstrative Pronouns</h2></summary>
+          <details class="toggle-section" id="demonstratives">
+            <summary><h2>📋 Demonstratives</h2></summary>
 
             <div class="toggle-body">
-              <table id="demonstrativePronounsTable" class="ref-table">
-                <thead>
-                  <tr>
-                    <th>Japanese</th>
-                    <th class="col-romaji">Romaji</th>
-                    <th class="col-english">English</th>
-                  </tr>
-                </thead>
 
-                <tbody>
-                  <tr>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">これ</span><rt>&nbsp;</rt></ruby>
-                    </td>
-                    <td class="romaji">kore</td>
-                    <td class="english">this (thing)</td>
-                  </tr>
-                  <tr>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">それ</span><rt>&nbsp;</rt></ruby>
-                    </td>
-                    <td class="romaji">sore</td>
-                    <td class="english">that (thing)</td>
-                  </tr>
-                  <tr>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">あれ</span><rt>&nbsp;</rt></ruby>
-                    </td>
-                    <td class="romaji">are</td>
-                    <td class="english">that (thing) over there</td>
-                  </tr>
-                  <tr>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">どれ</span><rt>&nbsp;</rt></ruby>
-                    </td>
-                    <td class="romaji">dore</td>
-                    <td class="english">which one</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div class="table-subsection" id="demonstrative-pronouns">
+                <h3>Demonstrative Pronouns</h3>
+                <table id="demonstrativePronounsTable" class="ref-table">
+                  <thead>
+                    <tr>
+                      <th>Japanese</th>
+                      <th class="col-romaji">Romaji</th>
+                      <th class="col-english">English</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td class="jp" lang="ja">
+                        <ruby><span class="kanji kana-only">これ</span><rt>&nbsp;</rt></ruby>
+                      </td>
+                      <td class="romaji">kore</td>
+                      <td class="english">this (thing)</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja">
+                        <ruby><span class="kanji kana-only">それ</span><rt>&nbsp;</rt></ruby>
+                      </td>
+                      <td class="romaji">sore</td>
+                      <td class="english">that (thing)</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja">
+                        <ruby><span class="kanji kana-only">あれ</span><rt>&nbsp;</rt></ruby>
+                      </td>
+                      <td class="romaji">are</td>
+                      <td class="english">that (thing) over there</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja">
+                        <ruby><span class="kanji kana-only">どれ</span><rt>&nbsp;</rt></ruby>
+                      </td>
+                      <td class="romaji">dore</td>
+                      <td class="english">which one</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="table-subsection" id="demonstrative-adjectives">
+                <h3>Demonstrative Adjectives</h3>
+                <table id="demonstrativeAdjectivesTable" class="ref-table">
+                  <thead>
+                    <tr>
+                      <th>Japanese</th>
+                      <th class="col-romaji">Romaji</th>
+                      <th class="col-english">English</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <td class="jp" lang="ja">
+                        <ruby><span class="kanji kana-only">この</span><rt>&nbsp;</rt></ruby>
+                      </td>
+                      <td class="romaji">kono</td>
+                      <td class="english">this ~</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja">
+                        <ruby><span class="kanji kana-only">その</span><rt>&nbsp;</rt></ruby>
+                      </td>
+                      <td class="romaji">sono</td>
+                      <td class="english">that ~</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja">
+                        <ruby><span class="kanji kana-only">あの</span><rt>&nbsp;</rt></ruby>
+                      </td>
+                      <td class="romaji">ano</td>
+                      <td class="english">that ~ over there</td>
+                    </tr>
+                    <tr>
+                      <td class="jp" lang="ja">
+                        <ruby><span class="kanji kana-only">どの</span><rt>&nbsp;</rt></ruby>
+                      </td>
+                      <td class="romaji">dono</td>
+                      <td class="english">which ~</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
             </div>
           </details>
 
           <!-- ------------------------------------- -->
-          <!-- DEMONSTRATIVE ADJECTIVES TABLE -->
+          <!-- PATTERNS -->
           <!-- ------------------------------------- -->
-          <!-- この/その/あの/どの always attach to a noun — same authored-
-               order reasoning as the Pronouns table above. The grammar
-               note lives here, after both tables, since it explains the
-               contrast between them; same pattern as Frequency's own
-               table+note pairing. -->
+          <!-- The abstract sentence shapes this lesson teaches, pulled
+               out of Questions & Answers into their own standard
+               section (every page follows Core → Patterns → Grammar →
+               Q&A → Dialogue now) so Q&A only holds worked exchanges.
+               Cards reuse .dialogue-card + .notes exactly as Likes &
+               Dislikes' own Patterns section does; .pattern-formula
+               adds the plain-text sentence shape above each worked
+               example, and isn't itself display-toggle-gated (see
+               PATTERN FORMULA, style.css) since it's a structural
+               label, not a vocabulary example — though any real
+               Japanese word inside a formula piece (何, の) still
+               carries its own furigana like everywhere else on the
+               site. -->
 
-          <details class="toggle-section" id="demonstrative-adjectives">
-            <summary><h2>📋 Demonstrative Adjectives</h2></summary>
+          <details class="toggle-section" id="patterns">
+            <summary><h2>📋 Patterns</h2></summary>
 
             <div class="toggle-body">
-              <table id="demonstrativeAdjectivesTable" class="ref-table">
-                <thead>
-                  <tr>
-                    <th>Japanese</th>
-                    <th class="col-romaji">Romaji</th>
-                    <th class="col-english">English</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  <tr>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">この</span><rt>&nbsp;</rt></ruby>
-                    </td>
-                    <td class="romaji">kono</td>
-                    <td class="english">this ~</td>
-                  </tr>
-                  <tr>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">その</span><rt>&nbsp;</rt></ruby>
-                    </td>
-                    <td class="romaji">sono</td>
-                    <td class="english">that ~</td>
-                  </tr>
-                  <tr>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">あの</span><rt>&nbsp;</rt></ruby>
-                    </td>
-                    <td class="romaji">ano</td>
-                    <td class="english">that ~ over there</td>
-                  </tr>
-                  <tr>
-                    <td class="jp" lang="ja">
-                      <ruby><span class="kanji kana-only">どの</span><rt>&nbsp;</rt></ruby>
-                    </td>
-                    <td class="romaji">dono</td>
-                    <td class="english">which ~</td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <!-- ------------------------------------- -->
-              <!-- GRAMMAR NOTE -->
-              <!-- ------------------------------------- -->
-              <!-- Three stacked .grammar-note blocks, same redesigned
-                   shape as Hiragana's Notes section (compare-pills +
-                   worked example instead of a bare bullet list). Each
-                   one teaches something the tables above don't already
-                   say — a structural rule, a common mistake, or a
-                   nuance — rather than restating the pronoun/adjective
-                   translations. -->
-
-              <div class="grammar-note">
-                <h3>🧩 Pronoun or Adjective?</h3>
-                <ul>
-                  <li>これ・それ・あれ・どれ replace a noun entirely — never put another noun right after one of them.</li>
-                  <li>この・その・あの・どの modify a noun and can never stand alone — always この/その/あの/どの + noun.</li>
-                </ul>
-                <p class="notes incorrect">
-                  Incorrect:<br>
-                  <span class="example-jp" lang="ja">✗ <span class="grammar-point">これ</span><ruby>本<rt>ほん</rt></ruby>です。</span><br>
-                  <span class="example"><span class="grammar-point">Kore</span> hon desu.</span><br>
-                  <span class="example-en">これ already means "this (thing)" — a noun can't follow it directly.</span>
-                </p>
-                <p class="notes">
-                  Correct:<br>
-                  <span class="example-jp" lang="ja"><span class="grammar-point">この</span><ruby>本<rt>ほん</rt></ruby>です。</span><br>
-                  <span class="example"><span class="grammar-point">Kono</span> hon desu.</span><br>
-                  <span class="example-en">This is a book.</span>
-                </p>
-              </div>
-
-              <div class="grammar-note">
-                <h3>📍 Distance Is From the Speaker's Side</h3>
-                <p class="notes">Japanese splits English's two-way "this/that" into three, based on who's standing where — not on how far away the thing actually is.</p>
-                <div class="compare-pills">
-                  <span class="compare-pill"><span class="compare-from" lang="ja"><span class="grammar-point">これ</span></span><span class="compare-arrow">↔</span><span class="compare-to" lang="ja"><span class="grammar-point">この</span></span><span class="compare-romaji">near the speaker</span></span>
-                  <span class="compare-pill"><span class="compare-from" lang="ja"><span class="grammar-point">それ</span></span><span class="compare-arrow">↔</span><span class="compare-to" lang="ja"><span class="grammar-point">その</span></span><span class="compare-romaji">near the listener</span></span>
-                  <span class="compare-pill"><span class="compare-from" lang="ja"><span class="grammar-point">あれ</span></span><span class="compare-arrow">↔</span><span class="compare-to" lang="ja"><span class="grammar-point">あの</span></span><span class="compare-romaji">far from both</span></span>
-                </div>
-                <p class="notes">A book on the listener's desk is それ/その even if it's an arm's length from the speaker too — what matters is whose side it's on, not the raw distance.</p>
-              </div>
-
-              <div class="grammar-note">
-                <h3>❓ どれ／どの Only Ask</h3>
-                <p class="notes">Unlike the other three pairs, どれ and どの never appear in a statement — they exist to ask "which one," and the answer always comes back as これ/それ/あれ or この/その/あの instead.</p>
-                <div class="compare-pills">
-                  <span class="compare-pill"><span class="compare-from" lang="ja"><span class="grammar-point">どれ</span>です<span class="particle">か</span>。</span><span class="compare-arrow">→</span><span class="compare-to" lang="ja"><span class="grammar-point">これ</span>です。</span><span class="compare-romaji">dore? → kore.</span></span>
-                </div>
-              </div>
-            </div>
-          </details>
-
-          <!-- ------------------------------------- -->
-          <!-- QUESTIONS & ANSWERS (PATTERNS + DIALOGUE CARDS) -->
-          <!-- ------------------------------------- -->
-          <!-- Patterns first — the abstract sentence shapes this lesson
-               actually teaches — then the worked Q&A cards below apply
-               them. Pattern cards reuse .dialogue-card + .notes exactly
-               as Likes & Dislikes' own Core Patterns section does (see
-               .dialogue-card .notes, style.css); .pattern-formula adds
-               the plain-text sentence shape above each worked example,
-               and isn't itself display-toggle-gated (see PATTERN
-               FORMULA, style.css) since it's a structural label, not
-               Japanese content. -->
-
-          <details class="toggle-section" id="questions-answers">
-            <summary><h2>💬 Questions &amp; Answers</h2></summary>
-
-            <div class="toggle-body">
-
-              <h3 class="subsection-label">Patterns</h3>
               <div class="dialogue-grid">
 
                 <article class="dialogue-card">
@@ -435,7 +386,7 @@
                     <span class="formula-plus">+</span>
                     <span class="formula-piece"><span class="particle">は</span></span>
                     <span class="formula-plus">+</span>
-                    <span class="formula-piece">何ですか</span>
+                    <span class="formula-piece"><ruby>何<rt>なん</rt></ruby>ですか</span>
                   </div>
                   <p class="notes">
                     <span class="example-jp" lang="ja"><span class="grammar-point">それ</span><span class="particle">は</span><ruby>何<rt>なん</rt></ruby>です<span class="particle">か</span>。</span><br>
@@ -447,6 +398,10 @@
                 <article class="dialogue-card">
                   <h3 class="dialogue-title">❓ Asking Which One</h3>
                   <div class="pattern-formula">
+                    <span class="formula-piece formula-piece--slot">Owner</span>
+                    <span class="formula-plus">+</span>
+                    <span class="formula-piece"><span class="particle">の</span></span>
+                    <span class="formula-plus">+</span>
                     <span class="formula-piece formula-piece--slot">Noun</span>
                     <span class="formula-plus">+</span>
                     <span class="formula-piece"><span class="particle">は</span></span>
@@ -463,8 +418,46 @@
                 </article>
 
               </div>
+            </div>
+          </details>
 
-              <h3 class="subsection-label">Example Exchanges</h3>
+          <!-- ------------------------------------- -->
+          <!-- GRAMMAR -->
+          <!-- ------------------------------------- -->
+          <!-- Just the one structural rule that isn't already obvious
+               from the two tables above (これ・それ・あれ・どれ replace
+               a noun, この・その・あの・どの modify one — restating that
+               was redundant with the tables themselves and the Pronouns/
+               Adjectives labels already on them, so that note was
+               dropped rather than moved here). -->
+
+          <details class="toggle-section" id="grammar">
+            <summary><h2>🧩 Grammar</h2></summary>
+
+            <div class="toggle-body">
+              <div class="grammar-note">
+                <h3>📍 Distance Is From the Speaker's Side</h3>
+                <p class="notes">Japanese splits English's two-way "this/that" into three, based on who's standing where — not on how far away the thing actually is.</p>
+                <div class="compare-pills">
+                  <span class="compare-pill"><span class="compare-from" lang="ja"><span class="grammar-point">これ</span></span><span class="compare-arrow">↔</span><span class="compare-to" lang="ja"><span class="grammar-point">この</span></span><span class="compare-romaji">near the speaker</span></span>
+                  <span class="compare-pill"><span class="compare-from" lang="ja"><span class="grammar-point">それ</span></span><span class="compare-arrow">↔</span><span class="compare-to" lang="ja"><span class="grammar-point">その</span></span><span class="compare-romaji">near the listener</span></span>
+                  <span class="compare-pill"><span class="compare-from" lang="ja"><span class="grammar-point">あれ</span></span><span class="compare-arrow">↔</span><span class="compare-to" lang="ja"><span class="grammar-point">あの</span></span><span class="compare-romaji">far from both</span></span>
+                </div>
+                <p class="notes">A book on the listener's desk is それ/その even if it's an arm's length from the speaker too — what matters is whose side it's on, not the raw distance.</p>
+              </div>
+            </div>
+          </details>
+
+          <!-- ------------------------------------- -->
+          <!-- QUESTIONS & ANSWERS (DIALOGUE CARDS) -->
+          <!-- ------------------------------------- -->
+          <!-- Worked exchanges only — the abstract patterns these apply
+               now live in their own Patterns section above. -->
+
+          <details class="toggle-section" id="questions-answers">
+            <summary><h2>💬 Questions &amp; Answers</h2></summary>
+
+            <div class="toggle-body">
               <div class="dialogue-grid">
 
                 <article class="dialogue-card">

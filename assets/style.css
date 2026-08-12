@@ -1496,15 +1496,14 @@ tr.irregular .type::before {
    alone; inside a Core Patterns card (see DIALOGUE CARDS below) the
    card itself already constrains the width, so the 320px cap made for
    a table cell would just waste space rather than aid readability. */
+/* A grammar-note's own .notes paragraph sits directly under a
+   full-width table/card, not inside a narrow table cell, so the
+   320px cap built for a table cell (see NOTES above) just makes it
+   look cut off short of the page's own width — same reasoning as
+   .dialogue-card .notes below, applied everywhere a .notes lives
+   inside a .grammar-note rather than a table cell. */
 .grammar-note .notes {
     margin-top: 10px;
-}
-
-/* Hiragana's ん/を notes sit directly under a full-width kana grid, so
-   the .notes 320px cap (sized for a table cell) makes them look cut
-   off short of the grid's own width — let them use the full column
-   width instead, same reasoning as .dialogue-card .notes above. */
-#basic-hiragana .grammar-note .notes {
     max-width: none;
 }
 
@@ -1670,21 +1669,26 @@ td.kana-cell.search-dim {
     color: var(--heading-accent);
 }
 
-/* One heading + one grid (or one small table), repeated for Dakuten /
-   Handakuten / Yōon / Small っ / Long Vowels inside Advanced Hiragana
-   and its matching vocabulary section — kept as subsections of one
-   <details> rather than split into their own cards, so "Advanced
-   Hiragana" reads as one cohesive chart with clear internal labels,
-   not four unrelated tables glued together. */
+/* One heading + one table (or grid), repeated for every page whose
+   "core" content is more than one table — Hiragana's Dakuten/
+   Handakuten/Yōon/Small っ/Long Vowels inside Advanced Hiragana,
+   Demonstratives' Pronouns/Adjectives, Personal Pronouns' two tables,
+   Time's Hours/Minutes/Vocabulary/Counting Hours — kept as subsections
+   of one <details> rather than split into their own top-level
+   sections, so e.g. "Demonstratives" reads as one cohesive lesson with
+   clear internal labels, not several unrelated tables glued together
+   under separate headings. Generic on purpose: any page's core section
+   can reuse this instead of inventing its own heading+divider
+   treatment. */
 
-.kana-subsection + .kana-subsection {
+.table-subsection + .table-subsection {
     margin-top: 32px;
     padding-top: 28px;
 
     border-top: 1px solid var(--border);
 }
 
-.kana-subsection h3 {
+.table-subsection h3 {
     margin: 0 0 14px;
 
     color: var(--heading-accent);
@@ -1694,11 +1698,11 @@ td.kana-cell.search-dim {
     letter-spacing: -0.005em;
 }
 
-/* Direct child only — several kana-subsections now nest a .grammar-note
-   with its own <p class="notes"> after the table (see GRAMMAR NOTE
-   above), and this rule must never reach down into those; it's for the
-   subsection's own short intro line only. */
-.kana-subsection > p {
+/* Direct child only — several table-subsections now nest a
+   .grammar-note with its own <p class="notes"> after the table (see
+   GRAMMAR NOTE above), and this rule must never reach down into those;
+   it's for the subsection's own short intro line only. */
+.table-subsection > p {
     margin: -4px 0 14px;
 
     color: var(--muted);
@@ -1706,9 +1710,8 @@ td.kana-cell.search-dim {
 }
 
 /* Small uppercase label marking an internal subsection of a toggle-
-   section that mixes more than one kind of content (e.g. Patterns
-   above the worked Q&A examples in Questions & Answers) — same visual
-   treatment as .grammar-note h3 and .kana-subsection h3, generic
+   section that mixes more than one kind of content — same visual
+   treatment as .grammar-note h3 and .table-subsection h3, generic
    enough to reuse anywhere a details needs a label without a full h2
    section of its own. */
 .subsection-label {
@@ -2384,7 +2387,7 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
        black-on-white/bordered like everything else on paper. */
     .page h2,
     .grammar-note h3,
-    .kana-subsection h3,
+    .table-subsection h3,
     .subsection-label,
     .kana-highlight {
         color: #000;

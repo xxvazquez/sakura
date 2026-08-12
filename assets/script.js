@@ -20,7 +20,36 @@ $(document).ready(function () {
     initSearchHighlight();
     initDisplayToggles();
     initLessonNav();
+    initStickyOffset();
 });
+
+// --------------------------------------------------
+// STICKY OFFSET (page-toolbar below the mobile sidebar bar)
+// --------------------------------------------------
+// Below 900px .sidebar stops being a side column and becomes a sticky
+// horizontal bar stacked above .content (see RESPONSIVE, style.css) —
+// its wrapped height varies with viewport width (brand+search+menu can
+// sit on one line or wrap to several), so a fixed CSS offset can't
+// keep .page-toolbar's own sticky point clear of it. Measuring the
+// live height into a custom property lets .page-toolbar's `top` react
+// to that instead of guessing a pixel value. Above 900px the sidebar
+// is a side column again, so the offset resets to 0.
+
+function initStickyOffset() {
+    const sidebar = document.querySelector(".sidebar");
+    if (!sidebar) return;
+
+    const mq = window.matchMedia("(max-width: 900px)");
+
+    const sync = () => {
+        const offset = mq.matches ? sidebar.offsetHeight : 0;
+        document.documentElement.style.setProperty("--topbar-h", offset + "px");
+    };
+
+    sync();
+    window.addEventListener("resize", sync);
+    mq.addEventListener("change", sync);
+}
 
 // --------------------------------------------------
 // REFERENCE TABLES

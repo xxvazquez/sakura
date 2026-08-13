@@ -56,6 +56,23 @@
     --dialogue-b-text: #c96b8a;
     --dialogue-b-bg: #fdf3f6;
 
+    /* Content-type identity: a soft, muted wash + left stripe per kind
+       of block (Grammar Pattern stays pink via --heading-accent-soft/
+       -border below; Example Dialogue gets a dusty blue, Q&A a dusty
+       sage-green, Grammar/Notes a neutral gray, and Warning/Common
+       Mistake an amber, reserved for future use). Same restrained
+       treatment as Grammar Note's own sage stripe used to be — a pale
+       tint, never a saturated fill — so every block still reads as one
+       calm family instead of a rainbow of card colors. */
+    --dlg-blue-soft: #eef3f8;
+    --dlg-blue-border: #d9e3ee;
+    --qa-green-soft: #eef4ef;
+    --qa-green-border: #dbe6dd;
+    --gray-stripe: #d9d2c8;
+    --warn-amber-soft: #faf2e2;
+    --warn-amber-border: #ecdcb4;
+    --warn-amber-text: #93712f;
+
     /* Reserved exclusively for grammatical particles (は/が/を/に/で/と/
        も/の/から/まで/か…) wherever Japanese appears — tables, notes,
        dialogues. A muted plum-rose, darker and less saturated than
@@ -82,6 +99,7 @@
     --heading-accent-border: #f0d9e3;
 
     --radius: 12px;
+    --radius-sm: 8px;
     --sidebar: 220px;
     --content: 860px;
 
@@ -293,7 +311,7 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
     padding: 8px 12px 8px 34px;
 
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
 
     background-color: var(--surface);
     background-image: var(--icon-search);
@@ -343,7 +361,7 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: var(--radius);
     box-shadow: 0 8px 24px rgba(42, 36, 32, 0.1);
 
     padding: 8px;
@@ -371,7 +389,7 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 
     padding: 8px 10px;
 
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
 
     color: var(--text);
     text-decoration: none;
@@ -442,7 +460,7 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 
     background: none;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
 
     color: var(--muted);
     font: inherit;
@@ -507,7 +525,7 @@ table.dataTable thead th.dt-orderable-desc:focus-visible {
 }
 
 .menu-popover a {
-    border-radius: 7px;
+    border-radius: var(--radius-sm);
 
     color: var(--text);
     text-decoration: none;
@@ -741,7 +759,7 @@ h1 {
     justify-content: space-between;
 
     padding: 10px 8px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
 
     font-size: 0.92rem;
 }
@@ -798,7 +816,7 @@ h1 {
     padding: 10px 14px 10px 38px;
 
     border: 1px solid var(--border);
-    border-radius: 10px;
+    border-radius: var(--radius-sm);
 
     background-color: var(--surface);
     background-image: var(--icon-search);
@@ -920,7 +938,7 @@ h1 {
    as every other bordered block in this design system. */
 
 .toggle-section {
-    margin-bottom: 24px;
+    margin-bottom: 40px;
 
     background: var(--surface);
     border: 1px solid var(--border);
@@ -934,7 +952,7 @@ h1 {
     align-items: center;
     justify-content: space-between;
 
-    padding: 18px 24px;
+    padding: 22px 28px;
 
     cursor: pointer;
     list-style: none;
@@ -980,7 +998,7 @@ h1 {
    auto means nothing changes at widths where the table already fits. */
 
 .toggle-body {
-    padding: 0 24px 24px;
+    padding: 0 28px 32px;
 
     overflow-x: auto;
 }
@@ -1145,10 +1163,15 @@ tr.irregular .type::before {
 
 /* The Japanese word is the one thing in a reference row a beginner's
    eye should land on first — full-strength text color (not a softened
-   gray, the way this used to read) plus a bumped weight, so it's
+   gray, the way this used to read) plus a bumped size, so it's
    unambiguously the loudest of the four layers (Japanese > furigana >
    romaji > English) instead of nearly tying with plain body text at a
-   glance. */
+   glance. Weight is 500, not 600 — only 400/500/700 are loaded for
+   Noto Sans JP (see the <link> in each page's <head>), so a requested
+   600 has no exact face and the browser's font-matching rounds up to
+   the 700 (Bold) face instead, which is what made Japanese text read
+   as heavier/blacker than intended everywhere it was used. 500 is an
+   actually-loaded weight, so it renders as a true, clean medium. */
 .jp .kanji {
     order: 2;
     display: block;
@@ -1156,7 +1179,7 @@ tr.irregular .type::before {
     color: var(--text);
 
     font-size: 1.25rem;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1;
 }
 
@@ -1180,7 +1203,7 @@ tr.irregular .type::before {
 
     margin-bottom: 4px;
 
-    color: #a89b8e;
+    color: #b6aa9d;
 
     font-size: 0.7rem;
     font-weight: 500;
@@ -1233,7 +1256,7 @@ td.english {
 
 .particle {
     color: var(--particle);
-    font-weight: 600;
+    font-weight: 500;
 }
 
 /* Marks the word/pattern a lesson is actually teaching (これ/それ/あれ/
@@ -1244,7 +1267,7 @@ td.english {
    stay visually distinct wherever they appear together. */
 .grammar-point {
     color: var(--grammar-point);
-    font-weight: 600;
+    font-weight: 500;
 }
 
 /* Marks a single hiragana inside an otherwise-plain vocabulary word —
@@ -1282,13 +1305,14 @@ td.english {
 
     color: var(--text);
     font-size: 0.95rem;
-    font-weight: 600;
+    font-weight: 500;
+    line-height: 1.85;
 }
 
 .notes .example-jp rt {
     font-size: 0.55em;
     font-weight: 400;
-    color: #a89b8e;
+    color: #b6aa9d;
 }
 
 .notes .example {
@@ -1355,6 +1379,44 @@ td.english {
     font-size: 1rem;
     font-weight: 700;
     letter-spacing: -0.01em;
+}
+
+/* PATTERNS: one full-width card per pattern, stacked, instead of the
+   narrow multi-column grid every other .dialogue-grid uses — a
+   sentence-shape formula plus a worked example both read better with
+   the extra width than squeezed into a ~300px grid cell. Pink is this
+   card's identity (--heading-accent-soft/-border, the same pale pink
+   already used for the site's own accent fills) so "this is a Grammar
+   Pattern" is visible before reading a word, distinct from the blue
+   Example Dialogue and green Q&A cards below. */
+.pattern-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.dialogue-card.pattern-card {
+    padding: 28px 32px;
+
+    background: var(--heading-accent-soft);
+    border-color: var(--heading-accent-border);
+}
+
+/* The worked example sits in its own near-white panel inside the
+   pattern card — a visual step down from "sentence structure" to
+   "one concrete instance of it," so the two don't blur into a single
+   block of chips-then-text. */
+.pattern-card .pattern-example {
+    margin-top: 16px;
+    padding: 18px 22px;
+
+    background: var(--surface);
+    border: 1px solid var(--heading-accent-border);
+    border-radius: var(--radius-sm);
+}
+
+.pattern-card .pattern-example .notes {
+    margin: 0;
 }
 
 /* Sentence-shape row above a Pattern card's worked example — each
@@ -1462,7 +1524,7 @@ td.english {
 
 .message-bubble {
     padding: 12px 16px;
-    border-radius: 14px;
+    border-radius: var(--radius);
 }
 
 .message-a .message-bubble {
@@ -1485,7 +1547,8 @@ td.english {
 
 .message-jp {
     font-size: 1.05rem;
-    font-weight: 600;
+    font-weight: 500;
+    line-height: 1.85;
     color: var(--text);
 }
 
@@ -1503,6 +1566,34 @@ td.english {
 .message-en {
     color: var(--muted);
     font-size: 0.82rem;
+}
+
+/* QUESTIONS & ANSWERS / EXAMPLE DIALOGUE: same .dialogue-card box, two
+   different identities so they stop reading as the same pink component
+   — a dusty sage-green wash for worked Q&A exchanges, a dusty blue wash
+   for the continuous Example Dialogue. Only the card shell and the
+   speaker badge/bubble fills shift hue; the Japanese/particle/
+   grammar-point text colors stay exactly as everywhere else on the
+   site, so the two highlight systems never have to be re-learned per
+   card. */
+.dialogue-card.qa-card {
+    background: var(--qa-green-soft);
+    border-color: var(--qa-green-border);
+}
+
+.qa-card .message-bubble,
+.qa-card .message-speaker {
+    background: var(--surface);
+}
+
+.dialogue-card.convo-card {
+    background: var(--dlg-blue-soft);
+    border-color: var(--dlg-blue-border);
+}
+
+.convo-card .message-bubble,
+.convo-card .message-speaker {
+    background: var(--surface);
 }
 
 /*-----------------------------------------------*/
@@ -1553,6 +1644,19 @@ td.english {
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
+}
+
+/* "Notes" identity: neutral gray instead of sage, once Q&A (below)
+   claims green for itself — two different content types both reading
+   as "green" would undercut the whole point of giving each one its own
+   color. Opt-in modifier rather than changing .grammar-note itself, so
+   pages that still use the plain sage version elsewhere are unaffected. */
+.grammar-note--neutral {
+    border-left-color: var(--gray-stripe);
+}
+
+.grammar-note--neutral h3 {
+    color: var(--muted);
 }
 
 .grammar-note ul {
@@ -1891,7 +1995,7 @@ td.kana-cell.search-dim {
     padding: 6px 12px;
 
     border: 1px solid var(--border);
-    border-radius: 999px;
+    border-radius: var(--radius-sm);
 
     color: var(--muted);
     font-size: 0.82rem;
@@ -2203,7 +2307,7 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
 
         background: none;
         border: 1px solid var(--border);
-        border-radius: 9px;
+        border-radius: var(--radius-sm);
 
         color: var(--text);
         font: inherit;
@@ -2253,7 +2357,7 @@ table.dataTable thead th.dt-ordering-desc span.dt-column-order::after {
 
         background: var(--surface);
         border: 1px solid var(--border);
-        border-radius: 10px;
+        border-radius: var(--radius);
         box-shadow: 0 10px 28px rgba(42, 36, 32, 0.12);
 
         visibility: hidden;

@@ -326,22 +326,28 @@
                section (every page follows Core → Patterns → Grammar →
                Q&A → Dialogue now) so Q&A only holds worked exchanges.
                Cards reuse .dialogue-card + .notes exactly as Likes &
-               Dislikes' own Patterns section does; .pattern-formula
-               adds the plain-text sentence shape above each worked
-               example, and isn't itself display-toggle-gated (see
-               PATTERN FORMULA, style.css) since it's a structural
-               label, not a vocabulary example — though any real
-               Japanese word inside a formula piece (何, の) still
-               carries its own furigana like everywhere else on the
-               site. -->
+               Dislikes' own Patterns section does, stacked full-width
+               in a .pattern-list (see style.css) rather than the
+               narrow multi-column .dialogue-grid every other card
+               section uses — a formula-then-example card scans better
+               with the extra width. .pattern-formula adds the
+               plain-text sentence shape above each worked example, and
+               isn't itself display-toggle-gated (see PATTERN FORMULA,
+               style.css) since it's a structural label, not a
+               vocabulary example — though any real Japanese word
+               inside a formula piece (何, の) still carries its own
+               furigana like everywhere else on the site. Each worked
+               example sits in its own .pattern-example sub-panel so
+               "the shape" and "one real sentence in that shape" read
+               as two distinct steps, not one run-together block. -->
 
           <details class="toggle-section" id="patterns" open>
             <summary><h2>📋 Patterns</h2></summary>
 
             <div class="toggle-body">
-              <div class="dialogue-grid">
+              <div class="pattern-list">
 
-                <article class="dialogue-card">
+                <article class="dialogue-card pattern-card">
                   <h3 class="dialogue-title">📍 Pointing at Something</h3>
                   <div class="pattern-formula">
                     <span class="formula-piece"><span class="grammar-point">これ／それ／あれ</span></span>
@@ -352,14 +358,16 @@
                     <span class="formula-plus">+</span>
                     <span class="formula-piece">です</span>
                   </div>
-                  <p class="notes">
-                    <span class="example-jp" lang="ja"><span class="grammar-point">これ</span><span class="particle">は</span><ruby>辞書<rt>じしょ</rt></ruby>です。</span><br>
-                    <span class="example"><span class="grammar-point">Kore</span> <span class="particle">wa</span> jisho desu.</span><br>
-                    <span class="example-en">This is a dictionary.</span>
-                  </p>
+                  <div class="pattern-example">
+                    <p class="notes">
+                      <span class="example-jp" lang="ja"><span class="grammar-point">これ</span><span class="particle">は</span><ruby>辞書<rt>じしょ</rt></ruby>です。</span><br>
+                      <span class="example"><span class="grammar-point">Kore</span> <span class="particle">wa</span> jisho desu.</span><br>
+                      <span class="example-en">This is a dictionary.</span>
+                    </p>
+                  </div>
                 </article>
 
-                <article class="dialogue-card">
+                <article class="dialogue-card pattern-card">
                   <h3 class="dialogue-title">📍 Describing a Noun</h3>
                   <div class="pattern-formula">
                     <span class="formula-piece"><span class="grammar-point">この／その／あの</span></span>
@@ -372,14 +380,16 @@
                     <span class="formula-plus">+</span>
                     <span class="formula-piece">です</span>
                   </div>
-                  <p class="notes">
-                    <span class="example-jp" lang="ja"><span class="grammar-point">この</span><ruby>本<rt>ほん</rt></ruby><span class="particle">は</span><ruby>私<rt>わたし</rt></ruby><span class="particle">の</span>です。</span><br>
-                    <span class="example"><span class="grammar-point">Kono</span> hon <span class="particle">wa</span> watashi <span class="particle">no</span> desu.</span><br>
-                    <span class="example-en">This book is mine.</span>
-                  </p>
+                  <div class="pattern-example">
+                    <p class="notes">
+                      <span class="example-jp" lang="ja"><span class="grammar-point">この</span><ruby>本<rt>ほん</rt></ruby><span class="particle">は</span><ruby>私<rt>わたし</rt></ruby><span class="particle">の</span>です。</span><br>
+                      <span class="example"><span class="grammar-point">Kono</span> hon <span class="particle">wa</span> watashi <span class="particle">no</span> desu.</span><br>
+                      <span class="example-en">This book is mine.</span>
+                    </p>
+                  </div>
                 </article>
 
-                <article class="dialogue-card">
+                <article class="dialogue-card pattern-card">
                   <h3 class="dialogue-title">❓ Asking What Something Is</h3>
                   <div class="pattern-formula">
                     <span class="formula-piece"><span class="grammar-point">これ／それ／あれ</span></span>
@@ -388,14 +398,16 @@
                     <span class="formula-plus">+</span>
                     <span class="formula-piece"><ruby>何<rt>なん</rt></ruby>ですか</span>
                   </div>
-                  <p class="notes">
-                    <span class="example-jp" lang="ja"><span class="grammar-point">それ</span><span class="particle">は</span><ruby>何<rt>なん</rt></ruby>です<span class="particle">か</span>。</span><br>
-                    <span class="example"><span class="grammar-point">Sore</span> <span class="particle">wa</span> nan desu <span class="particle">ka</span>?</span><br>
-                    <span class="example-en">What is that?</span>
-                  </p>
+                  <div class="pattern-example">
+                    <p class="notes">
+                      <span class="example-jp" lang="ja"><span class="grammar-point">それ</span><span class="particle">は</span><ruby>何<rt>なん</rt></ruby>です<span class="particle">か</span>。</span><br>
+                      <span class="example"><span class="grammar-point">Sore</span> <span class="particle">wa</span> nan desu <span class="particle">ka</span>?</span><br>
+                      <span class="example-en">What is that?</span>
+                    </p>
+                  </div>
                 </article>
 
-                <article class="dialogue-card">
+                <article class="dialogue-card pattern-card">
                   <h3 class="dialogue-title">❓ Asking Which One</h3>
                   <div class="pattern-formula">
                     <span class="formula-piece formula-piece--slot">Owner</span>
@@ -410,11 +422,13 @@
                     <span class="formula-plus">+</span>
                     <span class="formula-piece">ですか</span>
                   </div>
-                  <p class="notes">
-                    <span class="example-jp" lang="ja"><ruby>山田<rt>やまだ</rt></ruby>さん<span class="particle">の</span>かさ<span class="particle">は</span><span class="grammar-point">どれ</span>です<span class="particle">か</span>。</span><br>
-                    <span class="example">Yamada-san <span class="particle">no</span> kasa <span class="particle">wa</span> <span class="grammar-point">dore</span> desu <span class="particle">ka</span>?</span><br>
-                    <span class="example-en">Which one is Yamada's umbrella?</span>
-                  </p>
+                  <div class="pattern-example">
+                    <p class="notes">
+                      <span class="example-jp" lang="ja"><ruby>山田<rt>やまだ</rt></ruby>さん<span class="particle">の</span>かさ<span class="particle">は</span><span class="grammar-point">どれ</span>です<span class="particle">か</span>。</span><br>
+                      <span class="example">Yamada-san <span class="particle">no</span> kasa <span class="particle">wa</span> <span class="grammar-point">dore</span> desu <span class="particle">ka</span>?</span><br>
+                      <span class="example-en">Which one is Yamada's umbrella?</span>
+                    </p>
+                  </div>
                 </article>
 
               </div>
@@ -435,7 +449,7 @@
             <summary><h2>🧩 Grammar</h2></summary>
 
             <div class="toggle-body">
-              <div class="grammar-note">
+              <div class="grammar-note grammar-note--neutral">
                 <h3>📍 Distance Is From the Speaker's Side</h3>
                 <p class="notes">Japanese splits English's two-way "this/that" into three, based on who's standing where — not on how far away the thing actually is.</p>
                 <div class="compare-pills">
@@ -460,7 +474,7 @@
             <div class="toggle-body">
               <div class="dialogue-grid">
 
-                <article class="dialogue-card">
+                <article class="dialogue-card qa-card">
                   <h3 class="dialogue-title">🖊️ What Is This?</h3>
                   <div class="dialogue-messages">
                     <div class="message message-a">
@@ -482,7 +496,7 @@
                   </div>
                 </article>
 
-                <article class="dialogue-card">
+                <article class="dialogue-card qa-card">
                   <h3 class="dialogue-title">🏥 What Is That Over There?</h3>
                   <div class="dialogue-messages">
                     <div class="message message-a">
@@ -504,7 +518,7 @@
                   </div>
                 </article>
 
-                <article class="dialogue-card">
+                <article class="dialogue-card qa-card">
                   <h3 class="dialogue-title">☂️ Which One?</h3>
                   <div class="dialogue-messages">
                     <div class="message message-a">
@@ -526,7 +540,7 @@
                   </div>
                 </article>
 
-                <article class="dialogue-card">
+                <article class="dialogue-card qa-card">
                   <h3 class="dialogue-title">📚 Which Book?</h3>
                   <div class="dialogue-messages">
                     <div class="message message-a">
@@ -548,7 +562,7 @@
                   </div>
                 </article>
 
-                <article class="dialogue-card">
+                <article class="dialogue-card qa-card">
                   <h3 class="dialogue-title">📖 Whose Book?</h3>
                   <div class="dialogue-messages">
                     <div class="message message-a">
@@ -570,7 +584,7 @@
                   </div>
                 </article>
 
-                <article class="dialogue-card">
+                <article class="dialogue-card qa-card">
                   <h3 class="dialogue-title">👜 Whose Bag?</h3>
                   <div class="dialogue-messages">
                     <div class="message message-a">
@@ -611,7 +625,7 @@
             <summary><h2>🗨️ Example Dialogue</h2></summary>
 
             <div class="toggle-body">
-              <article class="dialogue-card">
+              <article class="dialogue-card convo-card">
                 <h3 class="dialogue-title">🗂️ At the Desk</h3>
                 <div class="dialogue-messages">
                   <div class="message message-a">
